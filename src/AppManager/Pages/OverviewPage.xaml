@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="AppManager.Pages.OverviewPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:AppManager.Pages"
+    xmlns:vm="using:AppManager.ViewModels"
+    xmlns:services="using:AppManager.Services"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <services:DoubleToGridLengthConverter x:Key="ToGridLength" />
+        <services:NullToVisibilityConverter x:Key="NullToVis" />
+        <services:BoolToVisibilityConverter x:Key="BoolToVis" />
+        <services:NotBoolConverter x:Key="NotBool" />
+        <services:NullToBoolConverter x:Key="NullToBool" />
+    </Page.Resources>
+
+    <ScrollViewer x:Name="ContentScroller" Padding="24,16,24,24"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel x:Name="ContentPanel" Spacing="16" MaxWidth="1100">
+
+            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="概览" />
+
+            <!-- All fixed drives -->
+            <ItemsControl x:Name="DriveList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:DriveRow">
+                        <Grid ColumnSpacing="12" Padding="0,3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="400" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                            <ProgressBar Grid.Column="1" Minimum="0" Maximum="100" Height="6"
+                                         Value="{x:Bind UsedPercent}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{x:Bind Detail}" FontSize="12"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Scan controls / progress -->
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Content="开始扫描" Style="{ThemeResource AccentButtonStyle}"
+                        Command="{x:Bind Session.StartCommand}"
+                        IsEnabled="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource NotBool}}" />
+                <Button Content="取消" Command="{x:Bind Session.CancelCommand}"
+                        Visibility="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
+                <TextBlock x:Name="LastScanText" VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+
+            <StackPanel x:Name="ProgressArea" Spacing="8"
+                        Visibility="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="{x:Bind Session.PhaseText, Mode=OneWay}" />
+                <ProgressBar x:Name="ScanBar" Minimum="0" Maximum="100" />
+                <TextBlock x:Name="ProgressDetail" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <TextBlock x:Name="ProgressPath" TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis"
+                           Foreground="{ThemeResource TextFillColorTertiaryBrush}" FontSize="11" />
+            </StackPanel>
+
+            <InfoBar x:Name="ScanErrorBar" Severity="Error" IsClosable="True"
+                     IsOpen="{x:Bind Session.ScanError, Mode=OneWay, Converter={StaticResource NullToBool}}"
+                     Message="{x:Bind Session.ScanError, Mode=OneWay}" Title="扫描出错" />
+
+            <!-- Stat tiles -->
+            <Grid x:Name="StatsGrid" ColumnSpacing="12" RowSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="已归属到应用" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="StatAttributed" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="未识别" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="StatUnattributed" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="应用数" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="StatApps" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="扫描文件夹数" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="StatFolders" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Category breakdown -->
+            <StackPanel Spacing="8" x:Name="CategoryArea">
+                <TextBlock Text="按位置分布" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ItemsControl x:Name="CategoryList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:CategoryRow">
+                            <Grid ColumnSpacing="12" Padding="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="90" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" />
+                                <Grid Grid.Column="1" VerticalAlignment="Center" Height="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{x:Bind SizeStars, Converter={StaticResource ToGridLength}}" />
+                                        <ColumnDefinition Width="{x:Bind RestStars, Converter={StaticResource ToGridLength}}" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border CornerRadius="3" Background="{ThemeResource AccentFillColorDefaultBrush}" />
+                                </Grid>
+                                <TextBlock Grid.Column="2" Text="{x:Bind SizeText}"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Top apps -->
+            <StackPanel Spacing="8" x:Name="TopAppsArea">
+                <TextBlock Text="占用最多的应用" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ItemsControl x:Name="TopAppsList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:AppItemViewModel">
+                            <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                    Click="TopApp_Click" Padding="8,6">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="32" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Width="32" Height="32" VerticalAlignment="Center">
+                                        <Image Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
+                                        <Border CornerRadius="6" Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                                Visibility="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToVis}, ConverterParameter=invert}">
+                                            <Grid>
+                                                <FontIcon Glyph="&#xE943;" FontSize="14" HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}" />
+                                                <TextBlock Text="{x:Bind IconLetter}" HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center" FontWeight="SemiBold"
+                                                           Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                        <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" />
+                                        <Grid Height="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{x:Bind BarStars, Converter={StaticResource ToGridLength}}" />
+                                                <ColumnDefinition Width="{x:Bind RestStars, Converter={StaticResource ToGridLength}}" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{x:Bind InstallStars, Converter={StaticResource ToGridLength}}" />
+                                                    <ColumnDefinition Width="{x:Bind DataStars, Converter={StaticResource ToGridLength}}" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border CornerRadius="2,0,0,2" Background="{ThemeResource AccentFillColorDefaultBrush}" />
+                                                <Border Grid.Column="1" CornerRadius="0,2,2,0" Background="{ThemeResource AccentFillColorSecondaryBrush}" />
+                                            </Grid>
+                                        </Grid>
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{x:Bind TotalText}"
+                                               HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
