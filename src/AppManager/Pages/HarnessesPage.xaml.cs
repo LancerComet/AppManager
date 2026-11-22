@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using AppManager.Core.Models;
 using AppManager.Core.Scanning;
 using AppManager.Services;
@@ -9,12 +10,13 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace AppManager.Pages;
 
-public sealed partial class HarnessesPage : Page
+public sealed partial class HarnessesPage : Page, IDetachable
 {
     public HarnessSession Session => AppServices.Harness;
     public ObservableCollection<HarnessItemViewModel> Items { get; } = new();
 
     private string? _pendingSelectKey;
+    private readonly PropertyChangedEventHandler _sessionHandler;
 
     public HarnessesPage()
     {
@@ -24,15 +26,18 @@ public sealed partial class HarnessesPage : Page
         DetailPane.SizeChanged += (_, e) =>
             DetailStack.Width = Math.Max(0, e.NewSize.Width - DetailPane.Padding.Right);
 
-        SubtitleText.Text = $"仅统计当前用户（{Environment.UserName}）的数据，不含程序本体";
+        SubtitleText.Text = AppServices.Loc.Format("Harness_Subtitle", Environment.UserName);
 
-        Session.PropertyChanged += (_, e) =>
+        _sessionHandler = (_, e) =>
         {
             if (e.PropertyName is nameof(HarnessSession.Result) or nameof(HarnessSession.IsScanning))
                 Rebuild();
         };
+        Session.PropertyChanged += _sessionHandler;
         Rebuild();
     }
+
+    public void Detach() => Session.PropertyChanged -= _sessionHandler;
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -94,11 +99,11 @@ public sealed partial class HarnessesPage : Page
         DetailContent.Visibility = Visibility.Visible;
 
         var u = vm.Usage;
-        DetailName.Text = u.Name;
+        DetailName.Text = vm.Name;
         DetailPublisher.Text = vm.Subtitle;
         DetailTotal.Text = SizeFormatter.Format(u.TotalBytes);
         DetailExcluded.Text = u.ExcludedProgramBytes > 0
-            ? $" · 未计入程序本体 {SizeFormatter.Format(u.ExcludedProgramBytes)}"
+            ? AppServices.Loc.Format("Harness_ExcludedProgram", SizeFormatter.Format(u.ExcludedProgramBytes))
             : string.Empty;
 
         DetailIcon.Source = null;

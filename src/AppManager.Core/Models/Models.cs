@@ -59,13 +59,37 @@ public enum MatchConfidence
     High,
 }
 
+/// <summary>Why a folder was attributed — language-neutral; the UI translates it.</summary>
+[JsonConverter(typeof(JsonStringEnumConverter<MatchReason>))]
+public enum MatchReason
+{
+    None,
+    /// <summary>MSIX package data dir named like a PackageFamilyName.</summary>
+    PackageFamilyName,
+    /// <summary>Folder equals or contains the app's install location.</summary>
+    InstallDir,
+    /// <summary>Matched a known-tool rule (ReasonArg = folder name).</summary>
+    KnownRule,
+    /// <summary>Name equals the app's install-dir leaf segment.</summary>
+    InstallDirName,
+    /// <summary>Name equals the app's display name.</summary>
+    AppName,
+    /// <summary>Name equals the app's executable/icon file name.</summary>
+    ExeName,
+    /// <summary>Folder named like the app's publisher.</summary>
+    Publisher,
+    /// <summary>Low-confidence prefix similarity.</summary>
+    NameSimilar,
+}
+
 public sealed record AttributedFolder
 {
     public required FolderUsage Folder { get; init; }
     public InstalledApp? App { get; init; }
     public KnownTool? Rule { get; init; }
     public MatchConfidence Confidence { get; init; }
-    public string Reason { get; init; } = string.Empty;
+    public MatchReason Reason { get; init; }
+    public string? ReasonArg { get; init; }
 }
 
 public sealed class AppUsageGroup

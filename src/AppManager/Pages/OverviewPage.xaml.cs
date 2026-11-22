@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using AppManager.Core.Models;
 using AppManager.Core.Scanning;
 using AppManager.Services;
@@ -25,9 +26,11 @@ public sealed class DriveRow
     public required double UsedPercent { get; init; }
 }
 
-public sealed partial class OverviewPage : Page
+public sealed partial class OverviewPage : Page, IDetachable
 {
     public ScanSession Session => AppServices.Session;
+
+    private readonly PropertyChangedEventHandler _sessionHandler;
 
     public OverviewPage()
     {
@@ -40,7 +43,7 @@ public sealed partial class OverviewPage : Page
             ContentPanel.Width = Math.Max(0, Math.Min(ContentPanel.MaxWidth,
                 e.NewSize.Width - ContentScroller.Padding.Left - ContentScroller.Padding.Right));
 
-        Session.PropertyChanged += (_, e) =>
+        _sessionHandler = (_, e) =>
         {
             if (e.PropertyName is nameof(ScanSession.Result) or nameof(ScanSession.LastScanTime))
                 Refresh();
@@ -50,8 +53,11 @@ public sealed partial class OverviewPage : Page
                      or nameof(ScanSession.CurrentPath))
                 RefreshProgress();
         };
+        Session.PropertyChanged += _sessionHandler;
         Refresh();
     }
+
+    public void Detach() => Session.PropertyChanged -= _sessionHandler;
 
     // Lightweight update for measuring-phase progress only — Refresh() callers
     // and progress property changes both funnel here.
@@ -63,7 +69,8 @@ public sealed partial class OverviewPage : Page
         ScanBar.IsIndeterminate = total <= 0;
         ScanBar.Maximum = Math.Max(1, total);
         ScanBar.Value = Math.Min(Session.FoldersDone, ScanBar.Maximum);
-        ProgressDetail.Text = $"已完成 {Session.FoldersDone} / {total} 个文件夹 · {SizeFormatter.Format(Session.BytesSoFar)}";
+        ProgressDetail.Text = AppServices.Loc.Format("Overview_ProgressDetail",
+            Session.FoldersDone, total, SizeFormatter.Format(Session.BytesSoFar));
         ProgressPath.Text = Session.CurrentPath ?? string.Empty;
     }
 
@@ -83,13 +90,14 @@ public sealed partial class OverviewPage : Page
                 var label = di.Name.TrimEnd('\\');
                 if (di.RootDirectory.FullName.Equals(
                         DriveHelpers.SystemRoot, StringComparison.OrdinalIgnoreCase))
-                    label += " 系统盘";
+                    label += AppServices.Loc.Get("Overview_SystemDriveSuffix");
                 driveRows.Add(new DriveRow
                 {
                     Label = label,
-                    Detail = $"{SizeFormatter.Format(used)} 已用 · " +
-                             $"{SizeFormatter.Format(di.AvailableFreeSpace)} 可用 · " +
-                             $"{SizeFormatter.Format(di.TotalSize)} 总计",
+                    Detail = AppServices.Loc.Format("Overview_DriveDetail",
+                        SizeFormatter.Format(used),
+                        SizeFormatter.Format(di.AvailableFreeSpace),
+                        SizeFormatter.Format(di.TotalSize)),
                     UsedPercent = di.TotalSize > 0
                         ? Math.Clamp(used * 100.0 / di.TotalSize, 0, 100)
                         : 0,
@@ -105,9 +113,11 @@ public sealed partial class OverviewPage : Page
 
         // Last scan info
         if (Session.LastScanTime is { } t && result is not null)
-            LastScanText.Text = $"上次扫描: {t:g} · 耗时 {result.ScanDuration.TotalSeconds:F0} 秒";
+            LastScanText.Text = AppServices.Loc.Format("Overview_LastScan",
+                t.ToString("g", AppServices.Loc.Culture),
+                (int)Math.Round(result.ScanDuration.TotalSeconds));
         else
-            LastScanText.Text = "尚未扫描";
+            LastScanText.Text = AppServices.Loc.Get("Overview_NeverScanned");
 
         if (result is null)
         {
@@ -128,8 +138,8 @@ public sealed partial class OverviewPage : Page
 
         StatAttributed.Text = SizeFormatter.Format(attributed);
         StatUnattributed.Text = SizeFormatter.Format(unBytes);
-        StatApps.Text = result.InstalledApps.Count.ToString();
-        StatFolders.Text = folderCount.ToString();
+        StatApps.Text = result.InstalledApps.Count.ToString(AppServices.Loc.Culture);
+        StatFolders.Text = folderCount.ToString(AppServices.Loc.Culture);
 
         // Category breakdown across attributed + unattributed folders.
         var byCat = new Dictionary<FolderCategory, long>();

@@ -30,11 +30,22 @@ public static class DriveHelpers
 
     public static string ConfidenceText(MatchConfidence c) => c switch
     {
-        MatchConfidence.High => "高",
-        MatchConfidence.Medium => "中",
-        MatchConfidence.Low => "低",
+        MatchConfidence.High or MatchConfidence.Medium or MatchConfidence.Low
+            => AppServices.Loc.Get($"Confidence_{c}"),
         _ => "",
     };
+
+    /// <summary>Localized match-reason text, formatted with ReasonArg.</summary>
+    public static string ReasonText(AttributedFolder f)
+        => f.ReasonArg is not null
+            ? AppServices.Loc.Format($"MatchReason_{f.Reason}", f.ReasonArg)
+            : AppServices.Loc.TryGet($"MatchReason_{f.Reason}") ?? string.Empty;
+
+    /// <summary>KnownTool description: localized resource, else the JSON text.</summary>
+    public static string? ToolDescription(AppManager.Core.Matching.KnownTool? tool)
+        => tool is null
+            ? null
+            : AppServices.Loc.TryGet($"KnownTool_{tool.Id}_Description") ?? tool.Description;
 
     public static void OpenInExplorer(string path)
     {
@@ -81,7 +92,7 @@ public partial class AppItemViewModel : ObservableObject
     public bool IsTool => Group.App is null;
     public bool HasLowConfidence { get; set; }
     public int FolderCount => ShownFolders.Count;
-    public string FolderCountText => $"{FolderCount} 个文件夹";
+    public string FolderCountText => AppServices.Loc.Format("Common_FolderCount", FolderCount);
 
     public string TotalText => SizeFormatter.Format(Total);
 
@@ -145,18 +156,18 @@ public partial class FolderRowViewModel : ObservableObject
     public string Path => Folder.Folder.FullPath;
     public string CategoryLabel => CategoryNames.Of(Folder.Folder.Category);
     public string SizeText => SizeFormatter.Format(Folder.Folder.SizeBytes);
-    public string Reason => Folder.Reason;
+    public string Reason => DriveHelpers.ReasonText(Folder);
     public MatchConfidence Confidence => Folder.Confidence;
     public string ConfidenceText => DriveHelpers.ConfidenceText(Folder.Confidence);
 
     public string LastWriteText => Folder.Folder.LastWriteTimeUtc == DateTime.MinValue
         ? string.Empty
-        : Folder.Folder.LastWriteTimeUtc.ToLocalTime().ToString("yyyy-MM-dd");
+        : Folder.Folder.LastWriteTimeUtc.ToLocalTime().ToString("d", AppServices.Loc.Culture);
     public bool HasLastWrite => LastWriteText.Length > 0;
 
     public int InaccessibleCount => Folder.Folder.InaccessibleCount;
     public bool HasInaccessible => InaccessibleCount > 0;
-    public string InaccessibleText => $"{InaccessibleCount} 项无法访问，实际可能更大";
+    public string InaccessibleText => AppServices.Loc.Format("Common_Inaccessible", InaccessibleCount);
 
     public double SizeStars { get; set; }
     public double RestStars { get; set; }
@@ -185,7 +196,7 @@ public partial class UnattributedItemViewModel : ObservableObject
     public string SizeText => SizeFormatter.Format(Folder.SizeBytes);
     public string LastWriteText => Folder.LastWriteTimeUtc == DateTime.MinValue
         ? string.Empty
-        : Folder.LastWriteTimeUtc.ToLocalTime().ToString("yyyy-MM-dd");
+        : Folder.LastWriteTimeUtc.ToLocalTime().ToString("d", AppServices.Loc.Culture);
     public bool HasLastWrite => LastWriteText.Length > 0;
 
     public bool MaybeStale => Folder.LastWriteTimeUtc != DateTime.MinValue &&
@@ -193,7 +204,7 @@ public partial class UnattributedItemViewModel : ObservableObject
 
     public int InaccessibleCount => Folder.InaccessibleCount;
     public bool HasInaccessible => InaccessibleCount > 0;
-    public string InaccessibleText => $"{InaccessibleCount} 项无法访问，实际可能更大";
+    public string InaccessibleText => AppServices.Loc.Format("Common_Inaccessible", InaccessibleCount);
 
     public double SizeStars { get; set; }
     public double RestStars { get; set; }

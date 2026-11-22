@@ -6,6 +6,7 @@
     xmlns:local="using:AppManager.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:services="using:AppManager.Services"
+    xmlns:l="using:AppManager.Localization"
     xmlns:toolkit="using:CommunityToolkit.WinUI"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -17,10 +18,10 @@
         HorizontalScrollBarVisibility="Disabled"
         VerticalScrollBarVisibility="Auto">
         <StackPanel x:Name="ContentPanel" Spacing="{StaticResource PageBlockSpacing}">
-            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="设置" />
+            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="{l:Loc Key=Settings_Title}" />
 
             <StackPanel Spacing="{StaticResource SectionContentSpacing}">
-                <TextBlock Style="{StaticResource SectionHeaderTextBlockStyle}" Text="外观" />
+                <TextBlock Style="{StaticResource SectionHeaderTextBlockStyle}" Text="{l:Loc Key=Settings_Appearance}" />
                 <Border
                     MinHeight="64"
                     Padding="16,12"
@@ -45,11 +46,11 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Spacing="2">
-                            <TextBlock Text="主题" />
+                            <TextBlock Text="{l:Loc Key=Settings_Theme}" />
                             <TextBlock
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="选择应用外观" />
+                                Text="{l:Loc Key=Settings_ThemeDesc}" />
                         </StackPanel>
                         <ComboBox
                             x:Name="ThemeBox"
@@ -57,9 +58,53 @@
                             MinWidth="140"
                             VerticalAlignment="Center"
                             SelectionChanged="ThemeBox_SelectionChanged">
-                            <ComboBoxItem Content="系统" />
-                            <ComboBoxItem Content="浅色" />
-                            <ComboBoxItem Content="深色" />
+                            <ComboBoxItem Content="{l:Loc Key=Theme_System}" />
+                            <ComboBoxItem Content="{l:Loc Key=Theme_Light}" />
+                            <ComboBoxItem Content="{l:Loc Key=Theme_Dark}" />
+                        </ComboBox>
+                    </Grid>
+                </Border>
+                <Border
+                    MinHeight="64"
+                    Padding="16,12"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <FontIcon
+                            Grid.Column="0"
+                            Margin="0,0,16,0"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="&#xE774;" />
+                        <StackPanel
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Spacing="2">
+                            <TextBlock Text="{l:Loc Key=Settings_Language}" />
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{l:Loc Key=Settings_LanguageDesc}" />
+                        </StackPanel>
+                        <ComboBox
+                            x:Name="LanguageBox"
+                            Grid.Column="2"
+                            MinWidth="140"
+                            VerticalAlignment="Center"
+                            SelectionChanged="LanguageBox_SelectionChanged">
+                            <ComboBoxItem Content="{l:Loc Key=Lang_FollowSystem}" />
+                            <ComboBoxItem Content="简体中文" />
+                            <ComboBoxItem Content="繁體中文" />
+                            <ComboBoxItem Content="日本語" />
+                            <ComboBoxItem Content="English" />
                         </ComboBox>
                     </Grid>
                 </Border>
@@ -69,7 +114,7 @@
                 <TextBlock
                     Margin="{StaticResource SectionHeaderTopMargin}"
                     Style="{StaticResource SectionHeaderTextBlockStyle}"
-                    Text="扫描" />
+                    Text="{l:Loc Key=Settings_Scan}" />
                 <Border
                     MinHeight="64"
                     Padding="16,12"
@@ -94,18 +139,18 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Spacing="2">
-                            <TextBlock Text="隐藏低置信度匹配" />
+                            <TextBlock Text="{l:Loc Key=Settings_HideLow}" />
                             <TextBlock
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="在应用列表中不显示名称相近等低置信度的文件夹归属" />
+                                Text="{l:Loc Key=Settings_HideLowDesc}" />
                         </StackPanel>
                         <ToggleSwitch
                             Grid.Column="2"
                             VerticalAlignment="Center"
                             IsOn="{x:Bind Settings.HideLowConfidence, Mode=TwoWay}"
-                            OffContent="关"
-                            OnContent="开"
+                            OffContent="{l:Loc Key=Toggle_Off}"
+                            OnContent="{l:Loc Key=Toggle_On}"
                             Style="{StaticResource RightAlignedCompactToggleSwitchStyle}" />
                     </Grid>
                 </Border>
@@ -133,18 +178,18 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             Spacing="2">
-                            <TextBlock Text="自定义扫描目录" />
+                            <TextBlock Text="{l:Loc Key=Settings_ExtraRoots}" />
                             <TextBlock
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="除内置位置外，额外扫描这些目录下的内容" />
+                                Text="{l:Loc Key=Settings_ExtraRootsDesc}" />
                         </StackPanel>
                         <Button
                             x:Name="AddRootButton"
                             Grid.Column="2"
                             VerticalAlignment="Center"
                             Click="AddRoot_Click"
-                            Content="添加文件夹" />
+                            Content="{l:Loc Key=Settings_AddFolder}" />
                     </Grid>
                 </Border>
                 <ItemsControl ItemsSource="{x:Bind Settings.ExtraRoots}">
@@ -182,7 +227,7 @@
                                         Margin="16,0,0,0"
                                         VerticalAlignment="Center"
                                         Click="RemoveRoot_Click"
-                                        Content="移除" />
+                                        Content="{l:Loc Key=Settings_Remove}" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -194,7 +239,7 @@
                 <TextBlock
                     Margin="{StaticResource SectionHeaderTopMargin}"
                     Style="{StaticResource SectionHeaderTextBlockStyle}"
-                    Text="关于" />
+                    Text="{l:Loc Key=Settings_About}" />
                 <Border
                     MinHeight="64"
                     Padding="16,12"
@@ -226,7 +271,7 @@
                             <TextBlock
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="分析各磁盘空间占用并归属到已安装程序。仅查看与分析，不提供删除功能。" />
+                                Text="{l:Loc Key=Settings_AboutDesc}" />
                         </StackPanel>
                     </Grid>
                 </Border>

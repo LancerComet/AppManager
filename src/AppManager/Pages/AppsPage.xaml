@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AppManager.ViewModels"
     xmlns:services="using:AppManager.Services"
+    xmlns:l="using:AppManager.Localization"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -23,7 +24,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="应用" />
+        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="{l:Loc Key=Apps_Title}" />
 
         <!-- Toolbar -->
         <Grid Grid.Row="1" ColumnSpacing="16">
@@ -32,27 +33,27 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
-                <TextBox x:Name="SearchBox" PlaceholderText="搜索名称或发布者" Width="260"
+                <TextBox x:Name="SearchBox" PlaceholderText="{l:Loc Key=Apps_SearchPlaceholder}" Width="260"
                          Height="32" TextWrapping="NoWrap" AcceptsReturn="False"
                          TextChanged="SearchBox_TextChanged" />
                 <ComboBox x:Name="SortBox" SelectedIndex="0" Width="130"
                           SelectionChanged="Filter_Changed">
-                    <ComboBoxItem Content="总占用" />
-                    <ComboBoxItem Content="数据占用" />
-                    <ComboBoxItem Content="安装占用" />
-                    <ComboBoxItem Content="名称" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SortTotal}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SortData}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SortInstall}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SortName}" />
                 </ComboBox>
                 <ComboBox x:Name="SourceBox" SelectedIndex="0" Width="140"
                           SelectionChanged="Filter_Changed">
-                    <ComboBoxItem Content="全部" />
-                    <ComboBoxItem Content="传统程序" />
-                    <ComboBoxItem Content="应用商店应用" />
-                    <ComboBoxItem Content="已知工具" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SourceAll}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SourceRegistry}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SourceMsix}" />
+                    <ComboBoxItem Content="{l:Loc Key=Apps_SourceTool}" />
                 </ComboBox>
-                <CheckBox x:Name="HideLowCheck" Content="隐藏低置信度匹配"
+                <CheckBox x:Name="HideLowCheck" Content="{l:Loc Key=Apps_HideLowConfidence}"
                           IsChecked="{x:Bind Settings.HideLowConfidence, Mode=TwoWay}" VerticalAlignment="Center" />
             </StackPanel>
-            <Button Grid.Column="1" Content="导出报告 (CSV)" Click="Export_Click" VerticalAlignment="Center" />
+            <Button Grid.Column="1" Content="{l:Loc Key=Apps_Export}" Click="Export_Click" VerticalAlignment="Center" />
         </Grid>
 
         <Grid Grid.Row="2" ColumnSpacing="{StaticResource MasterDetailSpacing}">
@@ -98,16 +99,16 @@
                                         <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
                                             <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
                                                     Visibility="{x:Bind IsEstimated, Converter={StaticResource BoolToVis}}">
-                                                <TextBlock Text="估算" FontSize="12"
+                                                <TextBlock Text="{l:Loc Key=Apps_BadgeEstimated}" FontSize="12"
                                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                             </Border>
                                             <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource AccentFillColorSecondaryBrush}"
                                                     Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}">
-                                                <TextBlock Text="已知工具" FontSize="12" />
+                                                <TextBlock Text="{l:Loc Key=Apps_BadgeTool}" FontSize="12" />
                                             </Border>
                                             <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
                                                     Visibility="{x:Bind HasLowConfidence, Converter={StaticResource BoolToVis}}">
-                                                <TextBlock Text="低置信度" FontSize="12"
+                                                <TextBlock Text="{l:Loc Key=Apps_BadgeLowConf}" FontSize="12"
                                                            Foreground="{ThemeResource SystemFillColorCautionBrush}" />
                                             </Border>
                                         </StackPanel>
@@ -143,7 +144,7 @@
                           HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel x:Name="DetailStack" Spacing="12">
                     <Grid ColumnSpacing="16" x:Name="DetailEmpty">
-                        <TextBlock Text="选择左侧的应用查看详情" VerticalAlignment="Center"
+                        <TextBlock Text="{l:Loc Key=Apps_SelectHint}" VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     </Grid>
                     <StackPanel x:Name="DetailContent" Visibility="Collapsed">
@@ -176,12 +177,12 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <StackPanel VerticalAlignment="Center" Spacing="2">
-                                <TextBlock Text="安装位置" FontSize="12"
+                                <TextBlock Text="{l:Loc Key=Apps_InstallLocation}" FontSize="12"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                 <TextBlock x:Name="DetailInstall"
                                            TextTrimming="CharacterEllipsis" />
                             </StackPanel>
-                            <Button Grid.Column="1" x:Name="OpenInstallButton" Content="打开安装位置"
+                            <Button Grid.Column="1" x:Name="OpenInstallButton" Content="{l:Loc Key=Apps_OpenInstallLocation}"
                                     VerticalAlignment="Center" Click="OpenInstall_Click" />
                         </Grid>
 
@@ -195,7 +196,7 @@
                                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                                 <StackPanel Spacing="2">
-                                    <TextBlock Text="总计" FontSize="12"
+                                    <TextBlock Text="{l:Loc Key=Apps_TotalLabel}" FontSize="12"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                     <TextBlock x:Name="DetailTotal" FontWeight="SemiBold" FontSize="18" />
                                 </StackPanel>
@@ -204,7 +205,7 @@
                                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                                 <StackPanel Spacing="2">
-                                    <TextBlock Text="安装" FontSize="12"
+                                    <TextBlock Text="{l:Loc Key=Apps_InstallLabel}" FontSize="12"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                     <TextBlock x:Name="DetailInstallBytes" FontWeight="SemiBold" FontSize="18" />
                                 </StackPanel>
@@ -213,7 +214,7 @@
                                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                                 <StackPanel Spacing="2">
-                                    <TextBlock Text="数据" FontSize="12"
+                                    <TextBlock Text="{l:Loc Key=Apps_DataLabel}" FontSize="12"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                     <TextBlock x:Name="DetailDataBytes" FontWeight="SemiBold" FontSize="18" />
                                 </StackPanel>
@@ -241,7 +242,7 @@
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Visibility="Collapsed" />
 
-                        <TextBlock Text="文件夹" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                        <TextBlock Text="{l:Loc Key=Apps_FoldersHeader}" Style="{StaticResource SectionHeaderTextBlockStyle}"
                                    Margin="0,24,0,0" />
                         <ItemsControl x:Name="FolderList" Margin="0,12,0,0">
                             <ItemsControl.ItemTemplate>
@@ -273,7 +274,7 @@
                                                         <TextBlock FontSize="12"
                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                                    Visibility="{x:Bind HasLastWrite, Converter={StaticResource BoolToVis}}">
-                                                            <Run Text="修改于 " /><Run Text="{x:Bind LastWriteText}" />
+                                                            <Run Text="{l:Loc Key=Common_LastModified}" /><Run Text="{x:Bind LastWriteText}" />
                                                         </TextBlock>
                                                         <TextBlock Text="{x:Bind Reason}" FontSize="12"
                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -294,7 +295,7 @@
                                                         HorizontalAlignment="Right">
                                                 <TextBlock Text="{x:Bind SizeText}" FontWeight="SemiBold"
                                                            HorizontalAlignment="Right" />
-                                                <Button Content="打开" Command="{x:Bind OpenInExplorerCommand}" />
+                                                <Button Content="{l:Loc Key=Common_Open}" Command="{x:Bind OpenInExplorerCommand}" />
                                             </StackPanel>
                                         </Grid>
                                     </Border>

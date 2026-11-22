@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using AppManager.Core.Models;
 using AppManager.Core.Scanning;
 using AppManager.Services;
@@ -9,7 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace AppManager.Pages;
 
-public sealed partial class AppsPage : Page
+public sealed partial class AppsPage : Page, IDetachable
 {
     public ScanSession Session => AppServices.Session;
     public SettingsService Settings => AppServices.Settings;
@@ -17,6 +18,8 @@ public sealed partial class AppsPage : Page
 
     private string? _pendingSelectKey;
     private bool _selectFirst;
+    private readonly PropertyChangedEventHandler _sessionHandler;
+    private readonly PropertyChangedEventHandler _settingsHandler;
 
     public AppsPage()
     {
@@ -26,17 +29,25 @@ public sealed partial class AppsPage : Page
         DetailPane.SizeChanged += (_, e) =>
             DetailStack.Width = Math.Max(0, e.NewSize.Width - DetailPane.Padding.Right);
 
-        Session.PropertyChanged += (_, e) =>
+        _sessionHandler = (_, e) =>
         {
             if (e.PropertyName == nameof(ScanSession.Result))
                 Rebuild();
         };
-        Settings.PropertyChanged += (_, e) =>
+        Session.PropertyChanged += _sessionHandler;
+        _settingsHandler = (_, e) =>
         {
             if (e.PropertyName is nameof(SettingsService.HideLowConfidence))
                 Rebuild();
         };
+        Settings.PropertyChanged += _settingsHandler;
         Rebuild();
+    }
+
+    public void Detach()
+    {
+        Session.PropertyChanged -= _sessionHandler;
+        Settings.PropertyChanged -= _settingsHandler;
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -146,8 +157,8 @@ public sealed partial class AppsPage : Page
         DetailPublisher.Text = vm.PublisherText ?? string.Empty;
         var g = vm.Group;
         DetailVersion.Text = g.App is not null
-            ? (g.App.Version is { } v ? $"版本 {v}" : string.Empty)
-            : g.Tool?.Description ?? string.Empty;
+            ? (g.App.Version is { } v ? AppServices.Loc.Format("Apps_Version", v) : string.Empty)
+            : DriveHelpers.ToolDescription(g.Tool) ?? string.Empty;
         var installLoc = g.App?.InstallLocation;
         var showInstall = installLoc is not null && Directory.Exists(installLoc);
         InstallRow.Visibility = showInstall ? Visibility.Visible : Visibility.Collapsed;
@@ -162,7 +173,7 @@ public sealed partial class AppsPage : Page
             .Where(s => s.Length > 0)
             .ToList();
         DetailEstimatedNote.Visibility = vm.IsEstimated ? Visibility.Visible : Visibility.Collapsed;
-        DetailEstimatedNote.Text = "安装大小来自注册表估算值";
+        DetailEstimatedNote.Text = AppServices.Loc.Get("Apps_EstimatedNote");
 
         DetailIcon.Source = null;
         DetailIconFallback.Visibility = Visibility.Visible;
@@ -203,7 +214,8 @@ public sealed partial class AppsPage : Page
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(AppServices.MainWindow!);
         WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
         picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-        picker.SuggestedFileName = $"AppManager-报告-{DateTime.Now:yyyyMMdd-HHmm}";
+        picker.SuggestedFileName = AppServices.Loc.Format("Apps_ExportFileName",
+            DateTime.Now.ToString("yyyyMMdd-HHmm"));
         picker.FileTypeChoices.Add("CSV", new List<string> { ".csv" });
         var file = await picker.PickSaveFileAsync();
         if (file is null)
@@ -212,7 +224,18 @@ public sealed partial class AppsPage : Page
         var rows = Items
             .Select(i => new CsvReportBuilder.Row(i.Group, i.ShownFolders, i.Total, i.Install, i.Data))
             .ToList();
-        var csv = CsvReportBuilder.Build(rows, CategoryNames.Of);
+        var labels = new CsvReportBuilder.CsvLabels
+        {
+            Header = AppServices.Loc.Get("Csv_Header"),
+            MsixSource = AppServices.Loc.Get("Csv_SourceMsix"),
+            RegistrySource = AppServices.Loc.Get("Csv_SourceRegistry"),
+            ToolSource = AppServices.Loc.Get("Csv_SourceTool"),
+            Yes = AppServices.Loc.Get("Csv_Yes"),
+            No = AppServices.Loc.Get("Csv_No"),
+            ConfidenceName = DriveHelpers.ConfidenceText,
+            ReasonText = DriveHelpers.ReasonText,
+        };
+        var csv = CsvReportBuilder.Build(rows, labels, CategoryNames.Of);
         await File.WriteAllTextAsync(file.Path, csv, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
     }
 }

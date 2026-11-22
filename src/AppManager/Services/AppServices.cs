@@ -10,11 +10,15 @@ public static class AppServices
         Settings = new SettingsService();
         Icons = new IconService();
         License = new StoreLicenseService();
+        Loc = new LocalizationService();
+        Loc.Initialize(Settings);
         Session = new ScanSession();
         Harness = new HarnessSession();
     }
 
     public static SettingsService Settings { get; }
+
+    public static LocalizationService Loc { get; }
 
     public static ScanSession Session { get; }
 

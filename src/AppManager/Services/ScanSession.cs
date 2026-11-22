@@ -21,8 +21,14 @@ public partial class ScanSession : ObservableObject
     [ObservableProperty]
     public partial bool IsScanning { get; set; }
 
+    /// <summary>Language-neutral scan phase; PhaseText renders it via Loc.</summary>
     [ObservableProperty]
-    public partial string PhaseText { get; set; }
+    public partial ScanPhase Phase { get; set; }
+
+    public string PhaseText => AppServices.Loc.Get($"ScanPhase_{Phase}");
+
+    partial void OnPhaseChanged(ScanPhase value)
+        => OnPropertyChanged(nameof(PhaseText));
 
     [ObservableProperty]
     public partial int FoldersDone { get; set; }
@@ -59,7 +65,7 @@ public partial class ScanSession : ObservableObject
         FoldersTotal = 0;
         BytesSoFar = 0;
         CurrentPath = null;
-        PhaseText = "正在枚举已安装应用";
+        Phase = ScanPhase.EnumeratingApps;
 
         // Pull model: the scanner writes into this state; the UI polls it on a
         // timer instead of receiving a posted callback per folder.
@@ -102,15 +108,7 @@ public partial class ScanSession : ObservableObject
 
     private void ApplySnapshot(ScanProgress p)
     {
-        PhaseText = p.Phase switch
-        {
-            ScanPhase.EnumeratingApps => "正在枚举已安装应用",
-            ScanPhase.DiscoveringFolders => "正在发现文件夹",
-            ScanPhase.Measuring => "正在统计大小",
-            ScanPhase.Matching => "正在匹配",
-            ScanPhase.Done => "完成",
-            _ => string.Empty,
-        };
+        Phase = p.Phase;
         FoldersDone = p.FoldersDone;
         FoldersTotal = p.FoldersTotal;
         BytesSoFar = p.BytesSoFar;

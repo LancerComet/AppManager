@@ -71,7 +71,7 @@ public class AppMatcherTests
             new[] { app });
         Assert.Equal(MatchConfidence.High, result.Confidence);
         Assert.Same(app, result.App);
-        Assert.Equal("包数据目录 (PFN 匹配)", result.Reason);
+        Assert.Equal(MatchReason.PackageFamilyName, result.Reason);
     }
 
     [Fact]
@@ -202,7 +202,7 @@ public class AppMatcherTests
             Folder("JetBrains", FolderCategory.RoamingAppData),
             new[] { app });
         Assert.Equal(MatchConfidence.High, result.Confidence);
-        Assert.Equal("名称匹配: 安装目录名", result.Reason);
+        Assert.Equal(MatchReason.InstallDirName, result.Reason);
     }
 
     [Fact]

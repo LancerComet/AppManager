@@ -89,7 +89,7 @@ public sealed class ConfidenceToBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>Maps HarnessKind to a theme brush for the colored dot in 按类型 rows.</summary>
+/// <summary>Maps HarnessKind to a theme brush for the colored dot in per-kind rows.</summary>
 public sealed class HarnessKindToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)

@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AppManager.ViewModels"
     xmlns:services="using:AppManager.Services"
+    xmlns:l="using:AppManager.Localization"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -24,7 +25,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="AI 工具" />
+        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="{l:Loc Key=Harness_Title}" />
 
         <!-- Toolbar -->
         <Grid Grid.Row="1" ColumnSpacing="16">
@@ -38,11 +39,11 @@
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center"
                             Visibility="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVis}}">
                     <ProgressRing Width="20" Height="20" IsIndeterminate="True" />
-                    <TextBlock Text="正在统计 AI 工具数据…" VerticalAlignment="Center" FontSize="12"
+                    <TextBlock Text="{l:Loc Key=Harness_Scanning}" VerticalAlignment="Center" FontSize="12"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 </StackPanel>
             </StackPanel>
-            <Button Grid.Column="1" Content="重新扫描" Click="Rescan_Click" VerticalAlignment="Center"
+            <Button Grid.Column="1" Content="{l:Loc Key=Harness_Rescan}" Click="Rescan_Click" VerticalAlignment="Center"
                     IsEnabled="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource NotBool}}"/>
         </Grid>
 
@@ -96,7 +97,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <TextBlock x:Name="EmptyText" Text="未发现 AI 工具留下的数据" Visibility="Collapsed"
+                <TextBlock x:Name="EmptyText" Text="{l:Loc Key=Harness_Empty}" Visibility="Collapsed"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            TextWrapping="Wrap" TextAlignment="Center" />
@@ -108,7 +109,7 @@
                           HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel x:Name="DetailStack" Spacing="12">
                     <Grid ColumnSpacing="16" x:Name="DetailEmpty">
-                        <TextBlock Text="选择左侧的工具查看详情" VerticalAlignment="Center"
+                        <TextBlock Text="{l:Loc Key=Harness_SelectHint}" VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     </Grid>
                     <StackPanel x:Name="DetailContent" Visibility="Collapsed">
@@ -132,13 +133,13 @@
                                 <TextBlock x:Name="DetailPublisher"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                 <TextBlock FontSize="12" Foreground="{ThemeResource TextFillColorSecondaryBrush}">
-                                    <Run Text="总计 " /><Run x:Name="DetailTotal" FontWeight="SemiBold" />
+                                    <Run Text="{l:Loc Key=Harness_Total}" /><Run x:Name="DetailTotal" FontWeight="SemiBold" />
                                     <Run x:Name="DetailExcluded" />
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
 
-                        <TextBlock Text="按类型" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                        <TextBlock Text="{l:Loc Key=Harness_KindHeader}" Style="{StaticResource SectionHeaderTextBlockStyle}"
                                    Margin="0,24,0,0" />
                         <ItemsControl x:Name="KindList" Margin="0,12,0,0">
                             <ItemsControl.ItemTemplate>
@@ -171,7 +172,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <TextBlock Text="文件夹与文件" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                        <TextBlock Text="{l:Loc Key=Harness_EntriesHeader}" Style="{StaticResource SectionHeaderTextBlockStyle}"
                                    Margin="0,24,0,0" />
                         <ItemsControl x:Name="EntryGroups" Margin="0,12,0,0">
                             <ItemsControl.ItemTemplate>
@@ -203,7 +204,7 @@
                                                                         <TextBlock FontSize="12"
                                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                                                    Visibility="{x:Bind HasLastWrite, Converter={StaticResource BoolToVis}}">
-                                                                            <Run Text="修改于 " /><Run Text="{x:Bind LastWriteText}" />
+                                                                            <Run Text="{l:Loc Key=Common_LastModified}" /><Run Text="{x:Bind LastWriteText}" />
                                                                         </TextBlock>
                                                                         <TextBlock Text="{x:Bind FileCountText}" FontSize="12"
                                                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -221,7 +222,7 @@
                                                                         HorizontalAlignment="Right">
                                                                 <TextBlock Text="{x:Bind SizeText}" FontWeight="SemiBold"
                                                                            HorizontalAlignment="Right" />
-                                                                <Button Content="打开" Command="{x:Bind OpenInExplorerCommand}" />
+                                                                <Button Content="{l:Loc Key=Common_Open}" Command="{x:Bind OpenInExplorerCommand}" />
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>

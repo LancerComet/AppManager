@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using AppManager.Pages;
 using AppManager.Services;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -10,21 +9,19 @@ namespace AppManager;
 
 public sealed partial class MainWindow : Window
 {
+    private Shell _shell;
+
     public MainWindow()
     {
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;
-        NavView.Loaded += (_, _) =>
-        {
-            ApplySettingsLabel();
-            if (NavFrame.Content is null)
-                NavigateTo("overview");
-        };
-        SetTitleBar(AppTitleBar);
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         AppWindow.SetIcon("Assets/AppIcon.ico");
         AppServices.MainWindow = this;
+
+        _shell = CreateShell("overview");
+        Content = _shell;
 
         ApplyTheme(AppServices.Settings.Theme);
         AppServices.Settings.PropertyChanged += (_, e) =>
@@ -33,8 +30,35 @@ public sealed partial class MainWindow : Window
                 ApplyTheme(AppServices.Settings.Theme);
         };
 
+        AppServices.Loc.LanguageChanged += OnLanguageChanged;
+
         RestorePlacement();
         TrackPlacement();
+    }
+
+    /// <summary>
+    /// Rebuilds the whole shell so every {l:Loc} string and the root Language
+    /// (CJK font selection) re-resolve in the new language. Scan state lives in
+    /// AppServices singletons, so a running scan keeps going and the rebuilt
+    /// pages re-bind to live progress.
+    /// </summary>
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        var tag = _shell.CurrentTag;
+        _shell.Detach();
+        _shell = CreateShell(tag);
+        Content = _shell;
+        ApplyTheme(AppServices.Settings.Theme);
+    }
+
+    private Shell CreateShell(string initialTag)
+    {
+        var shell = new Shell(initialTag)
+        {
+            Language = AppServices.Loc.EffectiveTag,
+        };
+        SetTitleBar(shell.TitleBarElement);
+        return shell;
     }
 
     // ---- Window placement persistence ----
@@ -136,87 +160,11 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private bool _suppressSelectionChanged;
-    private int _settingsLabelAttempts;
-
-    /// <summary>
-    /// The built-in settings item is created when the NavigationView template is
-    /// applied — which can lag Loaded on some launch paths, so retry a few ticks.
-    /// </summary>
-    private void ApplySettingsLabel()
-    {
-        if (NavView.SettingsItem is NavigationViewItem item)
-        {
-            item.Content = "设置";
-            return;
-        }
-        if (_settingsLabelAttempts++ < 50)
-            DispatcherQueue.TryEnqueue(ApplySettingsLabel);
-    }
-
-    /// <summary>Programmatic navigation (overview tiles / debug hooks).</summary>
+    /// <summary>Programmatic navigation (debug hooks / overview tiles).</summary>
     public void NavigateTo(string tag, object? parameter = null)
-    {
-        Type page;
-        _suppressSelectionChanged = true;
-        try
-        {
-            switch (tag)
-            {
-                case "overview":
-                    SelectNavItem("overview");
-                    page = typeof(OverviewPage);
-                    break;
-                case "apps":
-                    SelectNavItem("apps");
-                    page = typeof(AppsPage);
-                    break;
-                case "unattributed":
-                    SelectNavItem("unattributed");
-                    page = typeof(UnattributedPage);
-                    break;
-                case "harnesses":
-                    SelectNavItem("harnesses");
-                    page = typeof(HarnessesPage);
-                    break;
-                case "settings":
-                    NavView.SelectedItem = NavView.SettingsItem;
-                    page = typeof(SettingsPage);
-                    break;
-                default:
-                    return;
-            }
-        }
-        finally
-        {
-            _suppressSelectionChanged = false;
-        }
-        NavFrame.Navigate(page, parameter);
-    }
+        => _shell.NavigateTo(tag, parameter);
 
-    public void NavigateToApp(string groupKey) => NavigateTo("apps", groupKey);
-
-    private void SelectNavItem(string tag)
-    {
-        foreach (var item in NavView.MenuItems.OfType<NavigationViewItem>())
-        {
-            if (item.Tag as string == tag)
-            {
-                NavView.SelectedItem = item;
-                return;
-            }
-        }
-    }
-
-    private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
-    {
-        NavView.IsPaneOpen = !NavView.IsPaneOpen;
-    }
-
-    private void TitleBar_BackRequested(TitleBar sender, object args)
-    {
-        NavFrame.GoBack();
-    }
+    public void NavigateToApp(string groupKey) => _shell.NavigateToApp(groupKey);
 
 #if DEBUG
     /// <summary>DEBUG layout probe: sweep window widths, log element bounds to layout-log.txt.</summary>
@@ -230,7 +178,7 @@ public sealed partial class MainWindow : Window
             await Task.Delay(500);
             foreach (var paneOpen in new[] { true, false })
             {
-                NavView.IsPaneOpen = paneOpen;
+                _shell.Nav.IsPaneOpen = paneOpen;
                 await Task.Delay(300);
                 foreach (var w in widths)
                 {
@@ -253,44 +201,15 @@ public sealed partial class MainWindow : Window
             var p = el.TransformToVisual(null).TransformPoint(new Windows.Foundation.Point(0, 0));
             return $"{p.X:F0}..{p.X + el.ActualWidth:F0}(w={el.ActualWidth:F0})";
         }
-        var page = NavFrame.Content as Page;
+        var frame = _shell.Frame;
+        var page = frame.Content as Page;
         var scroller = page?.FindName("ContentScroller") as ScrollViewer;
         var panel = page?.FindName("ContentPanel") as FrameworkElement;
         return $"target={targetW} client={Content.XamlRoot.Size.Width:F0} paneOpen={paneOpen} " +
-               $"mode={NavView.DisplayMode} frame=[{R(NavFrame)}] scroller=[{R(scroller)}] " +
+               $"mode={_shell.Nav.DisplayMode} frame=[{R(frame)}] scroller=[{R(scroller)}] " +
                $"panel=[{R(panel)}] hoff={scroller?.HorizontalOffset:F0} " +
                $"extent={scroller?.ExtentWidth:F0} vp={scroller?.ViewportWidth:F0} " +
                $"scrollw={scroller?.ScrollableWidth:F0} desired={panel?.DesiredSize.Width:F0}";
     }
 #endif
-
-    private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-    {
-        if (_suppressSelectionChanged)
-            return;
-        if (args.IsSettingsSelected)
-        {
-            NavFrame.Navigate(typeof(SettingsPage));
-        }
-        else if (args.SelectedItem is NavigationViewItem item)
-        {
-            switch (item.Tag)
-            {
-                case "overview":
-                    NavFrame.Navigate(typeof(OverviewPage));
-                    break;
-                case "apps":
-                    NavFrame.Navigate(typeof(AppsPage));
-                    break;
-                case "unattributed":
-                    NavFrame.Navigate(typeof(UnattributedPage));
-                    break;
-                case "harnesses":
-                    NavFrame.Navigate(typeof(HarnessesPage));
-                    break;
-                default:
-                    throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
-            }
-        }
-    }
 }

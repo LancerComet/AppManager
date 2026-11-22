@@ -14,14 +14,15 @@ public partial class HarnessItemViewModel : ObservableObject
     internal HarnessUsage Usage { get; set; } = null!;
 
     public string Key => Usage.Id;
-    public string Name => Usage.Name;
+    /// <summary>Localized harness name if a resource exists, else catalog name.</summary>
+    public string Name => AppServices.Loc.TryGet($"Harness_{Usage.Id}_Name") ?? Usage.Name;
 
     public string Subtitle => $"{Usage.Publisher} · {TypeLabel}";
     public string TypeLabel => Usage.Type switch
     {
-        HarnessType.Ide => "AI IDE",
-        HarnessType.Desktop => "桌面应用",
-        _ => "命令行工具",
+        HarnessType.Ide => AppServices.Loc.Get("Harness_Type_Ide"),
+        HarnessType.Desktop => AppServices.Loc.Get("Harness_Type_Desktop"),
+        _ => AppServices.Loc.Get("Harness_Type_Cli"),
     };
     public string TypeGlyph => Usage.Type switch
     {
@@ -51,7 +52,7 @@ public partial class HarnessItemViewModel : ObservableObject
         };
 }
 
-/// <summary>A kind-total row in the detail pane's "按类型" section.</summary>
+/// <summary>A kind-total row in the detail pane's per-kind section.</summary>
 public partial class HarnessKindRowViewModel : ObservableObject
 {
     public HarnessKind Kind { get; set; }
@@ -61,7 +62,7 @@ public partial class HarnessKindRowViewModel : ObservableObject
     public double RestStars { get; set; }
 }
 
-/// <summary>A "文件夹与文件" group header (one kind) with its entries.</summary>
+/// <summary>A folder/file group header (one kind) with its entries.</summary>
 public partial class HarnessKindGroupViewModel : ObservableObject
 {
     public HarnessKind Kind { get; set; }
@@ -79,9 +80,11 @@ public partial class HarnessEntryViewModel : ObservableObject
     public string SizeText => SizeFormatter.Format(Entry.SizeBytes);
     public string LastWriteText => Entry.LastWriteTimeUtc == DateTime.MinValue
         ? string.Empty
-        : Entry.LastWriteTimeUtc.ToLocalTime().ToString("yyyy-MM-dd");
+        : Entry.LastWriteTimeUtc.ToLocalTime().ToString("d", AppServices.Loc.Culture);
     public bool HasLastWrite => LastWriteText.Length > 0;
-    public string FileCountText => Entry.IsFile ? "文件" : $"{Entry.FileCount} 个文件";
+    public string FileCountText => Entry.IsFile
+        ? AppServices.Loc.Get("Common_File")
+        : AppServices.Loc.Format("Common_FileCount", Entry.FileCount);
 
     public double SizeStars { get; set; }
     public double RestStars { get; set; }

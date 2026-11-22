@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_Version" xml:space="preserve"><value>版本 {0}</value></data>
+  <data name="Apps_BadgeEstimated" xml:space="preserve"><value>估算</value></data>
+  <data name="Apps_BadgeLowConf" xml:space="preserve"><value>低信賴度</value></data>
+  <data name="Apps_BadgeTool" xml:space="preserve"><value>已知工具</value></data>
+  <data name="Apps_DataLabel" xml:space="preserve"><value>資料</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>安裝大小來自登錄估算值</value></data>
+  <data name="Apps_Export" xml:space="preserve"><value>匯出報告 (CSV)</value></data>
+  <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-報告-{0}</value></data>
+  <data name="Apps_FoldersHeader" xml:space="preserve"><value>資料夾</value></data>
+  <data name="Apps_HideLowConfidence" xml:space="preserve"><value>隱藏低信賴度比對</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>安裝</value></data>
+  <data name="Apps_InstallLocation" xml:space="preserve"><value>安裝位置</value></data>
+  <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>開啟安裝位置</value></data>
+  <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>搜尋名稱或發行者</value></data>
+  <data name="Apps_SelectHint" xml:space="preserve"><value>選取左側的應用程式以檢視詳細資料</value></data>
+  <data name="Apps_SortData" xml:space="preserve"><value>資料佔用</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>安裝佔用</value></data>
+  <data name="Apps_SortName" xml:space="preserve"><value>名稱</value></data>
+  <data name="Apps_SortTotal" xml:space="preserve"><value>總佔用</value></data>
+  <data name="Apps_SourceAll" xml:space="preserve"><value>全部</value></data>
+  <data name="Apps_SourceMsix" xml:space="preserve"><value>市集應用程式</value></data>
+  <data name="Apps_SourceRegistry" xml:space="preserve"><value>傳統程式</value></data>
+  <data name="Apps_SourceTool" xml:space="preserve"><value>已知工具</value></data>
+  <data name="Apps_Title" xml:space="preserve"><value>應用程式</value></data>
+  <data name="Apps_TotalLabel" xml:space="preserve"><value>總計</value></data>
+  <data name="Apps_Version" xml:space="preserve"><value>版本 {0}</value></data>
+  <data name="Category_Custom" xml:space="preserve"><value>自訂目錄</value></data>
+  <data name="Category_Documents" xml:space="preserve"><value>文件</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>安裝目錄</value></data>
+  <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
+  <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>使用者層級程式 (Local\Programs)</value></data>
+  <data name="Category_PackageData" xml:space="preserve"><value>應用程式套件資料 (MSIX)</value></data>
+  <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
+  <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
+  <data name="Category_SavedGames" xml:space="preserve"><value>儲存的遊戲</value></data>
+  <data name="Category_UserHome" xml:space="preserve"><value>主目錄其他</value></data>
+  <data name="Category_UserHomeDot" xml:space="preserve"><value>主目錄 .xxx 資料夾</value></data>
+  <data name="Common_File" xml:space="preserve"><value>檔案</value></data>
+  <data name="Common_FileCount" xml:space="preserve"><value>{0} 個檔案</value></data>
+  <data name="Common_FolderCount" xml:space="preserve"><value>{0} 個資料夾</value></data>
+  <data name="Common_Inaccessible" xml:space="preserve"><value>{0} 個項目無法存取，實際可能更大</value></data>
+  <data name="Common_LastModified" xml:space="preserve"><value>修改於 </value></data>
+  <data name="Common_Open" xml:space="preserve"><value>開啟</value></data>
+  <data name="Common_OpenLocation" xml:space="preserve"><value>開啟位置</value></data>
+  <data name="Confidence_High" xml:space="preserve"><value>高</value></data>
+  <data name="Confidence_Low" xml:space="preserve"><value>低</value></data>
+  <data name="Confidence_Medium" xml:space="preserve"><value>中</value></data>
+  <data name="Confidence_None" xml:space="preserve"><value>無</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>應用程式,發行者,來源,應用程式總計(位元組),安裝(位元組),資料(位元組),安裝大小為估算,資料夾路徑,類別,資料夾大小(位元組),比對方式,信賴度,所在磁碟</value></data>
+  <data name="Csv_No" xml:space="preserve"><value>否</value></data>
+  <data name="Csv_SourceMsix" xml:space="preserve"><value>市集應用程式</value></data>
+  <data name="Csv_SourceRegistry" xml:space="preserve"><value>傳統程式</value></data>
+  <data name="Csv_SourceTool" xml:space="preserve"><value>已知工具</value></data>
+  <data name="Csv_Yes" xml:space="preserve"><value>是</value></data>
+  <data name="Filter_All" xml:space="preserve"><value>全部</value></data>
+  <data name="Harness_Empty" xml:space="preserve"><value>找不到 AI 工具留下的資料</value></data>
+  <data name="Harness_EntriesHeader" xml:space="preserve"><value>資料夾與檔案</value></data>
+  <data name="Harness_ExcludedProgram" xml:space="preserve"><value> · 未計入程式本體 {0}</value></data>
+  <data name="Harness_KindHeader" xml:space="preserve"><value>按類型</value></data>
+  <data name="Harness_Rescan" xml:space="preserve"><value>重新掃描</value></data>
+  <data name="Harness_Scanning" xml:space="preserve"><value>正在統計 AI 工具資料…</value></data>
+  <data name="Harness_SelectHint" xml:space="preserve"><value>選取左側的工具以檢視詳細資料</value></data>
+  <data name="Harness_Subtitle" xml:space="preserve"><value>僅統計目前使用者（{0}）的資料，不含程式本體</value></data>
+  <data name="Harness_Title" xml:space="preserve"><value>AI 工具</value></data>
+  <data name="Harness_Total" xml:space="preserve"><value>總計 </value></data>
+  <data name="Harness_Type_Cli" xml:space="preserve"><value>命令列工具</value></data>
+  <data name="Harness_Type_Desktop" xml:space="preserve"><value>桌面應用程式</value></data>
+  <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT 桌面版</value></data>
+  <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude 桌面版</value></data>
+  <data name="Kind_Artifacts" xml:space="preserve"><value>附件與產生的檔案</value></data>
+  <data name="Kind_Cache" xml:space="preserve"><value>快取</value></data>
+  <data name="Kind_Conversations" xml:space="preserve"><value>交談與記憶</value></data>
+  <data name="Kind_Extensions" xml:space="preserve"><value>外掛程式與擴充功能</value></data>
+  <data name="Kind_Logs" xml:space="preserve"><value>記錄檔</value></data>
+  <data name="Kind_OldVersions" xml:space="preserve"><value>舊版本與安裝套件</value></data>
+  <data name="Kind_Program" xml:space="preserve"><value>程式本體</value></data>
+  <data name="Kind_Snapshots" xml:space="preserve"><value>檔案快照與備份</value></data>
+  <data name="Kind_State" xml:space="preserve"><value>設定與其他狀態</value></data>
+  <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw 快取</value></data>
+  <data name="KnownTool_adobecc_Description" xml:space="preserve"><value>Creative Cloud 資料庫同步資料</value></data>
+  <data name="KnownTool_adobeuxp_Description" xml:space="preserve"><value>Adobe UXP 外掛程式資料</value></data>
+  <data name="KnownTool_android_Description" xml:space="preserve"><value>Android SDK/模擬器資料</value></data>
+  <data name="KnownTool_arduino_Description" xml:space="preserve"><value>Arduino IDE 開發板與程式庫</value></data>
+  <data name="KnownTool_aws_Description" xml:space="preserve"><value>AWS CLI 設定與認證</value></data>
+  <data name="KnownTool_azure_Description" xml:space="preserve"><value>Azure CLI 設定與快取</value></data>
+  <data name="KnownTool_bun_Description" xml:space="preserve"><value>Bun 執行階段與套件快取</value></data>
+  <data name="KnownTool_cache_Description" xml:space="preserve"><value>各工具共用的快取目錄</value></data>
+  <data name="KnownTool_cargo_Description" xml:space="preserve"><value>Cargo 套件快取與工具鏈</value></data>
+  <data name="KnownTool_claude_Description" xml:space="preserve"><value>Claude Code 設定與資料</value></data>
+  <data name="KnownTool_codeium_Description" xml:space="preserve"><value>Codeium AI 助理資料</value></data>
+  <data name="KnownTool_codex_Description" xml:space="preserve"><value>OpenAI Codex CLI 資料</value></data>
+  <data name="KnownTool_conda_Description" xml:space="preserve"><value>Conda 環境與套件快取</value></data>
+  <data name="KnownTool_config_Description" xml:space="preserve"><value>移植自 Linux 的設定目錄</value></data>
+  <data name="KnownTool_continue_Description" xml:space="preserve"><value>Continue AI 助理資料</value></data>
+  <data name="KnownTool_copilot_Description" xml:space="preserve"><value>GitHub Copilot CLI 資料</value></data>
+  <data name="KnownTool_crashdumps_Description" xml:space="preserve"><value>應用程式當機時產生的傾印檔</value></data>
+  <data name="KnownTool_cursor_Description" xml:space="preserve"><value>Cursor 編輯器設定與擴充功能</value></data>
+  <data name="KnownTool_d3dscache_Description" xml:space="preserve"><value>Direct3D 著色器快取</value></data>
+  <data name="KnownTool_deno_Description" xml:space="preserve"><value>Deno 執行階段快取</value></data>
+  <data name="KnownTool_devin_Description" xml:space="preserve"><value>Devin CLI 設定與快取</value></data>
+  <data name="KnownTool_docker_Description" xml:space="preserve"><value>Docker Desktop 設定與認證</value></data>
+  <data name="KnownTool_dotcover_Description" xml:space="preserve"><value>dotCover 涵蓋範圍分析資料</value></data>
+  <data name="KnownTool_dotmemory_Description" xml:space="preserve"><value>dotMemory 記憶體分析器資料</value></data>
+  <data name="KnownTool_dotnet_Description" xml:space="preserve"><value>.NET SDK 工具與快取</value></data>
+  <data name="KnownTool_dotnetsdk_Description" xml:space="preserve"><value>共用 .NET SDK 與執行階段安裝目錄</value></data>
+  <data name="KnownTool_dottrace_Description" xml:space="preserve"><value>dotTrace 效能分析器資料</value></data>
+  <data name="KnownTool_eagames_Description" xml:space="preserve"><value>EA 遊戲存檔目錄</value></data>
+  <data name="KnownTool_eclipse_Description" xml:space="preserve"><value>Eclipse IDE 設定與 p2 快取</value></data>
+  <data name="KnownTool_espressif_Description" xml:space="preserve"><value>樂鑫 ESP-IDF 工具鏈</value></data>
+  <data name="KnownTool_gem_Description" xml:space="preserve"><value>Ruby gem 快取</value></data>
+  <data name="KnownTool_gemini_Description" xml:space="preserve"><value>Gemini CLI 設定與資料</value></data>
+  <data name="KnownTool_ghcup_Description" xml:space="preserve"><value>GHCup 工具鏈</value></data>
+  <data name="KnownTool_gnupg_Description" xml:space="preserve"><value>GPG 金鑰與設定</value></data>
+  <data name="KnownTool_godot_Description" xml:space="preserve"><value>Godot 引擎編輯器資料</value></data>
+  <data name="KnownTool_gradle_Description" xml:space="preserve"><value>Gradle 建置快取與相依性</value></data>
+  <data name="KnownTool_huggingface_Description" xml:space="preserve"><value>Hugging Face 模型/資料集快取</value></data>
+  <data name="KnownTool_ipython_Description" xml:space="preserve"><value>IPython 設定與歷程</value></data>
+  <data name="KnownTool_java_Description" xml:space="preserve"><value>Java 執行階段資料</value></data>
+  <data name="KnownTool_jbshared_Description" xml:space="preserve"><value>JetBrains IDE 共用的快取與索引</value></data>
+  <data name="KnownTool_jbtoolbox_Description" xml:space="preserve"><value>JetBrains Toolbox 資料</value></data>
+  <data name="KnownTool_jdks_Description" xml:space="preserve"><value>JetBrains IDE 下載的 JDK</value></data>
+  <data name="KnownTool_jetbrains_Description" xml:space="preserve"><value>JetBrains IDE 設定與快取</value></data>
+  <data name="KnownTool_julia_Description" xml:space="preserve"><value>Julia 套件與編譯快取</value></data>
+  <data name="KnownTool_jupyter_Description" xml:space="preserve"><value>Jupyter 設定與執行階段資料</value></data>
+  <data name="KnownTool_keras_Description" xml:space="preserve"><value>Keras 模型與資料集快取</value></data>
+  <data name="KnownTool_kube_Description" xml:space="preserve"><value>kubectl 設定</value></data>
+  <data name="KnownTool_lmstudio_Description" xml:space="preserve"><value>LM Studio 本機模型與設定</value></data>
+  <data name="KnownTool_local_Description" xml:space="preserve"><value>移植自 Linux 的本機資料目錄</value></data>
+  <data name="KnownTool_matplotlib_Description" xml:space="preserve"><value>Matplotlib 字型與設定快取</value></data>
+  <data name="KnownTool_maven_Description" xml:space="preserve"><value>Maven 本機存放庫與快取</value></data>
+  <data name="KnownTool_minikube_Description" xml:space="preserve"><value>Minikube 本機叢集資料</value></data>
+  <data name="KnownTool_mozilla_Description" xml:space="preserve"><value>Mozilla/Firefox 資料</value></data>
+  <data name="KnownTool_mssdks_Description" xml:space="preserve"><value>共用 Microsoft SDK 安裝目錄</value></data>
+  <data name="KnownTool_mygames_Description" xml:space="preserve"><value>各遊戲共用的存檔目錄</value></data>
+  <data name="KnownTool_npm_Description" xml:space="preserve"><value>npm 套件快取與設定</value></data>
+  <data name="KnownTool_nuget_Description" xml:space="preserve"><value>NuGet 套件快取</value></data>
+  <data name="KnownTool_nvidia_Description" xml:space="preserve"><value>NVIDIA 驅動程式與著色器快取</value></data>
+  <data name="KnownTool_nvm_Description" xml:space="preserve"><value>Node 版本管理員資料</value></data>
+  <data name="KnownTool_ollama_Description" xml:space="preserve"><value>Ollama 本機模型資料</value></data>
+  <data name="KnownTool_openai_Description" xml:space="preserve"><value>OpenAI 工具設定</value></data>
+  <data name="KnownTool_packagecache_Description" xml:space="preserve"><value>Visual Studio/VC++ 等安裝套件快取</value></data>
+  <data name="KnownTool_pip_Description" xml:space="preserve"><value>pip 套件快取</value></data>
+  <data name="KnownTool_platformio_Description" xml:space="preserve"><value>PlatformIO 嵌入式開發資料</value></data>
+  <data name="KnownTool_playwright_Description" xml:space="preserve"><value>Playwright 瀏覽器二進位快取</value></data>
+  <data name="KnownTool_pnpm_Description" xml:space="preserve"><value>pnpm 儲存區與快取</value></data>
+  <data name="KnownTool_powershelldocs_Description" xml:space="preserve"><value>PowerShell 設定檔與模組</value></data>
+  <data name="KnownTool_pyenv_Description" xml:space="preserve"><value>pyenv Python 版本管理</value></data>
+  <data name="KnownTool_qq_Description" xml:space="preserve"><value>QQ 聊天與檔案資料</value></data>
+  <data name="KnownTool_redhat_Description" xml:space="preserve"><value>Red Hat 工具資料</value></data>
+  <data name="KnownTool_rustup_Description" xml:space="preserve"><value>Rust 工具鏈安裝目錄</value></data>
+  <data name="KnownTool_sonarlint_Description" xml:space="preserve"><value>SonarLint 分析快取</value></data>
+  <data name="KnownTool_sonatype_Description" xml:space="preserve"><value>Sonatype/Nexus 資料</value></data>
+  <data name="KnownTool_squirrel_Description" xml:space="preserve"><value>Squirrel 安裝程式暫存快取</value></data>
+  <data name="KnownTool_ssh_Description" xml:space="preserve"><value>SSH 金鑰與設定</value></data>
+  <data name="KnownTool_stack_Description" xml:space="preserve"><value>Haskell Stack 建置快取</value></data>
+  <data name="KnownTool_steam_Description" xml:space="preserve"><value>Steam 資料</value></data>
+  <data name="KnownTool_temp_Description" xml:space="preserve"><value>使用者暫存資料夾</value></data>
+  <data name="KnownTool_templateengine_Description" xml:space="preserve"><value>dotnet new 範本快取</value></data>
+  <data name="KnownTool_thumbnails_Description" xml:space="preserve"><value>圖片縮圖快取</value></data>
+  <data name="KnownTool_ubisoftlauncher_Description" xml:space="preserve"><value>Ubisoft Connect 啟動器資料</value></data>
+  <data name="KnownTool_uv_Description" xml:space="preserve"><value>uv Python 套件管理員快取</value></data>
+  <data name="KnownTool_vagrant_Description" xml:space="preserve"><value>Vagrant 虛擬機器資料</value></data>
+  <data name="KnownTool_virtualenvs_Description" xml:space="preserve"><value>Python 虛擬環境目錄</value></data>
+  <data name="KnownTool_vscode_Description" xml:space="preserve"><value>VS Code 擴充功能與設定</value></data>
+  <data name="KnownTool_vsdocs_Description" xml:space="preserve"><value>Visual Studio 專案與設定</value></data>
+  <data name="KnownTool_vssymbols_Description" xml:space="preserve"><value>Visual Studio 偵錯符號快取</value></data>
+  <data name="KnownTool_wechat_Description" xml:space="preserve"><value>微信聊天與檔案資料</value></data>
+  <data name="KnownTool_windsurf_Description" xml:space="preserve"><value>Windsurf 編輯器設定與擴充功能</value></data>
+  <data name="KnownTool_winkits_Description" xml:space="preserve"><value>Windows SDK 安裝目錄</value></data>
+  <data name="KnownTool_yarn_Description" xml:space="preserve"><value>Yarn 套件管理員快取</value></data>
+  <data name="KnownTool_zed_Description" xml:space="preserve"><value>Zed 編輯器資料</value></data>
+  <data name="KnownTool_zoomdocs_Description" xml:space="preserve"><value>Zoom 會議錄製與資料</value></data>
+  <data name="Lang_FollowSystem" xml:space="preserve"><value>跟隨系統</value></data>
+  <data name="MatchReason_AppName" xml:space="preserve"><value>名稱比對: 應用程式名</value></data>
+  <data name="MatchReason_ExeName" xml:space="preserve"><value>名稱比對: 程式檔案名</value></data>
+  <data name="MatchReason_InstallDir" xml:space="preserve"><value>安裝目錄比對</value></data>
+  <data name="MatchReason_InstallDirName" xml:space="preserve"><value>名稱比對: 安裝目錄名</value></data>
+  <data name="MatchReason_KnownRule" xml:space="preserve"><value>已知規則: {0}</value></data>
+  <data name="MatchReason_NameSimilar" xml:space="preserve"><value>名稱相近</value></data>
+  <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>套件資料目錄 (PFN 比對)</value></data>
+  <data name="MatchReason_Publisher" xml:space="preserve"><value>發行者資料夾</value></data>
+  <data name="Nav_Apps" xml:space="preserve"><value>應用程式</value></data>
+  <data name="Nav_Harnesses" xml:space="preserve"><value>AI 工具</value></data>
+  <data name="Nav_Overview" xml:space="preserve"><value>概覽</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>設定</value></data>
+  <data name="Nav_Unattributed" xml:space="preserve"><value>未識別資料夾</value></data>
+  <data name="Overview_Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="Overview_CategoryHeader" xml:space="preserve"><value>按位置分佈</value></data>
+  <data name="Overview_DriveDetail" xml:space="preserve"><value>已使用 {0} · 可用 {1} · 總計 {2}</value></data>
+  <data name="Overview_LastScan" xml:space="preserve"><value>上次掃描: {0} · 耗時 {1} 秒</value></data>
+  <data name="Overview_NeverScanned" xml:space="preserve"><value>尚未掃描</value></data>
+  <data name="Overview_ProgressDetail" xml:space="preserve"><value>已完成 {0} / {1} 個資料夾 · {2}</value></data>
+  <data name="Overview_ScanErrorTitle" xml:space="preserve"><value>掃描錯誤</value></data>
+  <data name="Overview_StartScan" xml:space="preserve"><value>開始掃描</value></data>
+  <data name="Overview_StatApps" xml:space="preserve"><value>應用程式數</value></data>
+  <data name="Overview_StatAttributed" xml:space="preserve"><value>已歸屬到應用程式</value></data>
+  <data name="Overview_StatFolders" xml:space="preserve"><value>掃描的資料夾數</value></data>
+  <data name="Overview_StatUnattributed" xml:space="preserve"><value>未識別</value></data>
+  <data name="Overview_SystemDriveSuffix" xml:space="preserve"><value> 系統磁碟</value></data>
+  <data name="Overview_Title" xml:space="preserve"><value>概覽</value></data>
+  <data name="Overview_TopApps" xml:space="preserve"><value>佔用最多的應用程式</value></data>
+  <data name="ScanPhase_DiscoveringFolders" xml:space="preserve"><value>正在尋找資料夾</value></data>
+  <data name="ScanPhase_Done" xml:space="preserve"><value>完成</value></data>
+  <data name="ScanPhase_EnumeratingApps" xml:space="preserve"><value>正在列舉已安裝應用程式</value></data>
+  <data name="ScanPhase_Matching" xml:space="preserve"><value>正在比對</value></data>
+  <data name="ScanPhase_Measuring" xml:space="preserve"><value>正在統計大小</value></data>
+  <data name="Settings_About" xml:space="preserve"><value>關於</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>分析各磁碟空間佔用並歸屬到已安裝程式。僅供檢視與分析，不提供刪除功能。</value></data>
+  <data name="Settings_AddFolder" xml:space="preserve"><value>新增資料夾</value></data>
+  <data name="Settings_Appearance" xml:space="preserve"><value>外觀</value></data>
+  <data name="Settings_ExtraRoots" xml:space="preserve"><value>自訂掃描目錄</value></data>
+  <data name="Settings_ExtraRootsDesc" xml:space="preserve"><value>除內建位置外，另外掃描這些目錄下的內容</value></data>
+  <data name="Settings_HideLow" xml:space="preserve"><value>隱藏低信賴度比對</value></data>
+  <data name="Settings_HideLowDesc" xml:space="preserve"><value>在應用程式清單中不顯示名稱相近等低信賴度的資料夾歸屬</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>語言</value></data>
+  <data name="Settings_LanguageDesc" xml:space="preserve"><value>選擇應用程式顯示語言，立即生效</value></data>
+  <data name="Settings_Remove" xml:space="preserve"><value>移除</value></data>
+  <data name="Settings_Scan" xml:space="preserve"><value>掃描</value></data>
+  <data name="Settings_Theme" xml:space="preserve"><value>佈景主題</value></data>
+  <data name="Settings_ThemeDesc" xml:space="preserve"><value>選擇應用程式外觀</value></data>
+  <data name="Settings_Title" xml:space="preserve"><value>設定</value></data>
+  <data name="Theme_Dark" xml:space="preserve"><value>深色</value></data>
+  <data name="Theme_Light" xml:space="preserve"><value>淺色</value></data>
+  <data name="Theme_System" xml:space="preserve"><value>系統</value></data>
+  <data name="Toggle_Off" xml:space="preserve"><value>關</value></data>
+  <data name="Toggle_On" xml:space="preserve"><value>開</value></data>
+  <data name="Unattr_Description" xml:space="preserve"><value>找不到這些資料夾對應的已安裝程式，可能是解除安裝殘留、可攜式軟體或命令列工具產生的資料。</value></data>
+  <data name="Unattr_MaybeStale" xml:space="preserve"><value>可能殘留</value></data>
+  <data name="Unattr_SearchPlaceholder" xml:space="preserve"><value>搜尋路徑</value></data>
+  <data name="Unattr_Title" xml:space="preserve"><value>未識別資料夾</value></data>
+</root>

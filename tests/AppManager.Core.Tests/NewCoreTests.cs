@@ -52,7 +52,7 @@ public class GroupBuilderTests
             },
             App = app,
             Confidence = MatchConfidence.High,
-            Reason = "test",
+            Reason = MatchReason.InstallDir,
         };
 
     [Fact]
@@ -90,6 +90,21 @@ public class GroupBuilderTests
 
 public class CsvReportBuilderTests
 {
+    private static readonly CsvReportBuilder.CsvLabels Labels = new()
+    {
+        Header = "App,Publisher,Source,TotalBytes,InstallBytes,DataBytes,Estimated,Path,Category,SizeBytes,Reason,Confidence,Drive",
+        MsixSource = "Store",
+        RegistrySource = "Desktop",
+        ToolSource = "Tool",
+        Yes = "yes",
+        No = "no",
+        ConfidenceName = c => c.ToString(),
+        ReasonText = f => f.Reason == MatchReason.KnownRule ? $"rule:{f.ReasonArg}" : f.Reason.ToString(),
+    };
+
+    private static CsvReportBuilder.Row RowOf(AppUsageGroup g)
+        => new(g, g.Folders, g.TotalBytes, g.InstallBytes, g.DataBytes);
+
     [Fact]
     public void Build_EscapesCommaQuoteNewline()
     {
@@ -99,10 +114,10 @@ public class CsvReportBuilderTests
             DisplayName = "App, \"Quoted\"\nName",
             Publisher = "Pub,Co",
         };
-        var csv = CsvReportBuilder.Build(new[] { group });
+        var csv = CsvReportBuilder.Build(new[] { RowOf(group) }, Labels);
         Assert.Contains("\"App, \"\"Quoted\"\"\nName\"", csv);
         Assert.Contains("\"Pub,Co\"", csv);
-        Assert.StartsWith("应用,", csv);
+        Assert.StartsWith("App,", csv);
     }
 
     [Fact]
@@ -116,8 +131,8 @@ public class CsvReportBuilderTests
             InstallBytes = 5,
             TotalBytes = 5,
         };
-        var csv = CsvReportBuilder.Build(new[] { group });
-        Assert.EndsWith("是,,,,,\n", csv);
+        var csv = CsvReportBuilder.Build(new[] { RowOf(group) }, Labels);
+        Assert.EndsWith("yes,,,,,\n", csv);
     }
 }
 
@@ -158,7 +173,8 @@ public class ScanResultStoreTests
                                     LastWriteTimeUtc = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                                 },
                                 Confidence = MatchConfidence.High,
-                                Reason = "测试",
+                                Reason = MatchReason.Publisher,
+                                ReasonArg = "y",
                             },
                         },
                     },
@@ -191,7 +207,8 @@ public class ScanResultStoreTests
             Assert.Equal(25, g.BytesByDrive["C:\\"]);
             Assert.True(g.InstallSizeIsEstimated);
             Assert.Single(g.Folders);
-            Assert.Equal("测试", g.Folders[0].Reason);
+            Assert.Equal(MatchReason.Publisher, g.Folders[0].Reason);
+            Assert.Equal("y", g.Folders[0].ReasonArg);
             Assert.Equal(MatchConfidence.High, g.Folders[0].Confidence);
             Assert.Single(loaded.InstalledApps);
         }

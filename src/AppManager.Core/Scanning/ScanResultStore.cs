@@ -9,7 +9,7 @@ namespace AppManager.Core.Scanning;
 /// </summary>
 public static class ScanResultStore
 {
-    public const int SchemaVersion = 2;
+    public const int SchemaVersion = 3;
 
     internal sealed class Envelope
     {

@@ -31,6 +31,7 @@ public partial class SettingsService : ObservableObject
     private sealed class Persisted
     {
         public ThemeSetting Theme { get; set; }
+        public string Language { get; set; } = "system";
         public List<string> ExtraRoots { get; set; } = new();
         public bool HideLowConfidence { get; set; }
         public WindowPlacement? Window { get; set; }
@@ -42,6 +43,10 @@ public partial class SettingsService : ObservableObject
 
     [ObservableProperty]
     public partial ThemeSetting Theme { get; set; }
+
+    /// <summary>"system" or a BCP-47 tag (zh-Hans / zh-Hant / ja-JP / en-US).</summary>
+    [ObservableProperty]
+    public partial string Language { get; set; } = "system";
 
     [ObservableProperty]
     public partial bool HideLowConfidence { get; set; }
@@ -85,6 +90,7 @@ public partial class SettingsService : ObservableObject
             if (persisted is null)
                 return;
             Theme = persisted.Theme;
+            Language = persisted.Language ?? "system";
             HideLowConfidence = persisted.HideLowConfidence;
             _window = persisted.Window;
             foreach (var root in persisted.ExtraRoots)
@@ -104,6 +110,7 @@ public partial class SettingsService : ObservableObject
             var persisted = new Persisted
             {
                 Theme = Theme,
+                Language = Language,
                 ExtraRoots = ExtraRoots.ToList(),
                 HideLowConfidence = HideLowConfidence,
                 Window = _window,

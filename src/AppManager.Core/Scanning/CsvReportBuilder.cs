@@ -5,9 +5,25 @@ namespace AppManager.Core.Scanning;
 
 /// <summary>
 /// Builds a CSV report from (already filtered) app-usage groups. Pure, no IO.
+/// All user-visible strings come from <see cref="CsvLabels"/> — the UI supplies
+/// the localized values; Core stays language-neutral.
 /// </summary>
 public static class CsvReportBuilder
 {
+    /// <summary>Localized strings injected by the caller.</summary>
+    public sealed record CsvLabels
+    {
+        /// <summary>Full header line (comma-separated column names).</summary>
+        public required string Header { get; init; }
+        public required string MsixSource { get; init; }
+        public required string RegistrySource { get; init; }
+        public required string ToolSource { get; init; }
+        public required string Yes { get; init; }
+        public required string No { get; init; }
+        public required Func<MatchConfidence, string> ConfidenceName { get; init; }
+        public required Func<AttributedFolder, string> ReasonText { get; init; }
+    }
+
     /// <summary>
     /// One app row plus the folders/totals the caller chose to show
     /// (already filtered to match the UI: hidden-low-confidence...).
@@ -19,13 +35,11 @@ public static class CsvReportBuilder
         long InstallBytes,
         long DataBytes);
 
-    public static string Build(IReadOnlyList<AppUsageGroup> groups)
-        => Build(groups.Select(g => new Row(g, g.Folders, g.TotalBytes, g.InstallBytes, g.DataBytes)).ToList());
-
-    public static string Build(IReadOnlyList<Row> rows, Func<FolderCategory, string>? categoryName = null)
+    public static string Build(IReadOnlyList<Row> rows, CsvLabels labels,
+        Func<FolderCategory, string>? categoryName = null)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("应用,发布者,来源,应用总计(字节),安装(字节),数据(字节),安装大小为估算,文件夹路径,类别,文件夹大小(字节),匹配方式,置信度,所在磁盘");
+        sb.AppendLine(labels.Header);
 
         foreach (var row in rows)
         {
@@ -33,9 +47,9 @@ public static class CsvReportBuilder
             var appName = Escape(g.DisplayName);
             var publisher = Escape(g.Publisher);
             var source = g.App?.Source == AppSource.Msix
-                ? "应用商店应用"
-                : g.App?.Source == AppSource.Registry ? "传统程序" : "已知工具";
-            var estimated = g.InstallSizeIsEstimated ? "是" : "否";
+                ? labels.MsixSource
+                : g.App?.Source == AppSource.Registry ? labels.RegistrySource : labels.ToolSource;
+            var estimated = g.InstallSizeIsEstimated ? labels.Yes : labels.No;
 
             if (row.Folders.Count == 0)
             {
@@ -61,8 +75,8 @@ public static class CsvReportBuilder
                   .Append(Escape(f.Folder.FullPath)).Append(',')
                   .Append(Escape(categoryName is null ? f.Folder.Category.ToString() : categoryName(f.Folder.Category))).Append(',')
                   .Append(f.Folder.SizeBytes).Append(',')
-                  .Append(Escape(f.Reason)).Append(',')
-                  .Append(Escape(ConfidenceText(f.Confidence))).Append(',')
+                  .Append(Escape(labels.ReasonText(f))).Append(',')
+                  .Append(Escape(labels.ConfidenceName(f.Confidence))).Append(',')
                   .Append(Escape(DriveRoot(f.Folder.FullPath))).Append('\n');
             }
         }
@@ -81,14 +95,6 @@ public static class CsvReportBuilder
             return string.Empty;
         }
     }
-
-    private static string ConfidenceText(MatchConfidence confidence) => confidence switch
-    {
-        MatchConfidence.High => "高",
-        MatchConfidence.Medium => "中",
-        MatchConfidence.Low => "低",
-        _ => "无",
-    };
 
     internal static string Escape(string? value)
     {

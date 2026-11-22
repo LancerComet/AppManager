@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_Version" xml:space="preserve"><value>バージョン {0}</value></data>
+  <data name="Apps_BadgeEstimated" xml:space="preserve"><value>推定</value></data>
+  <data name="Apps_BadgeLowConf" xml:space="preserve"><value>低信頼度</value></data>
+  <data name="Apps_BadgeTool" xml:space="preserve"><value>既知のツール</value></data>
+  <data name="Apps_DataLabel" xml:space="preserve"><value>データ</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>インストール サイズはレジストリの推定値です</value></data>
+  <data name="Apps_Export" xml:space="preserve"><value>レポートのエクスポート (CSV)</value></data>
+  <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-レポート-{0}</value></data>
+  <data name="Apps_FoldersHeader" xml:space="preserve"><value>フォルダー</value></data>
+  <data name="Apps_HideLowConfidence" xml:space="preserve"><value>低信頼度の一致を非表示</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>インストール</value></data>
+  <data name="Apps_InstallLocation" xml:space="preserve"><value>インストール場所</value></data>
+  <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>インストール場所を開く</value></data>
+  <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>名前または発行元を検索</value></data>
+  <data name="Apps_SelectHint" xml:space="preserve"><value>左側のアプリを選択して詳細を表示</value></data>
+  <data name="Apps_SortData" xml:space="preserve"><value>データ</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>インストール</value></data>
+  <data name="Apps_SortName" xml:space="preserve"><value>名前</value></data>
+  <data name="Apps_SortTotal" xml:space="preserve"><value>合計</value></data>
+  <data name="Apps_SourceAll" xml:space="preserve"><value>すべて</value></data>
+  <data name="Apps_SourceMsix" xml:space="preserve"><value>ストア アプリ</value></data>
+  <data name="Apps_SourceRegistry" xml:space="preserve"><value>デスクトップ アプリ</value></data>
+  <data name="Apps_SourceTool" xml:space="preserve"><value>既知のツール</value></data>
+  <data name="Apps_Title" xml:space="preserve"><value>アプリ</value></data>
+  <data name="Apps_TotalLabel" xml:space="preserve"><value>合計</value></data>
+  <data name="Apps_Version" xml:space="preserve"><value>バージョン {0}</value></data>
+  <data name="Category_Custom" xml:space="preserve"><value>カスタム フォルダー</value></data>
+  <data name="Category_Documents" xml:space="preserve"><value>ドキュメント</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>インストール フォルダー</value></data>
+  <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
+  <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>ユーザー単位のアプリ (Local\Programs)</value></data>
+  <data name="Category_PackageData" xml:space="preserve"><value>アプリ パッケージ データ (MSIX)</value></data>
+  <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
+  <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
+  <data name="Category_SavedGames" xml:space="preserve"><value>保存されたゲーム</value></data>
+  <data name="Category_UserHome" xml:space="preserve"><value>ホームのその他</value></data>
+  <data name="Category_UserHomeDot" xml:space="preserve"><value>ホームの .xxx フォルダー</value></data>
+  <data name="Common_File" xml:space="preserve"><value>ファイル</value></data>
+  <data name="Common_FileCount" xml:space="preserve"><value>{0} 個のファイル</value></data>
+  <data name="Common_FolderCount" xml:space="preserve"><value>{0} 個のフォルダー</value></data>
+  <data name="Common_Inaccessible" xml:space="preserve"><value>{0} 個の項目にアクセスできないため、実際はさらに大きい可能性があります</value></data>
+  <data name="Common_LastModified" xml:space="preserve"><value>更新日時 </value></data>
+  <data name="Common_Open" xml:space="preserve"><value>開く</value></data>
+  <data name="Common_OpenLocation" xml:space="preserve"><value>場所を開く</value></data>
+  <data name="Confidence_High" xml:space="preserve"><value>高</value></data>
+  <data name="Confidence_Low" xml:space="preserve"><value>低</value></data>
+  <data name="Confidence_Medium" xml:space="preserve"><value>中</value></data>
+  <data name="Confidence_None" xml:space="preserve"><value>なし</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>アプリ,発行元,ソース,アプリ合計(バイト),インストール(バイト),データ(バイト),インストール サイズは推定,フォルダー パス,カテゴリ,フォルダー サイズ(バイト),一致方法,信頼度,ドライブ</value></data>
+  <data name="Csv_No" xml:space="preserve"><value>いいえ</value></data>
+  <data name="Csv_SourceMsix" xml:space="preserve"><value>ストア アプリ</value></data>
+  <data name="Csv_SourceRegistry" xml:space="preserve"><value>デスクトップ アプリ</value></data>
+  <data name="Csv_SourceTool" xml:space="preserve"><value>既知のツール</value></data>
+  <data name="Csv_Yes" xml:space="preserve"><value>はい</value></data>
+  <data name="Filter_All" xml:space="preserve"><value>すべて</value></data>
+  <data name="Harness_Empty" xml:space="preserve"><value>AI ツールのデータが見つかりません</value></data>
+  <data name="Harness_EntriesHeader" xml:space="preserve"><value>フォルダーとファイル</value></data>
+  <data name="Harness_ExcludedProgram" xml:space="preserve"><value> · プログラム本体 {0} は含みません</value></data>
+  <data name="Harness_KindHeader" xml:space="preserve"><value>種類別</value></data>
+  <data name="Harness_Rescan" xml:space="preserve"><value>再スキャン</value></data>
+  <data name="Harness_Scanning" xml:space="preserve"><value>AI ツールのデータを集計中…</value></data>
+  <data name="Harness_SelectHint" xml:space="preserve"><value>左側のツールを選択して詳細を表示</value></data>
+  <data name="Harness_Subtitle" xml:space="preserve"><value>現在のユーザー ({0}) のデータのみを集計し、プログラム本体は含みません</value></data>
+  <data name="Harness_Title" xml:space="preserve"><value>AI ツール</value></data>
+  <data name="Harness_Total" xml:space="preserve"><value>合計 </value></data>
+  <data name="Harness_Type_Cli" xml:space="preserve"><value>コマンドライン ツール</value></data>
+  <data name="Harness_Type_Desktop" xml:space="preserve"><value>デスクトップ アプリ</value></data>
+  <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT デスクトップ</value></data>
+  <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude デスクトップ</value></data>
+  <data name="Kind_Artifacts" xml:space="preserve"><value>添付と生成ファイル</value></data>
+  <data name="Kind_Cache" xml:space="preserve"><value>キャッシュ</value></data>
+  <data name="Kind_Conversations" xml:space="preserve"><value>会話とメモリ</value></data>
+  <data name="Kind_Extensions" xml:space="preserve"><value>プラグインと拡張機能</value></data>
+  <data name="Kind_Logs" xml:space="preserve"><value>ログ</value></data>
+  <data name="Kind_OldVersions" xml:space="preserve"><value>旧バージョンとインストーラー</value></data>
+  <data name="Kind_Program" xml:space="preserve"><value>プログラム本体</value></data>
+  <data name="Kind_Snapshots" xml:space="preserve"><value>ファイル スナップショットとバックアップ</value></data>
+  <data name="Kind_State" xml:space="preserve"><value>設定とその他の状態</value></data>
+  <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw キャッシュ</value></data>
+  <data name="KnownTool_adobecc_Description" xml:space="preserve"><value>Creative Cloud ライブラリ同期データ</value></data>
+  <data name="KnownTool_adobeuxp_Description" xml:space="preserve"><value>Adobe UXP プラグイン データ</value></data>
+  <data name="KnownTool_android_Description" xml:space="preserve"><value>Android SDK/エミュレーターのデータ</value></data>
+  <data name="KnownTool_arduino_Description" xml:space="preserve"><value>Arduino IDE のボードとライブラリ</value></data>
+  <data name="KnownTool_aws_Description" xml:space="preserve"><value>AWS CLI の設定と資格情報</value></data>
+  <data name="KnownTool_azure_Description" xml:space="preserve"><value>Azure CLI の設定とキャッシュ</value></data>
+  <data name="KnownTool_bun_Description" xml:space="preserve"><value>Bun ランタイムとパッケージ キャッシュ</value></data>
+  <data name="KnownTool_cache_Description" xml:space="preserve"><value>各種ツール共通のキャッシュ フォルダー</value></data>
+  <data name="KnownTool_cargo_Description" xml:space="preserve"><value>Cargo パッケージ キャッシュとツールチェーン</value></data>
+  <data name="KnownTool_claude_Description" xml:space="preserve"><value>Claude Code の設定とデータ</value></data>
+  <data name="KnownTool_codeium_Description" xml:space="preserve"><value>Codeium AI アシスタントのデータ</value></data>
+  <data name="KnownTool_codex_Description" xml:space="preserve"><value>OpenAI Codex CLI のデータ</value></data>
+  <data name="KnownTool_conda_Description" xml:space="preserve"><value>Conda 環境とパッケージ キャッシュ</value></data>
+  <data name="KnownTool_config_Description" xml:space="preserve"><value>Linux から移植された設定フォルダー</value></data>
+  <data name="KnownTool_continue_Description" xml:space="preserve"><value>Continue AI アシスタントのデータ</value></data>
+  <data name="KnownTool_copilot_Description" xml:space="preserve"><value>GitHub Copilot CLI のデータ</value></data>
+  <data name="KnownTool_crashdumps_Description" xml:space="preserve"><value>アプリのクラッシュ時に生成されるダンプ ファイル</value></data>
+  <data name="KnownTool_cursor_Description" xml:space="preserve"><value>Cursor エディターの設定と拡張機能</value></data>
+  <data name="KnownTool_d3dscache_Description" xml:space="preserve"><value>Direct3D シェーダー キャッシュ</value></data>
+  <data name="KnownTool_deno_Description" xml:space="preserve"><value>Deno ランタイム キャッシュ</value></data>
+  <data name="KnownTool_devin_Description" xml:space="preserve"><value>Devin CLI の設定とキャッシュ</value></data>
+  <data name="KnownTool_docker_Description" xml:space="preserve"><value>Docker Desktop の設定と資格情報</value></data>
+  <data name="KnownTool_dotcover_Description" xml:space="preserve"><value>dotCover カバレッジ データ</value></data>
+  <data name="KnownTool_dotmemory_Description" xml:space="preserve"><value>dotMemory メモリ プロファイラー データ</value></data>
+  <data name="KnownTool_dotnet_Description" xml:space="preserve"><value>.NET SDK のツールとキャッシュ</value></data>
+  <data name="KnownTool_dotnetsdk_Description" xml:space="preserve"><value>共有 .NET SDK とランタイムのインストール先</value></data>
+  <data name="KnownTool_dottrace_Description" xml:space="preserve"><value>dotTrace パフォーマンス プロファイラー データ</value></data>
+  <data name="KnownTool_eagames_Description" xml:space="preserve"><value>EA ゲームのセーブ フォルダー</value></data>
+  <data name="KnownTool_eclipse_Description" xml:space="preserve"><value>Eclipse IDE の設定と p2 キャッシュ</value></data>
+  <data name="KnownTool_espressif_Description" xml:space="preserve"><value>Espressif ESP-IDF ツールチェーン</value></data>
+  <data name="KnownTool_gem_Description" xml:space="preserve"><value>Ruby gem キャッシュ</value></data>
+  <data name="KnownTool_gemini_Description" xml:space="preserve"><value>Gemini CLI の設定とデータ</value></data>
+  <data name="KnownTool_ghcup_Description" xml:space="preserve"><value>GHCup ツールチェーン</value></data>
+  <data name="KnownTool_gnupg_Description" xml:space="preserve"><value>GPG キーと設定</value></data>
+  <data name="KnownTool_godot_Description" xml:space="preserve"><value>Godot エンジン エディター データ</value></data>
+  <data name="KnownTool_gradle_Description" xml:space="preserve"><value>Gradle のビルド キャッシュと依存関係</value></data>
+  <data name="KnownTool_huggingface_Description" xml:space="preserve"><value>Hugging Face のモデル/データセット キャッシュ</value></data>
+  <data name="KnownTool_ipython_Description" xml:space="preserve"><value>IPython の設定と履歴</value></data>
+  <data name="KnownTool_java_Description" xml:space="preserve"><value>Java ランタイム データ</value></data>
+  <data name="KnownTool_jbshared_Description" xml:space="preserve"><value>JetBrains IDE 共通のキャッシュとインデックス</value></data>
+  <data name="KnownTool_jbtoolbox_Description" xml:space="preserve"><value>JetBrains Toolbox データ</value></data>
+  <data name="KnownTool_jdks_Description" xml:space="preserve"><value>JetBrains IDE がダウンロードした JDK</value></data>
+  <data name="KnownTool_jetbrains_Description" xml:space="preserve"><value>JetBrains IDE の設定とキャッシュ</value></data>
+  <data name="KnownTool_julia_Description" xml:space="preserve"><value>Julia パッケージとコンパイル キャッシュ</value></data>
+  <data name="KnownTool_jupyter_Description" xml:space="preserve"><value>Jupyter の設定とランタイム データ</value></data>
+  <data name="KnownTool_keras_Description" xml:space="preserve"><value>Keras のモデルとデータセット キャッシュ</value></data>
+  <data name="KnownTool_kube_Description" xml:space="preserve"><value>kubectl の設定</value></data>
+  <data name="KnownTool_lmstudio_Description" xml:space="preserve"><value>LM Studio のローカル モデルと設定</value></data>
+  <data name="KnownTool_local_Description" xml:space="preserve"><value>Linux から移植されたローカル データ フォルダー</value></data>
+  <data name="KnownTool_matplotlib_Description" xml:space="preserve"><value>Matplotlib のフォントと設定キャッシュ</value></data>
+  <data name="KnownTool_maven_Description" xml:space="preserve"><value>Maven のローカル リポジトリとキャッシュ</value></data>
+  <data name="KnownTool_minikube_Description" xml:space="preserve"><value>Minikube のローカル クラスター データ</value></data>
+  <data name="KnownTool_mozilla_Description" xml:space="preserve"><value>Mozilla/Firefox データ</value></data>
+  <data name="KnownTool_mssdks_Description" xml:space="preserve"><value>共有 Microsoft SDK インストール先</value></data>
+  <data name="KnownTool_mygames_Description" xml:space="preserve"><value>各ゲーム共通のセーブ フォルダー</value></data>
+  <data name="KnownTool_npm_Description" xml:space="preserve"><value>npm パッケージ キャッシュと設定</value></data>
+  <data name="KnownTool_nuget_Description" xml:space="preserve"><value>NuGet パッケージ キャッシュ</value></data>
+  <data name="KnownTool_nvidia_Description" xml:space="preserve"><value>NVIDIA ドライバーとシェーダー キャッシュ</value></data>
+  <data name="KnownTool_nvm_Description" xml:space="preserve"><value>Node バージョン マネージャーのデータ</value></data>
+  <data name="KnownTool_ollama_Description" xml:space="preserve"><value>Ollama のローカル モデル データ</value></data>
+  <data name="KnownTool_openai_Description" xml:space="preserve"><value>OpenAI ツールの設定</value></data>
+  <data name="KnownTool_packagecache_Description" xml:space="preserve"><value>Visual Studio/VC++ などのインストーラー キャッシュ</value></data>
+  <data name="KnownTool_pip_Description" xml:space="preserve"><value>pip パッケージ キャッシュ</value></data>
+  <data name="KnownTool_platformio_Description" xml:space="preserve"><value>PlatformIO 組み込み開発データ</value></data>
+  <data name="KnownTool_playwright_Description" xml:space="preserve"><value>Playwright ブラウザー バイナリ キャッシュ</value></data>
+  <data name="KnownTool_pnpm_Description" xml:space="preserve"><value>pnpm ストアとキャッシュ</value></data>
+  <data name="KnownTool_powershelldocs_Description" xml:space="preserve"><value>PowerShell プロファイルとモジュール</value></data>
+  <data name="KnownTool_pyenv_Description" xml:space="preserve"><value>pyenv の Python バージョン管理</value></data>
+  <data name="KnownTool_qq_Description" xml:space="preserve"><value>QQ のチャットとファイル データ</value></data>
+  <data name="KnownTool_redhat_Description" xml:space="preserve"><value>Red Hat ツール データ</value></data>
+  <data name="KnownTool_rustup_Description" xml:space="preserve"><value>Rust ツールチェーンのインストール先</value></data>
+  <data name="KnownTool_sonarlint_Description" xml:space="preserve"><value>SonarLint 分析キャッシュ</value></data>
+  <data name="KnownTool_sonatype_Description" xml:space="preserve"><value>Sonatype/Nexus データ</value></data>
+  <data name="KnownTool_squirrel_Description" xml:space="preserve"><value>Squirrel インストーラーの一時キャッシュ</value></data>
+  <data name="KnownTool_ssh_Description" xml:space="preserve"><value>SSH キーと設定</value></data>
+  <data name="KnownTool_stack_Description" xml:space="preserve"><value>Haskell Stack ビルド キャッシュ</value></data>
+  <data name="KnownTool_steam_Description" xml:space="preserve"><value>Steam データ</value></data>
+  <data name="KnownTool_temp_Description" xml:space="preserve"><value>ユーザー一時フォルダー</value></data>
+  <data name="KnownTool_templateengine_Description" xml:space="preserve"><value>dotnet new テンプレート キャッシュ</value></data>
+  <data name="KnownTool_thumbnails_Description" xml:space="preserve"><value>画像サムネイル キャッシュ</value></data>
+  <data name="KnownTool_ubisoftlauncher_Description" xml:space="preserve"><value>Ubisoft Connect ランチャー データ</value></data>
+  <data name="KnownTool_uv_Description" xml:space="preserve"><value>uv Python パッケージ マネージャーのキャッシュ</value></data>
+  <data name="KnownTool_vagrant_Description" xml:space="preserve"><value>Vagrant 仮想マシンのデータ</value></data>
+  <data name="KnownTool_virtualenvs_Description" xml:space="preserve"><value>Python 仮想環境フォルダー</value></data>
+  <data name="KnownTool_vscode_Description" xml:space="preserve"><value>VS Code の拡張機能と設定</value></data>
+  <data name="KnownTool_vsdocs_Description" xml:space="preserve"><value>Visual Studio のプロジェクトと設定</value></data>
+  <data name="KnownTool_vssymbols_Description" xml:space="preserve"><value>Visual Studio デバッグ シンボル キャッシュ</value></data>
+  <data name="KnownTool_wechat_Description" xml:space="preserve"><value>WeChat のチャットとファイル データ</value></data>
+  <data name="KnownTool_windsurf_Description" xml:space="preserve"><value>Windsurf エディターの設定と拡張機能</value></data>
+  <data name="KnownTool_winkits_Description" xml:space="preserve"><value>Windows SDK インストール先</value></data>
+  <data name="KnownTool_yarn_Description" xml:space="preserve"><value>Yarn パッケージ マネージャーのキャッシュ</value></data>
+  <data name="KnownTool_zed_Description" xml:space="preserve"><value>Zed エディターのデータ</value></data>
+  <data name="KnownTool_zoomdocs_Description" xml:space="preserve"><value>Zoom 会議の録画とデータ</value></data>
+  <data name="Lang_FollowSystem" xml:space="preserve"><value>システムに従う</value></data>
+  <data name="MatchReason_AppName" xml:space="preserve"><value>名前の一致: アプリ名</value></data>
+  <data name="MatchReason_ExeName" xml:space="preserve"><value>名前の一致: 実行ファイル名</value></data>
+  <data name="MatchReason_InstallDir" xml:space="preserve"><value>インストール フォルダーと一致</value></data>
+  <data name="MatchReason_InstallDirName" xml:space="preserve"><value>名前の一致: インストール フォルダー名</value></data>
+  <data name="MatchReason_KnownRule" xml:space="preserve"><value>既知のルール: {0}</value></data>
+  <data name="MatchReason_NameSimilar" xml:space="preserve"><value>名前が類似</value></data>
+  <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>パッケージ データ フォルダー (PFN 一致)</value></data>
+  <data name="MatchReason_Publisher" xml:space="preserve"><value>発行元フォルダー</value></data>
+  <data name="Nav_Apps" xml:space="preserve"><value>アプリ</value></data>
+  <data name="Nav_Harnesses" xml:space="preserve"><value>AI ツール</value></data>
+  <data name="Nav_Overview" xml:space="preserve"><value>概要</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>設定</value></data>
+  <data name="Nav_Unattributed" xml:space="preserve"><value>未識別のフォルダー</value></data>
+  <data name="Overview_Cancel" xml:space="preserve"><value>キャンセル</value></data>
+  <data name="Overview_CategoryHeader" xml:space="preserve"><value>場所別</value></data>
+  <data name="Overview_DriveDetail" xml:space="preserve"><value>{0} 使用 · {1} 空き · 合計 {2}</value></data>
+  <data name="Overview_LastScan" xml:space="preserve"><value>前回のスキャン: {0} · 所要時間 {1} 秒</value></data>
+  <data name="Overview_NeverScanned" xml:space="preserve"><value>まだスキャンしていません</value></data>
+  <data name="Overview_ProgressDetail" xml:space="preserve"><value>{0} / {1} 個のフォルダーが完了 · {2}</value></data>
+  <data name="Overview_ScanErrorTitle" xml:space="preserve"><value>スキャン エラー</value></data>
+  <data name="Overview_StartScan" xml:space="preserve"><value>スキャンを開始</value></data>
+  <data name="Overview_StatApps" xml:space="preserve"><value>アプリ数</value></data>
+  <data name="Overview_StatAttributed" xml:space="preserve"><value>アプリに帰属済み</value></data>
+  <data name="Overview_StatFolders" xml:space="preserve"><value>スキャンしたフォルダー数</value></data>
+  <data name="Overview_StatUnattributed" xml:space="preserve"><value>未識別</value></data>
+  <data name="Overview_SystemDriveSuffix" xml:space="preserve"><value> (システム)</value></data>
+  <data name="Overview_Title" xml:space="preserve"><value>概要</value></data>
+  <data name="Overview_TopApps" xml:space="preserve"><value>最も容量を使っているアプリ</value></data>
+  <data name="ScanPhase_DiscoveringFolders" xml:space="preserve"><value>フォルダーを検出中</value></data>
+  <data name="ScanPhase_Done" xml:space="preserve"><value>完了</value></data>
+  <data name="ScanPhase_EnumeratingApps" xml:space="preserve"><value>インストール済みアプリを列挙中</value></data>
+  <data name="ScanPhase_Matching" xml:space="preserve"><value>一致を確認中</value></data>
+  <data name="ScanPhase_Measuring" xml:space="preserve"><value>サイズを計測中</value></data>
+  <data name="Settings_About" xml:space="preserve"><value>バージョン情報</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>ディスク使用量を分析し、インストール済みアプリに帰属させます。表示と分析のみで、削除機能はありません。</value></data>
+  <data name="Settings_AddFolder" xml:space="preserve"><value>フォルダーを追加</value></data>
+  <data name="Settings_Appearance" xml:space="preserve"><value>外観</value></data>
+  <data name="Settings_ExtraRoots" xml:space="preserve"><value>カスタム スキャン フォルダー</value></data>
+  <data name="Settings_ExtraRootsDesc" xml:space="preserve"><value>組み込みの場所に加えて、これらのフォルダーもスキャンします</value></data>
+  <data name="Settings_HideLow" xml:space="preserve"><value>低信頼度の一致を非表示</value></data>
+  <data name="Settings_HideLowDesc" xml:space="preserve"><value>アプリの一覧で、名前が類似しているなど信頼度の低いフォルダー帰属を表示しません</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>言語</value></data>
+  <data name="Settings_LanguageDesc" xml:space="preserve"><value>アプリの表示言語を選択（すぐに適用されます）</value></data>
+  <data name="Settings_Remove" xml:space="preserve"><value>削除</value></data>
+  <data name="Settings_Scan" xml:space="preserve"><value>スキャン</value></data>
+  <data name="Settings_Theme" xml:space="preserve"><value>テーマ</value></data>
+  <data name="Settings_ThemeDesc" xml:space="preserve"><value>アプリの外観を選択</value></data>
+  <data name="Settings_Title" xml:space="preserve"><value>設定</value></data>
+  <data name="Theme_Dark" xml:space="preserve"><value>ダーク</value></data>
+  <data name="Theme_Light" xml:space="preserve"><value>ライト</value></data>
+  <data name="Theme_System" xml:space="preserve"><value>システム</value></data>
+  <data name="Toggle_Off" xml:space="preserve"><value>オフ</value></data>
+  <data name="Toggle_On" xml:space="preserve"><value>オン</value></data>
+  <data name="Unattr_Description" xml:space="preserve"><value>これらのフォルダーに対応するインストール済みアプリが見つかりませんでした。アンインストールの残骸、ポータブル アプリ、コマンドライン ツールのデータである可能性があります。</value></data>
+  <data name="Unattr_MaybeStale" xml:space="preserve"><value>残っている可能性</value></data>
+  <data name="Unattr_SearchPlaceholder" xml:space="preserve"><value>パスを検索</value></data>
+  <data name="Unattr_Title" xml:space="preserve"><value>未識別のフォルダー</value></data>
+</root>

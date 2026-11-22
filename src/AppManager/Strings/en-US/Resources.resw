@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="About_Version" xml:space="preserve"><value>Version {0}</value></data>
+  <data name="Apps_BadgeEstimated" xml:space="preserve"><value>Estimate</value></data>
+  <data name="Apps_BadgeLowConf" xml:space="preserve"><value>Low confidence</value></data>
+  <data name="Apps_BadgeTool" xml:space="preserve"><value>Known tool</value></data>
+  <data name="Apps_DataLabel" xml:space="preserve"><value>Data</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>Install size is a registry estimate</value></data>
+  <data name="Apps_Export" xml:space="preserve"><value>Export report (CSV)</value></data>
+  <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-Report-{0}</value></data>
+  <data name="Apps_FoldersHeader" xml:space="preserve"><value>Folders</value></data>
+  <data name="Apps_HideLowConfidence" xml:space="preserve"><value>Hide low-confidence matches</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>Install</value></data>
+  <data name="Apps_InstallLocation" xml:space="preserve"><value>Install location</value></data>
+  <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>Open install location</value></data>
+  <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>Search name or publisher</value></data>
+  <data name="Apps_SelectHint" xml:space="preserve"><value>Select an app on the left to see details</value></data>
+  <data name="Apps_SortData" xml:space="preserve"><value>Data</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>Install</value></data>
+  <data name="Apps_SortName" xml:space="preserve"><value>Name</value></data>
+  <data name="Apps_SortTotal" xml:space="preserve"><value>Total</value></data>
+  <data name="Apps_SourceAll" xml:space="preserve"><value>All</value></data>
+  <data name="Apps_SourceMsix" xml:space="preserve"><value>Store apps</value></data>
+  <data name="Apps_SourceRegistry" xml:space="preserve"><value>Desktop apps</value></data>
+  <data name="Apps_SourceTool" xml:space="preserve"><value>Known tools</value></data>
+  <data name="Apps_Title" xml:space="preserve"><value>Apps</value></data>
+  <data name="Apps_TotalLabel" xml:space="preserve"><value>Total</value></data>
+  <data name="Apps_Version" xml:space="preserve"><value>Version {0}</value></data>
+  <data name="Category_Custom" xml:space="preserve"><value>Custom folders</value></data>
+  <data name="Category_Documents" xml:space="preserve"><value>Documents</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>Install folders</value></data>
+  <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
+  <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>Per-user programs (Local\Programs)</value></data>
+  <data name="Category_PackageData" xml:space="preserve"><value>App package data (MSIX)</value></data>
+  <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
+  <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
+  <data name="Category_SavedGames" xml:space="preserve"><value>Saved games</value></data>
+  <data name="Category_UserHome" xml:space="preserve"><value>Other home folders</value></data>
+  <data name="Category_UserHomeDot" xml:space="preserve"><value>Home .xxx folders</value></data>
+  <data name="Common_File" xml:space="preserve"><value>File</value></data>
+  <data name="Common_FileCount" xml:space="preserve"><value>{0} files</value></data>
+  <data name="Common_FolderCount" xml:space="preserve"><value>{0} folders</value></data>
+  <data name="Common_Inaccessible" xml:space="preserve"><value>{0} items inaccessible — actual size may be larger</value></data>
+  <data name="Common_LastModified" xml:space="preserve"><value>Modified </value></data>
+  <data name="Common_Open" xml:space="preserve"><value>Open</value></data>
+  <data name="Common_OpenLocation" xml:space="preserve"><value>Open location</value></data>
+  <data name="Confidence_High" xml:space="preserve"><value>High</value></data>
+  <data name="Confidence_Low" xml:space="preserve"><value>Low</value></data>
+  <data name="Confidence_Medium" xml:space="preserve"><value>Medium</value></data>
+  <data name="Confidence_None" xml:space="preserve"><value>None</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>App,Publisher,Source,App total (bytes),Install (bytes),Data (bytes),Install size estimated,Folder path,Category,Folder size (bytes),Match reason,Confidence,Drive</value></data>
+  <data name="Csv_No" xml:space="preserve"><value>No</value></data>
+  <data name="Csv_SourceMsix" xml:space="preserve"><value>Store app</value></data>
+  <data name="Csv_SourceRegistry" xml:space="preserve"><value>Desktop app</value></data>
+  <data name="Csv_SourceTool" xml:space="preserve"><value>Known tool</value></data>
+  <data name="Csv_Yes" xml:space="preserve"><value>Yes</value></data>
+  <data name="Filter_All" xml:space="preserve"><value>All</value></data>
+  <data name="Harness_Empty" xml:space="preserve"><value>No AI tool data found</value></data>
+  <data name="Harness_EntriesHeader" xml:space="preserve"><value>Folders and files</value></data>
+  <data name="Harness_ExcludedProgram" xml:space="preserve"><value> · program files {0} not counted</value></data>
+  <data name="Harness_KindHeader" xml:space="preserve"><value>By type</value></data>
+  <data name="Harness_Rescan" xml:space="preserve"><value>Rescan</value></data>
+  <data name="Harness_Scanning" xml:space="preserve"><value>Measuring AI tool data…</value></data>
+  <data name="Harness_SelectHint" xml:space="preserve"><value>Select a tool on the left to see details</value></data>
+  <data name="Harness_Subtitle" xml:space="preserve"><value>Data for the current user ({0}) only — program files are not counted</value></data>
+  <data name="Harness_Title" xml:space="preserve"><value>AI tools</value></data>
+  <data name="Harness_Total" xml:space="preserve"><value>Total </value></data>
+  <data name="Harness_Type_Cli" xml:space="preserve"><value>Command-line tool</value></data>
+  <data name="Harness_Type_Desktop" xml:space="preserve"><value>Desktop app</value></data>
+  <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT Desktop</value></data>
+  <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude Desktop</value></data>
+  <data name="Kind_Artifacts" xml:space="preserve"><value>Attachments &amp; generated files</value></data>
+  <data name="Kind_Cache" xml:space="preserve"><value>Cache</value></data>
+  <data name="Kind_Conversations" xml:space="preserve"><value>Conversations &amp; memory</value></data>
+  <data name="Kind_Extensions" xml:space="preserve"><value>Plugins &amp; extensions</value></data>
+  <data name="Kind_Logs" xml:space="preserve"><value>Logs</value></data>
+  <data name="Kind_OldVersions" xml:space="preserve"><value>Old versions &amp; installers</value></data>
+  <data name="Kind_Program" xml:space="preserve"><value>Program files</value></data>
+  <data name="Kind_Snapshots" xml:space="preserve"><value>File snapshots &amp; backups</value></data>
+  <data name="Kind_State" xml:space="preserve"><value>Config &amp; other state</value></data>
+  <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw cache</value></data>
+  <data name="KnownTool_adobecc_Description" xml:space="preserve"><value>Creative Cloud library sync data</value></data>
+  <data name="KnownTool_adobeuxp_Description" xml:space="preserve"><value>Adobe UXP plugin data</value></data>
+  <data name="KnownTool_android_Description" xml:space="preserve"><value>Android SDK/emulator data</value></data>
+  <data name="KnownTool_arduino_Description" xml:space="preserve"><value>Arduino IDE boards and libraries</value></data>
+  <data name="KnownTool_aws_Description" xml:space="preserve"><value>AWS CLI config and credentials</value></data>
+  <data name="KnownTool_azure_Description" xml:space="preserve"><value>Azure CLI config and cache</value></data>
+  <data name="KnownTool_bun_Description" xml:space="preserve"><value>Bun runtime and package cache</value></data>
+  <data name="KnownTool_cache_Description" xml:space="preserve"><value>Shared cache folder for various tools</value></data>
+  <data name="KnownTool_cargo_Description" xml:space="preserve"><value>Cargo package cache and toolchains</value></data>
+  <data name="KnownTool_claude_Description" xml:space="preserve"><value>Claude Code config and data</value></data>
+  <data name="KnownTool_codeium_Description" xml:space="preserve"><value>Codeium AI assistant data</value></data>
+  <data name="KnownTool_codex_Description" xml:space="preserve"><value>OpenAI Codex CLI data</value></data>
+  <data name="KnownTool_conda_Description" xml:space="preserve"><value>Conda environments and package cache</value></data>
+  <data name="KnownTool_config_Description" xml:space="preserve"><value>Config folder ported from Linux</value></data>
+  <data name="KnownTool_continue_Description" xml:space="preserve"><value>Continue AI assistant data</value></data>
+  <data name="KnownTool_copilot_Description" xml:space="preserve"><value>GitHub Copilot CLI data</value></data>
+  <data name="KnownTool_crashdumps_Description" xml:space="preserve"><value>Dump files generated on app crashes</value></data>
+  <data name="KnownTool_cursor_Description" xml:space="preserve"><value>Cursor editor settings and extensions</value></data>
+  <data name="KnownTool_d3dscache_Description" xml:space="preserve"><value>Direct3D shader cache</value></data>
+  <data name="KnownTool_deno_Description" xml:space="preserve"><value>Deno runtime cache</value></data>
+  <data name="KnownTool_devin_Description" xml:space="preserve"><value>Devin CLI config and cache</value></data>
+  <data name="KnownTool_docker_Description" xml:space="preserve"><value>Docker Desktop config and credentials</value></data>
+  <data name="KnownTool_dotcover_Description" xml:space="preserve"><value>dotCover coverage data</value></data>
+  <data name="KnownTool_dotmemory_Description" xml:space="preserve"><value>dotMemory memory profiler data</value></data>
+  <data name="KnownTool_dotnet_Description" xml:space="preserve"><value>.NET SDK tools and cache</value></data>
+  <data name="KnownTool_dotnetsdk_Description" xml:space="preserve"><value>Shared .NET SDK and runtime install folder</value></data>
+  <data name="KnownTool_dottrace_Description" xml:space="preserve"><value>dotTrace performance profiler data</value></data>
+  <data name="KnownTool_eagames_Description" xml:space="preserve"><value>EA game saves</value></data>
+  <data name="KnownTool_eclipse_Description" xml:space="preserve"><value>Eclipse IDE config and p2 cache</value></data>
+  <data name="KnownTool_espressif_Description" xml:space="preserve"><value>Espressif ESP-IDF toolchain</value></data>
+  <data name="KnownTool_gem_Description" xml:space="preserve"><value>Ruby gem cache</value></data>
+  <data name="KnownTool_gemini_Description" xml:space="preserve"><value>Gemini CLI config and data</value></data>
+  <data name="KnownTool_ghcup_Description" xml:space="preserve"><value>GHCup toolchain</value></data>
+  <data name="KnownTool_gnupg_Description" xml:space="preserve"><value>GPG keys and config</value></data>
+  <data name="KnownTool_godot_Description" xml:space="preserve"><value>Godot engine editor data</value></data>
+  <data name="KnownTool_gradle_Description" xml:space="preserve"><value>Gradle build cache and dependencies</value></data>
+  <data name="KnownTool_huggingface_Description" xml:space="preserve"><value>Hugging Face model/dataset cache</value></data>
+  <data name="KnownTool_ipython_Description" xml:space="preserve"><value>IPython config and history</value></data>
+  <data name="KnownTool_java_Description" xml:space="preserve"><value>Java runtime data</value></data>
+  <data name="KnownTool_jbshared_Description" xml:space="preserve"><value>Shared JetBrains IDE caches and indexes</value></data>
+  <data name="KnownTool_jbtoolbox_Description" xml:space="preserve"><value>JetBrains Toolbox data</value></data>
+  <data name="KnownTool_jdks_Description" xml:space="preserve"><value>JDKs downloaded by JetBrains IDEs</value></data>
+  <data name="KnownTool_jetbrains_Description" xml:space="preserve"><value>JetBrains IDE config and cache</value></data>
+  <data name="KnownTool_julia_Description" xml:space="preserve"><value>Julia packages and compile cache</value></data>
+  <data name="KnownTool_jupyter_Description" xml:space="preserve"><value>Jupyter config and runtime data</value></data>
+  <data name="KnownTool_keras_Description" xml:space="preserve"><value>Keras models and dataset cache</value></data>
+  <data name="KnownTool_kube_Description" xml:space="preserve"><value>kubectl config</value></data>
+  <data name="KnownTool_lmstudio_Description" xml:space="preserve"><value>LM Studio local models and config</value></data>
+  <data name="KnownTool_local_Description" xml:space="preserve"><value>Local data folder ported from Linux</value></data>
+  <data name="KnownTool_matplotlib_Description" xml:space="preserve"><value>Matplotlib font and config cache</value></data>
+  <data name="KnownTool_maven_Description" xml:space="preserve"><value>Maven local repository and cache</value></data>
+  <data name="KnownTool_minikube_Description" xml:space="preserve"><value>Minikube local cluster data</value></data>
+  <data name="KnownTool_mozilla_Description" xml:space="preserve"><value>Mozilla/Firefox data</value></data>
+  <data name="KnownTool_mssdks_Description" xml:space="preserve"><value>Shared Microsoft SDK install folder</value></data>
+  <data name="KnownTool_mygames_Description" xml:space="preserve"><value>Shared save folder for games</value></data>
+  <data name="KnownTool_npm_Description" xml:space="preserve"><value>npm package cache and config</value></data>
+  <data name="KnownTool_nuget_Description" xml:space="preserve"><value>NuGet package cache</value></data>
+  <data name="KnownTool_nvidia_Description" xml:space="preserve"><value>NVIDIA driver and shader cache</value></data>
+  <data name="KnownTool_nvm_Description" xml:space="preserve"><value>Node version manager data</value></data>
+  <data name="KnownTool_ollama_Description" xml:space="preserve"><value>Ollama local model data</value></data>
+  <data name="KnownTool_openai_Description" xml:space="preserve"><value>OpenAI tools config</value></data>
+  <data name="KnownTool_packagecache_Description" xml:space="preserve"><value>Installer cache (Visual Studio/VC++ etc.)</value></data>
+  <data name="KnownTool_pip_Description" xml:space="preserve"><value>pip package cache</value></data>
+  <data name="KnownTool_platformio_Description" xml:space="preserve"><value>PlatformIO embedded dev data</value></data>
+  <data name="KnownTool_playwright_Description" xml:space="preserve"><value>Playwright browser binaries cache</value></data>
+  <data name="KnownTool_pnpm_Description" xml:space="preserve"><value>pnpm store and cache</value></data>
+  <data name="KnownTool_powershelldocs_Description" xml:space="preserve"><value>PowerShell profiles and modules</value></data>
+  <data name="KnownTool_pyenv_Description" xml:space="preserve"><value>pyenv Python version management</value></data>
+  <data name="KnownTool_qq_Description" xml:space="preserve"><value>QQ chat and file data</value></data>
+  <data name="KnownTool_redhat_Description" xml:space="preserve"><value>Red Hat tool data</value></data>
+  <data name="KnownTool_rustup_Description" xml:space="preserve"><value>Rust toolchain installation</value></data>
+  <data name="KnownTool_sonarlint_Description" xml:space="preserve"><value>SonarLint analysis cache</value></data>
+  <data name="KnownTool_sonatype_Description" xml:space="preserve"><value>Sonatype/Nexus data</value></data>
+  <data name="KnownTool_squirrel_Description" xml:space="preserve"><value>Squirrel installer temp cache</value></data>
+  <data name="KnownTool_ssh_Description" xml:space="preserve"><value>SSH keys and config</value></data>
+  <data name="KnownTool_stack_Description" xml:space="preserve"><value>Haskell Stack build cache</value></data>
+  <data name="KnownTool_steam_Description" xml:space="preserve"><value>Steam data</value></data>
+  <data name="KnownTool_temp_Description" xml:space="preserve"><value>User temp folder</value></data>
+  <data name="KnownTool_templateengine_Description" xml:space="preserve"><value>dotnet new template cache</value></data>
+  <data name="KnownTool_thumbnails_Description" xml:space="preserve"><value>Image thumbnail cache</value></data>
+  <data name="KnownTool_ubisoftlauncher_Description" xml:space="preserve"><value>Ubisoft Connect launcher data</value></data>
+  <data name="KnownTool_uv_Description" xml:space="preserve"><value>uv Python package manager cache</value></data>
+  <data name="KnownTool_vagrant_Description" xml:space="preserve"><value>Vagrant VM data</value></data>
+  <data name="KnownTool_virtualenvs_Description" xml:space="preserve"><value>Python virtualenv folders</value></data>
+  <data name="KnownTool_vscode_Description" xml:space="preserve"><value>VS Code extensions and settings</value></data>
+  <data name="KnownTool_vsdocs_Description" xml:space="preserve"><value>Visual Studio projects and settings</value></data>
+  <data name="KnownTool_vssymbols_Description" xml:space="preserve"><value>Visual Studio debug symbol cache</value></data>
+  <data name="KnownTool_wechat_Description" xml:space="preserve"><value>WeChat chat and file data</value></data>
+  <data name="KnownTool_windsurf_Description" xml:space="preserve"><value>Windsurf editor settings and extensions</value></data>
+  <data name="KnownTool_winkits_Description" xml:space="preserve"><value>Windows SDK install folder</value></data>
+  <data name="KnownTool_yarn_Description" xml:space="preserve"><value>Yarn package manager cache</value></data>
+  <data name="KnownTool_zed_Description" xml:space="preserve"><value>Zed editor data</value></data>
+  <data name="KnownTool_zoomdocs_Description" xml:space="preserve"><value>Zoom meeting recordings and data</value></data>
+  <data name="Lang_FollowSystem" xml:space="preserve"><value>Follow system</value></data>
+  <data name="MatchReason_AppName" xml:space="preserve"><value>Name match: app name</value></data>
+  <data name="MatchReason_ExeName" xml:space="preserve"><value>Name match: executable name</value></data>
+  <data name="MatchReason_InstallDir" xml:space="preserve"><value>Install folder match</value></data>
+  <data name="MatchReason_InstallDirName" xml:space="preserve"><value>Name match: install folder name</value></data>
+  <data name="MatchReason_KnownRule" xml:space="preserve"><value>Known rule: {0}</value></data>
+  <data name="MatchReason_NameSimilar" xml:space="preserve"><value>Similar name</value></data>
+  <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>Package data folder (PFN match)</value></data>
+  <data name="MatchReason_Publisher" xml:space="preserve"><value>Publisher folder</value></data>
+  <data name="Nav_Apps" xml:space="preserve"><value>Apps</value></data>
+  <data name="Nav_Harnesses" xml:space="preserve"><value>AI tools</value></data>
+  <data name="Nav_Overview" xml:space="preserve"><value>Overview</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Nav_Unattributed" xml:space="preserve"><value>Unidentified folders</value></data>
+  <data name="Overview_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Overview_CategoryHeader" xml:space="preserve"><value>By location</value></data>
+  <data name="Overview_DriveDetail" xml:space="preserve"><value>{0} used · {1} free · {2} total</value></data>
+  <data name="Overview_LastScan" xml:space="preserve"><value>Last scan: {0} · took {1} s</value></data>
+  <data name="Overview_NeverScanned" xml:space="preserve"><value>Not scanned yet</value></data>
+  <data name="Overview_ProgressDetail" xml:space="preserve"><value>{0} of {1} folders done · {2}</value></data>
+  <data name="Overview_ScanErrorTitle" xml:space="preserve"><value>Scan error</value></data>
+  <data name="Overview_StartScan" xml:space="preserve"><value>Start scan</value></data>
+  <data name="Overview_StatApps" xml:space="preserve"><value>Apps</value></data>
+  <data name="Overview_StatAttributed" xml:space="preserve"><value>Attributed to apps</value></data>
+  <data name="Overview_StatFolders" xml:space="preserve"><value>Folders scanned</value></data>
+  <data name="Overview_StatUnattributed" xml:space="preserve"><value>Unidentified</value></data>
+  <data name="Overview_SystemDriveSuffix" xml:space="preserve"><value> (system)</value></data>
+  <data name="Overview_Title" xml:space="preserve"><value>Overview</value></data>
+  <data name="Overview_TopApps" xml:space="preserve"><value>Apps using the most space</value></data>
+  <data name="ScanPhase_DiscoveringFolders" xml:space="preserve"><value>Discovering folders</value></data>
+  <data name="ScanPhase_Done" xml:space="preserve"><value>Done</value></data>
+  <data name="ScanPhase_EnumeratingApps" xml:space="preserve"><value>Enumerating installed apps</value></data>
+  <data name="ScanPhase_Matching" xml:space="preserve"><value>Matching</value></data>
+  <data name="ScanPhase_Measuring" xml:space="preserve"><value>Measuring sizes</value></data>
+  <data name="Settings_About" xml:space="preserve"><value>About</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>Analyzes disk space usage and attributes it to installed apps. View and analyze only — no delete features.</value></data>
+  <data name="Settings_AddFolder" xml:space="preserve"><value>Add folder</value></data>
+  <data name="Settings_Appearance" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Settings_ExtraRoots" xml:space="preserve"><value>Custom scan folders</value></data>
+  <data name="Settings_ExtraRootsDesc" xml:space="preserve"><value>Scan the contents of these folders in addition to built-in locations</value></data>
+  <data name="Settings_HideLow" xml:space="preserve"><value>Hide low-confidence matches</value></data>
+  <data name="Settings_HideLowDesc" xml:space="preserve"><value>In the app list, hide folder attributions with low confidence such as similar names</value></data>
+  <data name="Settings_Language" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings_LanguageDesc" xml:space="preserve"><value>Choose the display language — applies immediately</value></data>
+  <data name="Settings_Remove" xml:space="preserve"><value>Remove</value></data>
+  <data name="Settings_Scan" xml:space="preserve"><value>Scan</value></data>
+  <data name="Settings_Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="Settings_ThemeDesc" xml:space="preserve"><value>Choose the app appearance</value></data>
+  <data name="Settings_Title" xml:space="preserve"><value>Settings</value></data>
+  <data name="Theme_Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Theme_Light" xml:space="preserve"><value>Light</value></data>
+  <data name="Theme_System" xml:space="preserve"><value>System</value></data>
+  <data name="Toggle_Off" xml:space="preserve"><value>Off</value></data>
+  <data name="Toggle_On" xml:space="preserve"><value>On</value></data>
+  <data name="Unattr_Description" xml:space="preserve"><value>No installed app was found for these folders. They may be leftovers from uninstalled programs, portable apps, or data from command-line tools.</value></data>
+  <data name="Unattr_MaybeStale" xml:space="preserve"><value>Possibly stale</value></data>
+  <data name="Unattr_SearchPlaceholder" xml:space="preserve"><value>Search path</value></data>
+  <data name="Unattr_Title" xml:space="preserve"><value>Unidentified folders</value></data>
+</root>

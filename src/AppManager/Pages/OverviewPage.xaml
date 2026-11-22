@@ -8,6 +8,7 @@
     xmlns:local="using:AppManager.Pages"
     xmlns:vm="using:AppManager.ViewModels"
     xmlns:services="using:AppManager.Services"
+    xmlns:l="using:AppManager.Localization"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -22,7 +23,7 @@
                   HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
         <StackPanel x:Name="ContentPanel" Spacing="{StaticResource PageBlockSpacing}" MaxWidth="1100">
 
-            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="概览" />
+            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="{l:Loc Key=Overview_Title}" />
 
             <!-- All fixed drives -->
             <ItemsControl x:Name="DriveList">
@@ -47,10 +48,10 @@
 
             <!-- Scan controls / progress -->
             <StackPanel Orientation="Horizontal" Spacing="12">
-                <Button Content="开始扫描" Style="{ThemeResource AccentButtonStyle}"
+                <Button Content="{l:Loc Key=Overview_StartScan}" Style="{ThemeResource AccentButtonStyle}"
                         Command="{x:Bind Session.StartCommand}"
                         IsEnabled="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource NotBool}}" />
-                <Button Content="取消" Command="{x:Bind Session.CancelCommand}"
+                <Button Content="{l:Loc Key=Overview_Cancel}" Command="{x:Bind Session.CancelCommand}"
                         Visibility="{x:Bind Session.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVis}}" />
                 <TextBlock x:Name="LastScanText" VerticalAlignment="Center"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -68,7 +69,7 @@
 
             <InfoBar x:Name="ScanErrorBar" Severity="Error" IsClosable="True"
                      IsOpen="{x:Bind Session.ScanError, Mode=OneWay, Converter={StaticResource NullToBool}}"
-                     Message="{x:Bind Session.ScanError, Mode=OneWay}" Title="扫描出错" />
+                     Message="{x:Bind Session.ScanError, Mode=OneWay}" Title="{l:Loc Key=Overview_ScanErrorTitle}" />
 
             <!-- Stat tiles -->
             <Grid x:Name="StatsGrid" ColumnSpacing="12" RowSpacing="12">
@@ -80,25 +81,25 @@
                 </Grid.ColumnDefinitions>
                 <Border Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="已归属到应用" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Text="{l:Loc Key=Overview_StatAttributed}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <TextBlock x:Name="StatAttributed" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="1" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="未识别" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Text="{l:Loc Key=Overview_StatUnattributed}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <TextBlock x:Name="StatUnattributed" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="2" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="应用数" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Text="{l:Loc Key=Overview_StatApps}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <TextBlock x:Name="StatApps" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="3" Padding="16" CornerRadius="8" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="扫描文件夹数" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <TextBlock Text="{l:Loc Key=Overview_StatFolders}" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                         <TextBlock x:Name="StatFolders" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     </StackPanel>
                 </Border>
@@ -106,7 +107,7 @@
 
             <!-- Category breakdown -->
             <StackPanel Spacing="{StaticResource SectionContentSpacing}" x:Name="CategoryArea">
-                <TextBlock Text="按位置分布" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                <TextBlock Text="{l:Loc Key=Overview_CategoryHeader}" Style="{StaticResource SectionHeaderTextBlockStyle}"
                            Margin="{StaticResource SectionHeaderTopMargin}" />
                 <ItemsControl x:Name="CategoryList">
                     <ItemsControl.ItemTemplate>
@@ -136,7 +137,7 @@
 
             <!-- Top apps -->
             <StackPanel Spacing="{StaticResource SectionContentSpacing}" x:Name="TopAppsArea">
-                <TextBlock Text="占用最多的应用" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                <TextBlock Text="{l:Loc Key=Overview_TopApps}" Style="{StaticResource SectionHeaderTextBlockStyle}"
                            Margin="{StaticResource SectionHeaderTopMargin}" />
                 <ItemsControl x:Name="TopAppsList">
                     <ItemsControl.ItemTemplate>

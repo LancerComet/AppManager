@@ -170,7 +170,7 @@ public sealed class AppMatcher
                 Folder = folder,
                 App = pfnApp,
                 Confidence = MatchConfidence.High,
-                Reason = "包数据目录 (PFN 匹配)",
+                Reason = MatchReason.PackageFamilyName,
             };
         }
 
@@ -226,7 +226,8 @@ public sealed class AppMatcher
                         App = app.App,
                         Rule = rule,
                         Confidence = MatchConfidence.High,
-                        Reason = $"已知规则: {folder.Name}",
+                        Reason = MatchReason.KnownRule,
+                        ReasonArg = folder.Name,
                     };
                 }
                 return new AttributedFolder
@@ -234,7 +235,8 @@ public sealed class AppMatcher
                     Folder = folder,
                     Rule = rule,
                     Confidence = MatchConfidence.Medium,
-                    Reason = $"已知规则: {folder.Name}",
+                    Reason = MatchReason.KnownRule,
+                    ReasonArg = folder.Name,
                 };
             }
         }
@@ -251,14 +253,14 @@ public sealed class AppMatcher
                     _sharedInstallLocs.Contains(e.NormInstall!))
                     continue;
                 if (folder.Name.Trim().Equals(e.RawInstallLastSegment, StringComparison.OrdinalIgnoreCase))
-                    return NamedHit(folder, e.App, "名称匹配: 安装目录名");
+                    return NamedHit(folder, e.App, MatchReason.InstallDirName);
             }
             foreach (var e in _apps)
             {
                 if (!e.HeuristicEligible)
                     continue;
                 if (fn == e.NormName)
-                    return NamedHit(folder, e.App, "名称匹配: 应用名");
+                    return NamedHit(folder, e.App, MatchReason.AppName);
             }
             foreach (var e in _apps)
             {
@@ -267,10 +269,10 @@ public sealed class AppMatcher
                 if (e.NormInstallLastSegment is not null &&
                     !_sharedInstallLocs.Contains(e.NormInstall!) &&
                     fn == e.NormInstallLastSegment)
-                    return NamedHit(folder, e.App, "名称匹配: 安装目录名");
+                    return NamedHit(folder, e.App, MatchReason.InstallDirName);
                 if (e.NormIconExe is not null && e.NormIconExe.Length >= 3 &&
                     !_sharedIconExes.Contains(e.NormIconExe) && fn == e.NormIconExe)
-                    return NamedHit(folder, e.App, "名称匹配: 程序文件名");
+                    return NamedHit(folder, e.App, MatchReason.ExeName);
             }
 
             // Publisher folder with exactly one app.
@@ -285,7 +287,7 @@ public sealed class AppMatcher
                         Folder = folder,
                         App = app,
                         Confidence = MatchConfidence.Medium,
-                        Reason = "发布者文件夹",
+                        Reason = MatchReason.Publisher,
                     };
                 }
             }
@@ -313,7 +315,7 @@ public sealed class AppMatcher
                         Folder = folder,
                         App = best.App,
                         Confidence = MatchConfidence.Low,
-                        Reason = "名称相近",
+                        Reason = MatchReason.NameSimilar,
                     };
                 }
             }
@@ -324,7 +326,7 @@ public sealed class AppMatcher
         {
             Folder = folder,
             Confidence = MatchConfidence.None,
-            Reason = string.Empty,
+            Reason = MatchReason.None,
         };
     }
 
@@ -334,10 +336,10 @@ public sealed class AppMatcher
             Folder = folder,
             App = app,
             Confidence = MatchConfidence.High,
-            Reason = "安装目录匹配",
+            Reason = MatchReason.InstallDir,
         };
 
-    private static AttributedFolder NamedHit(FolderUsage folder, InstalledApp app, string reason)
+    private static AttributedFolder NamedHit(FolderUsage folder, InstalledApp app, MatchReason reason)
         => new()
         {
             Folder = folder,

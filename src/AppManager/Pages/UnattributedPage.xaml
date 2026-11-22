@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AppManager.ViewModels"
     xmlns:services="using:AppManager.Services"
+    xmlns:l="using:AppManager.Localization"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -22,14 +23,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="未识别文件夹" />
+        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="{l:Loc Key=Unattr_Title}" />
 
         <TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="12"
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                   Text="这些文件夹没有找到对应的已安装程序，可能是卸载残留、便携软件或命令行工具产生的数据。" />
+                   Text="{l:Loc Key=Unattr_Description}" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12">
-            <TextBox x:Name="SearchBox" PlaceholderText="搜索路径" Width="260"
+            <TextBox x:Name="SearchBox" PlaceholderText="{l:Loc Key=Unattr_SearchPlaceholder}" Width="260"
                      Height="32" TextWrapping="NoWrap" AcceptsReturn="False"
                      TextChanged="SearchBox_TextChanged" />
             <ComboBox x:Name="CategoryBox" Width="220" SelectedIndex="0"
@@ -55,7 +56,7 @@
                                     <Border Padding="6,2" CornerRadius="4" VerticalAlignment="Center"
                                             Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
                                             Visibility="{x:Bind MaybeStale, Converter={StaticResource BoolToVis}}">
-                                        <TextBlock Text="可能残留" FontSize="12"
+                                        <TextBlock Text="{l:Loc Key=Unattr_MaybeStale}" FontSize="12"
                                                    Foreground="{ThemeResource SystemFillColorCautionBrush}" />
                                     </Border>
                                 </StackPanel>
@@ -72,7 +73,7 @@
                                     <TextBlock FontSize="12" VerticalAlignment="Center"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                Visibility="{x:Bind HasLastWrite, Converter={StaticResource BoolToVis}}">
-                                        <Run Text="修改于 " /><Run Text="{x:Bind LastWriteText}" />
+                                        <Run Text="{l:Loc Key=Common_LastModified}" /><Run Text="{x:Bind LastWriteText}" />
                                     </TextBlock>
                                     <TextBlock Text="{x:Bind InaccessibleText}" FontSize="12" VerticalAlignment="Center"
                                                Foreground="{ThemeResource SystemFillColorCautionBrush}"
@@ -89,7 +90,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="4" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <TextBlock Text="{x:Bind SizeText}" FontWeight="SemiBold" HorizontalAlignment="Right" />
-                            <Button Content="打开位置" Command="{x:Bind OpenInExplorerCommand}" />
+                            <Button Content="{l:Loc Key=Common_OpenLocation}" Command="{x:Bind OpenInExplorerCommand}" />
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
