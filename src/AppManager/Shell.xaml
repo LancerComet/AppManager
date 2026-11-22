@@ -49,6 +49,11 @@
                         <FontIcon Glyph="&#xE99A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="{l:Loc Key=Nav_DevTools}" Tag="devtools">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC7A;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="{l:Loc Key=Nav_Unattributed}" Tag="unattributed">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />

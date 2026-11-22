@@ -105,6 +105,10 @@
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>Desktop app</value></data>
   <data name="Csv_SourceTool" xml:space="preserve"><value>Known tool</value></data>
   <data name="Csv_Yes" xml:space="preserve"><value>Yes</value></data>
+  <data name="DevTools_Empty" xml:space="preserve"><value>No developer tool data found</value></data>
+  <data name="DevTools_Scanning" xml:space="preserve"><value>Measuring developer tool data…</value></data>
+  <data name="DevTools_Subtitle" xml:space="preserve"><value>Runtimes, SDKs, package caches and build caches, including Program Files and caches moved via environment variables or config files</value></data>
+  <data name="DevTools_Title" xml:space="preserve"><value>Developer tools</value></data>
   <data name="Filter_All" xml:space="preserve"><value>All</value></data>
   <data name="Harness_Empty" xml:space="preserve"><value>No AI tool data found</value></data>
   <data name="Harness_EntriesHeader" xml:space="preserve"><value>Folders and files</value></data>
@@ -116,18 +120,28 @@
   <data name="Harness_Subtitle" xml:space="preserve"><value>Data for the current user ({0}) only — program files are not counted</value></data>
   <data name="Harness_Title" xml:space="preserve"><value>AI tools</value></data>
   <data name="Harness_Total" xml:space="preserve"><value>Total </value></data>
+  <data name="Harness_Type_BuildTool" xml:space="preserve"><value>Build tool</value></data>
   <data name="Harness_Type_Cli" xml:space="preserve"><value>Command-line tool</value></data>
   <data name="Harness_Type_Desktop" xml:space="preserve"><value>Desktop app</value></data>
   <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_Type_Models" xml:space="preserve"><value>AI models</value></data>
+  <data name="Harness_Type_PackageManager" xml:space="preserve"><value>Package manager</value></data>
+  <data name="Harness_Type_Runtime" xml:space="preserve"><value>Runtime &amp; SDK</value></data>
+  <data name="Harness_Type_Tooling" xml:space="preserve"><value>Developer tool</value></data>
   <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT Desktop</value></data>
   <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude Desktop</value></data>
   <data name="Kind_Artifacts" xml:space="preserve"><value>Attachments &amp; generated files</value></data>
+  <data name="Kind_BuildCache" xml:space="preserve"><value>Build cache</value></data>
   <data name="Kind_Cache" xml:space="preserve"><value>Cache</value></data>
   <data name="Kind_Conversations" xml:space="preserve"><value>Conversations &amp; memory</value></data>
   <data name="Kind_Extensions" xml:space="preserve"><value>Plugins &amp; extensions</value></data>
+  <data name="Kind_GlobalPackages" xml:space="preserve"><value>Global packages &amp; environments</value></data>
   <data name="Kind_Logs" xml:space="preserve"><value>Logs</value></data>
+  <data name="Kind_Models" xml:space="preserve"><value>Models</value></data>
   <data name="Kind_OldVersions" xml:space="preserve"><value>Old versions &amp; installers</value></data>
+  <data name="Kind_PackageCache" xml:space="preserve"><value>Package cache</value></data>
   <data name="Kind_Program" xml:space="preserve"><value>Program files</value></data>
+  <data name="Kind_Sdk" xml:space="preserve"><value>SDKs &amp; runtimes</value></data>
   <data name="Kind_Snapshots" xml:space="preserve"><value>File snapshots &amp; backups</value></data>
   <data name="Kind_State" xml:space="preserve"><value>Config &amp; other state</value></data>
   <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw cache</value></data>
@@ -234,6 +248,7 @@
   <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>Package data folder (PFN match)</value></data>
   <data name="MatchReason_Publisher" xml:space="preserve"><value>Publisher folder</value></data>
   <data name="Nav_Apps" xml:space="preserve"><value>Apps</value></data>
+  <data name="Nav_DevTools" xml:space="preserve"><value>Developer tools</value></data>
   <data name="Nav_Harnesses" xml:space="preserve"><value>AI tools</value></data>
   <data name="Nav_Overview" xml:space="preserve"><value>Overview</value></data>
   <data name="Nav_Settings" xml:space="preserve"><value>Settings</value></data>

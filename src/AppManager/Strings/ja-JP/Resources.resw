@@ -105,6 +105,10 @@
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>デスクトップ アプリ</value></data>
   <data name="Csv_SourceTool" xml:space="preserve"><value>既知のツール</value></data>
   <data name="Csv_Yes" xml:space="preserve"><value>はい</value></data>
+  <data name="DevTools_Empty" xml:space="preserve"><value>開発者ツールのデータが見つかりません</value></data>
+  <data name="DevTools_Scanning" xml:space="preserve"><value>開発者ツールのデータを集計中…</value></data>
+  <data name="DevTools_Subtitle" xml:space="preserve"><value>ランタイム、SDK、パッケージ キャッシュ、ビルド キャッシュの使用量。Program Files や、環境変数・設定ファイルで場所を変更したキャッシュも含みます</value></data>
+  <data name="DevTools_Title" xml:space="preserve"><value>開発者ツール</value></data>
   <data name="Filter_All" xml:space="preserve"><value>すべて</value></data>
   <data name="Harness_Empty" xml:space="preserve"><value>AI ツールのデータが見つかりません</value></data>
   <data name="Harness_EntriesHeader" xml:space="preserve"><value>フォルダーとファイル</value></data>
@@ -116,18 +120,28 @@
   <data name="Harness_Subtitle" xml:space="preserve"><value>現在のユーザー ({0}) のデータのみを集計し、プログラム本体は含みません</value></data>
   <data name="Harness_Title" xml:space="preserve"><value>AI ツール</value></data>
   <data name="Harness_Total" xml:space="preserve"><value>合計 </value></data>
+  <data name="Harness_Type_BuildTool" xml:space="preserve"><value>ビルド ツール</value></data>
   <data name="Harness_Type_Cli" xml:space="preserve"><value>コマンドライン ツール</value></data>
   <data name="Harness_Type_Desktop" xml:space="preserve"><value>デスクトップ アプリ</value></data>
   <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_Type_Models" xml:space="preserve"><value>AI モデル</value></data>
+  <data name="Harness_Type_PackageManager" xml:space="preserve"><value>パッケージ マネージャー</value></data>
+  <data name="Harness_Type_Runtime" xml:space="preserve"><value>ランタイムと SDK</value></data>
+  <data name="Harness_Type_Tooling" xml:space="preserve"><value>開発ツール</value></data>
   <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT デスクトップ</value></data>
   <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude デスクトップ</value></data>
   <data name="Kind_Artifacts" xml:space="preserve"><value>添付と生成ファイル</value></data>
+  <data name="Kind_BuildCache" xml:space="preserve"><value>ビルド キャッシュ</value></data>
   <data name="Kind_Cache" xml:space="preserve"><value>キャッシュ</value></data>
   <data name="Kind_Conversations" xml:space="preserve"><value>会話とメモリ</value></data>
   <data name="Kind_Extensions" xml:space="preserve"><value>プラグインと拡張機能</value></data>
+  <data name="Kind_GlobalPackages" xml:space="preserve"><value>グローバル パッケージと環境</value></data>
   <data name="Kind_Logs" xml:space="preserve"><value>ログ</value></data>
+  <data name="Kind_Models" xml:space="preserve"><value>モデル</value></data>
   <data name="Kind_OldVersions" xml:space="preserve"><value>旧バージョンとインストーラー</value></data>
+  <data name="Kind_PackageCache" xml:space="preserve"><value>パッケージ キャッシュ</value></data>
   <data name="Kind_Program" xml:space="preserve"><value>プログラム本体</value></data>
+  <data name="Kind_Sdk" xml:space="preserve"><value>SDK とランタイム</value></data>
   <data name="Kind_Snapshots" xml:space="preserve"><value>ファイル スナップショットとバックアップ</value></data>
   <data name="Kind_State" xml:space="preserve"><value>設定とその他の状態</value></data>
   <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw キャッシュ</value></data>
@@ -234,6 +248,7 @@
   <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>パッケージ データ フォルダー (PFN 一致)</value></data>
   <data name="MatchReason_Publisher" xml:space="preserve"><value>発行元フォルダー</value></data>
   <data name="Nav_Apps" xml:space="preserve"><value>アプリ</value></data>
+  <data name="Nav_DevTools" xml:space="preserve"><value>開発者ツール</value></data>
   <data name="Nav_Harnesses" xml:space="preserve"><value>AI ツール</value></data>
   <data name="Nav_Overview" xml:space="preserve"><value>概要</value></data>
   <data name="Nav_Settings" xml:space="preserve"><value>設定</value></data>

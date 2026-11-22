@@ -1,3 +1,5 @@
+using AppManager.Core.Harnesses;
+
 namespace AppManager.Services;
 
 /// <summary>
@@ -13,7 +15,9 @@ public static class AppServices
         Loc = new LocalizationService();
         Loc.Initialize(Settings);
         Session = new ScanSession();
-        Harness = new HarnessSession();
+        Harness = new HarnessSession(() => new HarnessScanner());
+        DevTools = new HarnessSession(
+            () => new HarnessScanner(HarnessCatalog.LoadDevTools()));
     }
 
     public static SettingsService Settings { get; }
@@ -23,6 +27,8 @@ public static class AppServices
     public static ScanSession Session { get; }
 
     public static HarnessSession Harness { get; }
+
+    public static HarnessSession DevTools { get; }
 
     public static ILicenseService License { get; }
 

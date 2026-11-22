@@ -104,6 +104,11 @@ public sealed class HarnessKindToBrushConverter : IValueConverter
                 HarnessKind.Logs => "SystemFillColorAttentionBrush",
                 HarnessKind.Extensions => "AccentFillColorSecondaryBrush",
                 HarnessKind.OldVersions => "SystemFillColorCriticalBrush",
+                HarnessKind.Sdk => "SystemFillColorSuccessBrush",
+                HarnessKind.PackageCache => "AccentFillColorDefaultBrush",
+                HarnessKind.GlobalPackages => "SystemFillColorCautionBrush",
+                HarnessKind.BuildCache => "SystemFillColorAttentionBrush",
+                HarnessKind.Models => "AccentFillColorSecondaryBrush",
                 _ => "SystemFillColorSolidNeutralBrush",
             }
             : "SystemFillColorSolidNeutralBrush";

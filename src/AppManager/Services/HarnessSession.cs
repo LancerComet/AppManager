@@ -6,12 +6,17 @@ using CommunityToolkit.Mvvm.Input;
 namespace AppManager.Services;
 
 /// <summary>
-/// Holds the harness (AI tool) scan state: the HarnessScanResult and whether a
-/// scan is running. Scan starts lazily the first time the page is shown.
+/// Holds the scan state of a tool-usage page (AI tools or developer tools):
+/// the HarnessScanResult and whether a scan is running. Scan starts lazily the
+/// first time the page is shown. The scanner factory selects the catalog.
 /// </summary>
 public partial class HarnessSession : ObservableObject
 {
+    private readonly Func<HarnessScanner> _scannerFactory;
     private bool _scanned;
+
+    public HarnessSession(Func<HarnessScanner>? scannerFactory = null)
+        => _scannerFactory = scannerFactory ?? (() => new HarnessScanner());
 
     [ObservableProperty]
     public partial HarnessScanResult? Result { get; set; }
@@ -32,7 +37,7 @@ public partial class HarnessSession : ObservableObject
         try
         {
             var apps = AppServices.Session.Result?.InstalledApps;
-            Result = await new HarnessScanner().ScanAsync(apps);
+            Result = await _scannerFactory().ScanAsync(apps);
         }
         catch (Exception ex)
         {

@@ -105,6 +105,10 @@
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>传统程序</value></data>
   <data name="Csv_SourceTool" xml:space="preserve"><value>已知工具</value></data>
   <data name="Csv_Yes" xml:space="preserve"><value>是</value></data>
+  <data name="DevTools_Empty" xml:space="preserve"><value>未发现开发者工具留下的数据</value></data>
+  <data name="DevTools_Scanning" xml:space="preserve"><value>正在统计开发者工具数据…</value></data>
+  <data name="DevTools_Subtitle" xml:space="preserve"><value>运行时、SDK、包缓存和构建缓存的占用，包括 Program Files 和通过环境变量或配置文件改过位置的缓存</value></data>
+  <data name="DevTools_Title" xml:space="preserve"><value>开发者工具</value></data>
   <data name="Filter_All" xml:space="preserve"><value>全部</value></data>
   <data name="Harness_Empty" xml:space="preserve"><value>未发现 AI 工具留下的数据</value></data>
   <data name="Harness_EntriesHeader" xml:space="preserve"><value>文件夹与文件</value></data>
@@ -116,18 +120,28 @@
   <data name="Harness_Subtitle" xml:space="preserve"><value>仅统计当前用户（{0}）的数据，不含程序本体</value></data>
   <data name="Harness_Title" xml:space="preserve"><value>AI 工具</value></data>
   <data name="Harness_Total" xml:space="preserve"><value>总计 </value></data>
+  <data name="Harness_Type_BuildTool" xml:space="preserve"><value>构建工具</value></data>
   <data name="Harness_Type_Cli" xml:space="preserve"><value>命令行工具</value></data>
   <data name="Harness_Type_Desktop" xml:space="preserve"><value>桌面应用</value></data>
   <data name="Harness_Type_Ide" xml:space="preserve"><value>AI IDE</value></data>
+  <data name="Harness_Type_Models" xml:space="preserve"><value>AI 模型</value></data>
+  <data name="Harness_Type_PackageManager" xml:space="preserve"><value>包管理器</value></data>
+  <data name="Harness_Type_Runtime" xml:space="preserve"><value>运行时与 SDK</value></data>
+  <data name="Harness_Type_Tooling" xml:space="preserve"><value>开发工具</value></data>
   <data name="Harness_chatgpt-desktop_Name" xml:space="preserve"><value>ChatGPT 桌面版</value></data>
   <data name="Harness_claude-desktop_Name" xml:space="preserve"><value>Claude 桌面版</value></data>
   <data name="Kind_Artifacts" xml:space="preserve"><value>附件与生成文件</value></data>
+  <data name="Kind_BuildCache" xml:space="preserve"><value>构建缓存</value></data>
   <data name="Kind_Cache" xml:space="preserve"><value>缓存</value></data>
   <data name="Kind_Conversations" xml:space="preserve"><value>会话与记忆</value></data>
   <data name="Kind_Extensions" xml:space="preserve"><value>插件与扩展</value></data>
+  <data name="Kind_GlobalPackages" xml:space="preserve"><value>全局包与环境</value></data>
   <data name="Kind_Logs" xml:space="preserve"><value>日志</value></data>
+  <data name="Kind_Models" xml:space="preserve"><value>模型</value></data>
   <data name="Kind_OldVersions" xml:space="preserve"><value>旧版本与安装包</value></data>
+  <data name="Kind_PackageCache" xml:space="preserve"><value>包缓存</value></data>
   <data name="Kind_Program" xml:space="preserve"><value>程序本体</value></data>
+  <data name="Kind_Sdk" xml:space="preserve"><value>SDK 与运行时</value></data>
   <data name="Kind_Snapshots" xml:space="preserve"><value>文件快照与备份</value></data>
   <data name="Kind_State" xml:space="preserve"><value>配置与其他状态</value></data>
   <data name="KnownTool_adobecameraraw_Description" xml:space="preserve"><value>Adobe Camera Raw 缓存</value></data>
@@ -234,6 +248,7 @@
   <data name="MatchReason_PackageFamilyName" xml:space="preserve"><value>包数据目录 (PFN 匹配)</value></data>
   <data name="MatchReason_Publisher" xml:space="preserve"><value>发布者文件夹</value></data>
   <data name="Nav_Apps" xml:space="preserve"><value>应用</value></data>
+  <data name="Nav_DevTools" xml:space="preserve"><value>开发者工具</value></data>
   <data name="Nav_Harnesses" xml:space="preserve"><value>AI 工具</value></data>
   <data name="Nav_Overview" xml:space="preserve"><value>概览</value></data>
   <data name="Nav_Settings" xml:space="preserve"><value>设置</value></data>

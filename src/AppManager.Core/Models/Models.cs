@@ -158,6 +158,11 @@ public enum HarnessKind
     Program,
     Versions,
     VersionSet,
+    Sdk,
+    PackageCache,
+    GlobalPackages,
+    BuildCache,
+    Models,
 }
 
 public enum HarnessType
@@ -165,6 +170,11 @@ public enum HarnessType
     Cli,
     Ide,
     Desktop,
+    Runtime,
+    PackageManager,
+    BuildTool,
+    Tooling,
+    Models,
 }
 
 /// <summary>One measured file or folder belonging to a harness (non-program data).</summary>

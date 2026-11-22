@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:AppManager.ViewModels"
     xmlns:services="using:AppManager.Services"
+    xmlns:controls="using:AppManager.Controls"
     xmlns:l="using:AppManager.Localization"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -70,24 +71,15 @@
                     <DataTemplate x:DataType="vm:AppItemViewModel">
                         <Grid ColumnSpacing="12" Padding="0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="36" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Grid Width="32" Height="32" VerticalAlignment="Center">
-                                <Image Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
-                                <Border CornerRadius="6" Background="{ThemeResource AccentFillColorDefaultBrush}"
-                                        Visibility="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToVis}, ConverterParameter=invert}">
-                                    <Grid>
-                                        <FontIcon Glyph="&#xE943;" FontSize="14" HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}" />
-                                        <TextBlock Text="{x:Bind IconLetter}" HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center" FontWeight="SemiBold"
-                                                   Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}, ConverterParameter=invert}" />
-                                    </Grid>
-                                </Border>
-                            </Grid>
+                            <controls:AppIconView Icon="{x:Bind Icon, Mode=OneWay}"
+                                                  FallbackGlyph="{x:Bind IconGlyph}"
+                                                  FallbackText="{x:Bind IconLetter}"
+                                                  TileSize="36" TileCornerRadius="8"
+                                                  VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="8">
                                 <StackPanel Spacing="2">
                                     <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold"
@@ -153,14 +145,8 @@
                                 <ColumnDefinition Width="64" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid Width="64" Height="64">
-                                <Image x:Name="DetailIcon" Stretch="Uniform" />
-                                <Border x:Name="DetailIconFallback" CornerRadius="10"
-                                        Background="{ThemeResource AccentFillColorDefaultBrush}">
-                                    <TextBlock x:Name="DetailIconLetter" HorizontalAlignment="Center"
-                                               VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" />
-                                </Border>
-                            </Grid>
+                            <controls:AppIconView x:Name="DetailIconView"
+                                                  TileSize="64" TileCornerRadius="12" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                                 <TextBlock x:Name="DetailName" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            TextWrapping="Wrap" />

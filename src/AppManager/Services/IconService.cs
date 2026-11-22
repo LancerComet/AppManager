@@ -1,34 +1,43 @@
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using AppManager.Core.Imaging;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
 
 namespace AppManager.Services;
 
+/// <summary>A decoded icon plus its detected tone (for tile contrast).</summary>
+public sealed record LoadedIcon(ImageSource Source, IconTone Tone);
+
 /// <summary>
-/// Loads app icons: images via BitmapImage, everything else via the shell
-/// thumbnail cache (StorageFile.GetThumbnailAsync) with an
-/// IShellItemImageFactory fallback. UI-thread usage only.
+/// Loads app icons as BGRA8 premultiplied bitmaps (≤96px): image files via
+/// BitmapDecoder, everything else via the shell thumbnail cache
+/// (StorageFile.GetThumbnailAsync) with an IShellItemImageFactory fallback.
+/// Each icon is tone-classified so the UI can give it a contrasting tile.
+/// UI-thread usage only.
 /// In DEBUG every load outcome is appended to icon-log.txt in LocalFolder.
 /// </summary>
 public sealed class IconService
 {
-    private readonly ConcurrentDictionary<string, Task<ImageSource?>> _cache = new(StringComparer.OrdinalIgnoreCase);
+    private const int IconPixels = 96;
+
+    private readonly ConcurrentDictionary<string, Task<LoadedIcon?>> _cache = new(StringComparer.OrdinalIgnoreCase);
     private readonly SemaphoreSlim _limit = new(4);
 
-    public Task<ImageSource?> GetIconAsync(string? path)
+    public Task<LoadedIcon?> GetIconAsync(string? path)
     {
         if (string.IsNullOrWhiteSpace(path))
-            return Task.FromResult<ImageSource?>(null);
+            return Task.FromResult<LoadedIcon?>(null);
         var key = path.Trim().Trim('"');
         return _cache.GetOrAdd(key, k => LoadForPathAsync(k));
     }
 
-    private async Task<ImageSource?> LoadForPathAsync(string path)
+    private async Task<LoadedIcon?> LoadForPathAsync(string path)
     {
         await _limit.WaitAsync();
         try
@@ -52,29 +61,32 @@ public sealed class IconService
         }
     }
 
-    private static async Task<ImageSource?> LoadCoreAsync(string path)
+    private static async Task<LoadedIcon?> LoadCoreAsync(string path)
     {
         var ext = Path.GetExtension(path);
         if (ext.Equals(".png", StringComparison.OrdinalIgnoreCase) ||
             ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
             ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
         {
-            // A missing image file yields a BitmapImage that decodes to nothing —
-            // return null so callers can show their fallback instead of a blank.
+            // A missing image file decodes to nothing — return null so callers
+            // can show their fallback instead of a blank tile.
             if (!File.Exists(path))
                 return null;
-            return new BitmapImage(new Uri(path));
+            var file = await StorageFile.GetFileFromPathAsync(path);
+            using var stream = await file.OpenReadAsync();
+            var decoded = await DecodeAsync(stream);
+            return decoded is null ? null : await ToLoadedIconAsync(decoded);
         }
 
         try
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
-            using var thumb = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 64);
+            using var thumb = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, IconPixels);
             if (thumb is not null && thumb.Size > 0)
             {
-                var bitmap = new BitmapImage();
-                await bitmap.SetSourceAsync(thumb);
-                return bitmap;
+                var decoded = await DecodeAsync(thumb);
+                if (decoded is not null)
+                    return await ToLoadedIconAsync(decoded);
             }
         }
         catch
@@ -82,25 +94,60 @@ public sealed class IconService
             // Fall through to the shell image factory.
         }
 
-        var pixels = await Task.Run(() => ShellImageLoader.GetPixels(path, 64));
+        var pixels = await Task.Run(() => ShellImageLoader.GetPixels(path, IconPixels));
         if (pixels is null)
             return null;
         var softwareBitmap = new SoftwareBitmap(
-            BitmapPixelFormat.Bgra8, 64, 64, BitmapAlphaMode.Premultiplied);
+            BitmapPixelFormat.Bgra8, IconPixels, IconPixels, BitmapAlphaMode.Premultiplied);
         softwareBitmap.CopyFromBuffer(pixels.AsBuffer());
+        return await ToLoadedIconAsync(softwareBitmap);
+    }
+
+    /// <summary>Decodes an image stream to a BGRA8 premultiplied SoftwareBitmap,
+    /// scaled down so the longest side is ≤ IconPixels.</summary>
+    private static async Task<SoftwareBitmap?> DecodeAsync(IRandomAccessStream stream)
+    {
+        var decoder = await BitmapDecoder.CreateAsync(stream);
+        var transform = new BitmapTransform();
+        var (w, h) = ScaleToFit(decoder.PixelWidth, decoder.PixelHeight, IconPixels);
+        if (w != decoder.PixelWidth)
+        {
+            transform.ScaledWidth = w;
+            transform.ScaledHeight = h;
+            transform.InterpolationMode = BitmapInterpolationMode.Fant;
+        }
+        return await decoder.GetSoftwareBitmapAsync(
+            BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, transform,
+            ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
+    }
+
+    private static (uint W, uint H) ScaleToFit(uint w, uint h, int maxSide)
+    {
+        var longest = Math.Max(w, h);
+        if (longest <= maxSide)
+            return (w, h);
+        var scale = maxSide / (double)longest;
+        return ((uint)Math.Max(1, w * scale), (uint)Math.Max(1, h * scale));
+    }
+
+    private static async Task<LoadedIcon> ToLoadedIconAsync(SoftwareBitmap bitmap)
+    {
+        var pixels = new byte[bitmap.PixelWidth * bitmap.PixelHeight * 4];
+        bitmap.CopyToBuffer(pixels.AsBuffer());
+        var tone = IconToneClassifier.Classify(pixels, bitmap.PixelWidth, bitmap.PixelHeight);
         var source = new SoftwareBitmapSource();
-        await source.SetBitmapAsync(softwareBitmap);
-        return source;
+        await source.SetBitmapAsync(bitmap);
+        return new LoadedIcon(source, tone);
     }
 
 #if DEBUG
-    private static void Log(string path, ImageSource? result, Exception? error = null)
+    private static void Log(string path, LoadedIcon? result, Exception? error = null)
     {
         try
         {
             var outcome = error is not null
                 ? $"exception {error.GetType().Name} 0x{error.HResult:X8}: {error.Message}"
-                : result is not null ? "ok" : "null";
+                : result is not null ? $"ok {result.Tone}" : "null";
             File.AppendAllText(
                 Path.Combine(AppServices.Settings.StorageFolder, "icon-log.txt"),
                 $"{DateTime.Now:HH:mm:ss.fff}\t{outcome}\t{path}\n");
@@ -113,7 +160,7 @@ public sealed class IconService
 }
 
 /// <summary>
-/// IShellItemImageFactory-based icon fallback: GetImage (SIIGBF_ICONONLY, 64px)
+/// IShellItemImageFactory-based icon fallback: GetImage (SIIGBF_ICONONLY)
 /// → HBITMAP → BGRA pixels → SoftwareBitmapSource. Runs off the UI thread.
 /// </summary>
 internal static class ShellImageLoader

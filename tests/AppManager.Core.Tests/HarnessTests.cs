@@ -39,11 +39,11 @@ public class HarnessTests : IDisposable
         }
     }
 
-    private string Resolve(string token) => token.ToUpperInvariant() switch
+    private IReadOnlyList<string> Resolve(string token) => token.ToUpperInvariant() switch
     {
-        "USERPROFILE" => _home,
-        "APPDATA" => _roaming,
-        "LOCALAPPDATA" => _local,
+        "USERPROFILE" => [_home],
+        "APPDATA" => [_roaming],
+        "LOCALAPPDATA" => [_local],
         _ => throw new ArgumentException(token),
     };
 
@@ -332,6 +332,36 @@ public class HarnessTests : IDisposable
         var h = Assert.Single(result.Harnesses);
         Assert.Single(h.Entries);
         Assert.Equal(10, h.TotalBytes); // junction's 99 bytes excluded entirely
+    }
+
+    [Fact]
+    public async Task ZeroByteHarness_IsSkipped()
+    {
+        Write(_home, "h\\empty.txt", 0);
+        Write(_home, "real\\f.txt", 10);
+        var result = Scan(
+            "{\"presets\":{},\"harnesses\":[" +
+            "{\"id\":\"zero\",\"name\":\"Z\",\"type\":\"cli\",\"roots\":[" +
+            "{\"path\":\"%USERPROFILE%\\\\h\",\"kind\":\"state\"}]}," +
+            "{\"id\":\"real\",\"name\":\"R\",\"type\":\"cli\",\"roots\":[" +
+            "{\"path\":\"%USERPROFILE%\\\\real\",\"kind\":\"state\"}]}]}");
+
+        var h = Assert.Single(result.Harnesses);
+        Assert.Equal("real", h.Id);
+    }
+
+    [Fact]
+    public async Task ZeroTotal_WithProgramBytes_IsKept()
+    {
+        Write(_home, "h\\prog\\app.exe", 50);
+        var result = Scan(Catalog(
+            "{\"id\":\"h\",\"name\":\"H\",\"type\":\"cli\",\"roots\":[{" +
+            "\"path\":\"%USERPROFILE%\\\\h\",\"kind\":\"state\",\"children\":[" +
+            "{\"match\":\"prog\",\"kind\":\"program\"}]}]}"));
+
+        var h = Assert.Single(result.Harnesses);
+        Assert.Equal(0, h.TotalBytes);
+        Assert.Equal(50, h.ExcludedProgramBytes);
     }
 
     [Fact]

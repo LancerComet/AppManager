@@ -17,17 +17,29 @@ public partial class HarnessItemViewModel : ObservableObject
     /// <summary>Localized harness name if a resource exists, else catalog name.</summary>
     public string Name => AppServices.Loc.TryGet($"Harness_{Usage.Id}_Name") ?? Usage.Name;
 
-    public string Subtitle => $"{Usage.Publisher} · {TypeLabel}";
+    public string Subtitle => string.IsNullOrEmpty(Usage.Publisher)
+        ? TypeLabel
+        : $"{Usage.Publisher} · {TypeLabel}";
     public string TypeLabel => Usage.Type switch
     {
         HarnessType.Ide => AppServices.Loc.Get("Harness_Type_Ide"),
         HarnessType.Desktop => AppServices.Loc.Get("Harness_Type_Desktop"),
+        HarnessType.Runtime => AppServices.Loc.Get("Harness_Type_Runtime"),
+        HarnessType.PackageManager => AppServices.Loc.Get("Harness_Type_PackageManager"),
+        HarnessType.BuildTool => AppServices.Loc.Get("Harness_Type_BuildTool"),
+        HarnessType.Tooling => AppServices.Loc.Get("Harness_Type_Tooling"),
+        HarnessType.Models => AppServices.Loc.Get("Harness_Type_Models"),
         _ => AppServices.Loc.Get("Harness_Type_Cli"),
     };
     public string TypeGlyph => Usage.Type switch
     {
         HarnessType.Ide => "\uE943",
         HarnessType.Desktop => "\uE8BD",
+        HarnessType.Runtime => "\uE9F3",
+        HarnessType.PackageManager => "\uE7B8",
+        HarnessType.BuildTool => "\uE90F",
+        HarnessType.Tooling => "\uEC7A",
+        HarnessType.Models => "\uE9A6",
         _ => "\uE756",
     };
 
@@ -36,7 +48,7 @@ public partial class HarnessItemViewModel : ObservableObject
     public double RestStars { get; set; }
 
     [ObservableProperty]
-    public partial ImageSource? Icon { get; set; }
+    public partial LoadedIcon? Icon { get; set; }
 
     public void StartIconLoad() => _ = LoadIconAsync();
 

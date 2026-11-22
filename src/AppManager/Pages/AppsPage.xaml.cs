@@ -175,9 +175,9 @@ public sealed partial class AppsPage : Page, IDetachable
         DetailEstimatedNote.Visibility = vm.IsEstimated ? Visibility.Visible : Visibility.Collapsed;
         DetailEstimatedNote.Text = AppServices.Loc.Get("Apps_EstimatedNote");
 
-        DetailIcon.Source = null;
-        DetailIconFallback.Visibility = Visibility.Visible;
-        DetailIconLetter.Text = vm.IconLetter;
+        DetailIconView.Icon = null;
+        DetailIconView.FallbackGlyph = vm.IconGlyph ?? string.Empty;
+        DetailIconView.FallbackText = vm.IconLetter;
         _ = LoadDetailIconAsync(vm);
 
         var max = vm.ShownFolders.Count > 0 ? vm.ShownFolders.Max(f => f.Folder.SizeBytes) : 0;
@@ -191,10 +191,7 @@ public sealed partial class AppsPage : Page, IDetachable
     {
         var icon = await AppServices.Icons.GetIconAsync(vm.Group.IconPath);
         if (ItemsList.SelectedItem == vm && icon is not null)
-        {
-            DetailIcon.Source = icon;
-            DetailIconFallback.Visibility = Visibility.Collapsed;
-        }
+            DetailIconView.Icon = icon;
     }
 
     private void OpenInstall_Click(object sender, RoutedEventArgs e)

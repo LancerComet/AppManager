@@ -96,8 +96,11 @@ public partial class AppItemViewModel : ObservableObject
 
     public string TotalText => SizeFormatter.Format(Total);
 
+    /// <summary>Fallback glyph for the accent tile; tools get a glyph, apps a letter.</summary>
+    public string? IconGlyph => IsTool ? "\uE943" : null;
+
     [ObservableProperty]
-    public partial ImageSource? Icon { get; set; }
+    public partial LoadedIcon? Icon { get; set; }
 
     public void StartIconLoad() => _ = LoadIconAsync();
 

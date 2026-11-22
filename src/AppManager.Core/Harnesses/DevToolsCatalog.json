@@ -1,0 +1,639 @@
+{
+  "presets": {
+    "npmCache": [
+      { "match": "_logs", "kind": "logs" },
+      { "match": "_npx", "kind": "cache" }
+    ],
+    "condaInstall": [
+      { "match": "pkgs", "kind": "packageCache" },
+      { "match": "envs", "kind": "globalPackages" }
+    ],
+    "browserDownloads": [
+      { "match": ".links", "kind": "state" },
+      { "match": "mcp-chrome*", "kind": "state" }
+    ]
+  },
+  "harnesses": [
+    {
+      "id": "dotnet",
+      "name": ".NET SDK",
+      "publisher": "Microsoft",
+      "type": "runtime",
+      "roots": [
+        { "path": "%PROGRAMFILES%\\dotnet\\sdk", "kind": "sdk", "entryPrefix": ".NET SDK" },
+        { "path": "%PROGRAMFILES%\\dotnet\\shared\\Microsoft.NETCore.App", "kind": "sdk", "entryPrefix": ".NET Runtime" },
+        { "path": "%PROGRAMFILES%\\dotnet\\shared\\Microsoft.AspNetCore.App", "kind": "sdk", "entryPrefix": "ASP.NET Core Runtime" },
+        { "path": "%PROGRAMFILES%\\dotnet\\shared\\Microsoft.WindowsDesktop.App", "kind": "sdk", "entryPrefix": "Windows Desktop Runtime" },
+        {
+          "path": "%PROGRAMFILES%\\dotnet",
+          "kind": "sdk",
+          "mode": "merge",
+          "children": [
+            { "match": "packs", "kind": "sdk" },
+            { "match": "templates", "kind": "sdk" },
+            { "match": "sdk-manifests", "kind": "sdk" }
+          ]
+        },
+        { "path": "%PROGRAMFILES(X86)%\\dotnet\\shared\\Microsoft.NETCore.App", "kind": "sdk", "entryPrefix": ".NET Runtime (x86)" },
+        { "path": "%PROGRAMFILES(X86)%\\dotnet\\shared\\Microsoft.AspNetCore.App", "kind": "sdk", "entryPrefix": "ASP.NET Core Runtime (x86)" },
+        { "path": "%PROGRAMFILES(X86)%\\dotnet\\shared\\Microsoft.WindowsDesktop.App", "kind": "sdk", "entryPrefix": "Windows Desktop Runtime (x86)" },
+        { "path": "%PROGRAMFILES(X86)%\\dotnet", "kind": "sdk", "mode": "merge", "label": "dotnet (x86)" },
+        {
+          "path": "%LOCALAPPDATA%\\Microsoft\\dotnet",
+          "kind": "sdk",
+          "mode": "merge",
+          "sources": [ { "env": "DOTNET_ROOT" } ]
+        },
+        { "path": "%USERPROFILE%\\.dotnet\\tools", "kind": "globalPackages", "mode": "merge", "label": ".NET tools" },
+        { "path": "%USERPROFILE%\\.templateengine", "kind": "cache", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "nuget",
+      "name": "NuGet",
+      "publisher": "Microsoft",
+      "type": "packageManager",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.nuget\\packages",
+          "kind": "packageCache",
+          "mode": "merge",
+          "sources": [ { "env": "NUGET_PACKAGES" } ]
+        },
+        {
+          "path": "%LOCALAPPDATA%\\NuGet\\v3-cache",
+          "kind": "cache",
+          "mode": "merge",
+          "sources": [ { "env": "NUGET_HTTP_CACHE_PATH" } ]
+        },
+        {
+          "path": "%LOCALAPPDATA%\\NuGet\\plugins-cache",
+          "kind": "cache",
+          "mode": "merge",
+          "sources": [ { "env": "NUGET_PLUGINS_CACHE_PATH" } ]
+        },
+        { "path": "%LOCALAPPDATA%\\Temp\\NuGetScratch", "kind": "cache", "mode": "merge" },
+        { "path": "%PROGRAMFILES(X86)%\\Microsoft SDKs\\NuGetPackages", "kind": "packageCache", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "publisher": "OpenJS Foundation",
+      "type": "runtime",
+      "iconApp": "^Node\\.js",
+      "roots": [
+        { "path": "%PROGRAMFILES%\\nodejs", "kind": "sdk", "mode": "merge", "label": "Node.js" },
+        { "path": "%PROGRAMFILES(X86)%\\nodejs", "kind": "sdk", "mode": "merge", "label": "Node.js (x86)" },
+        {
+          "path": "%APPDATA%\\nvm",
+          "kind": "sdk",
+          "mode": "merge",
+          "label": "nvm",
+          "sources": [ { "env": "NVM_HOME" } ],
+          "children": [ { "match": "v*", "kind": "sdk" } ]
+        },
+        { "path": "%APPDATA%\\fnm", "kind": "sdk", "mode": "merge", "label": "fnm", "sources": [ { "env": "FNM_DIR" } ] },
+        { "path": "%LOCALAPPDATA%\\fnm", "kind": "sdk", "mode": "merge", "label": "fnm" },
+        { "path": "%LOCALAPPDATA%\\Volta", "kind": "sdk", "mode": "merge", "label": "Volta", "sources": [ { "env": "VOLTA_HOME" } ] },
+        { "path": "%LOCALAPPDATA%\\node-gyp\\Cache", "kind": "cache", "mode": "merge", "label": "node-gyp" }
+      ]
+    },
+    {
+      "id": "npm",
+      "name": "npm",
+      "publisher": "GitHub",
+      "type": "packageManager",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\npm-cache",
+          "kind": "packageCache",
+          "mode": "merge",
+          "sources": [
+            { "env": "npm_config_cache" },
+            { "ini": "%USERPROFILE%\\.npmrc", "key": "cache" }
+          ],
+          "children": [ { "preset": "npmCache" } ]
+        },
+        { "path": "%APPDATA%\\npm-cache", "kind": "packageCache", "mode": "merge", "children": [ { "preset": "npmCache" } ] },
+        { "path": "%USERPROFILE%\\.npm", "kind": "packageCache", "mode": "merge", "children": [ { "preset": "npmCache" } ] },
+        {
+          "path": "%APPDATA%\\npm",
+          "kind": "globalPackages",
+          "mode": "merge",
+          "label": "npm global",
+          "sources": [
+            { "env": "npm_config_prefix" },
+            { "ini": "%USERPROFILE%\\.npmrc", "key": "prefix" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pnpm",
+      "name": "pnpm",
+      "type": "packageManager",
+      "roots": [
+        {
+          "kind": "packageCache",
+          "mode": "merge",
+          "label": "pnpm store",
+          "sources": [
+            { "env": "npm_config_store_dir" },
+            { "ini": "%LOCALAPPDATA%\\pnpm\\config\\rc", "key": "store-dir" },
+            { "ini": "%USERPROFILE%\\.npmrc", "key": "store-dir" }
+          ]
+        },
+        { "path": "%DRIVES%\\.pnpm-store", "kind": "packageCache", "mode": "merge" },
+        {
+          "path": "%LOCALAPPDATA%\\pnpm",
+          "kind": "globalPackages",
+          "mode": "merge",
+          "label": "pnpm",
+          "sources": [ { "env": "PNPM_HOME" } ],
+          "children": [
+            { "match": "store", "kind": "packageCache" },
+            { "match": "config", "kind": "state" }
+          ]
+        },
+        { "path": "%LOCALAPPDATA%\\pnpm-cache", "kind": "cache", "mode": "merge" },
+        { "path": "%LOCALAPPDATA%\\pnpm-state", "kind": "state", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "yarn",
+      "name": "Yarn",
+      "type": "packageManager",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\Yarn",
+          "kind": "state",
+          "mode": "merge",
+          "children": [
+            { "match": "Cache", "kind": "packageCache" },
+            { "match": "Berry", "kind": "packageCache" },
+            { "match": "Data", "kind": "globalPackages" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.yarn\\berry", "kind": "packageCache", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "bun",
+      "name": "Bun",
+      "publisher": "Oven",
+      "type": "runtime",
+      "roots": [
+        { "path": "%USERPROFILE%\\.bun\\install\\cache", "kind": "packageCache", "mode": "merge", "label": "Bun cache" },
+        { "path": "%USERPROFILE%\\.bun\\install\\global", "kind": "globalPackages", "mode": "merge", "label": "Bun global" },
+        { "path": "%USERPROFILE%\\.bun", "kind": "sdk", "mode": "merge", "label": "Bun" }
+      ]
+    },
+    {
+      "id": "deno",
+      "name": "Deno",
+      "type": "runtime",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\deno", "kind": "packageCache", "mode": "merge", "sources": [ { "env": "DENO_DIR" } ] },
+        { "path": "%USERPROFILE%\\.deno", "kind": "sdk", "mode": "merge", "sources": [ { "env": "DENO_INSTALL" } ] }
+      ]
+    },
+    {
+      "id": "java",
+      "name": "Java (JDK)",
+      "type": "runtime",
+      "iconApp": "OpenJDK|Java\\(TM\\)|Java SE Development Kit|Temurin|Zulu|Corretto",
+      "roots": [
+        { "path": "%PROGRAMFILES%\\Java\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES(X86)%\\Java\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Microsoft\\jdk-*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Eclipse Adoptium\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Zulu\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Amazon Corretto\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\BellSoft\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Semeru\\*", "kind": "sdk", "mode": "merge" },
+        { "path": "%USERPROFILE%\\.jdks\\*", "kind": "sdk", "mode": "merge" },
+        { "kind": "sdk", "mode": "merge", "sources": [ { "env": "JAVA_HOME" } ] }
+      ]
+    },
+    {
+      "id": "gradle",
+      "name": "Gradle",
+      "type": "buildTool",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.gradle\\caches\\modules-2",
+          "kind": "packageCache",
+          "mode": "merge",
+          "label": "Gradle dependencies",
+          "sources": [ { "env": "GRADLE_USER_HOME", "suffix": "caches\\modules-2" } ]
+        },
+        {
+          "path": "%USERPROFILE%\\.gradle\\caches\\build-cache-1",
+          "kind": "buildCache",
+          "mode": "merge",
+          "label": "Gradle build cache",
+          "sources": [ { "env": "GRADLE_USER_HOME", "suffix": "caches\\build-cache-1" } ]
+        },
+        {
+          "path": "%USERPROFILE%\\.gradle\\wrapper\\dists",
+          "kind": "sdk",
+          "sources": [ { "env": "GRADLE_USER_HOME", "suffix": "wrapper\\dists" } ],
+          "children": [ { "match": "CACHEDIR.TAG", "kind": "state" } ]
+        },
+        {
+          "path": "%USERPROFILE%\\.gradle\\jdks",
+          "kind": "sdk",
+          "sources": [ { "env": "GRADLE_USER_HOME", "suffix": "jdks" } ]
+        },
+        {
+          "path": "%USERPROFILE%\\.gradle",
+          "kind": "state",
+          "mode": "merge",
+          "sources": [ { "env": "GRADLE_USER_HOME" } ],
+          "children": [
+            { "match": "caches", "kind": "cache" },
+            { "match": "daemon", "kind": "logs" },
+            { "match": "kotlin-profile", "kind": "logs" },
+            { "match": "native", "kind": "cache" },
+            { "match": "workers", "kind": "cache" },
+            { "match": "android", "kind": "cache" },
+            { "match": ".tmp", "kind": "cache" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maven",
+      "name": "Maven",
+      "publisher": "Apache",
+      "type": "buildTool",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.m2\\repository",
+          "kind": "packageCache",
+          "mode": "merge",
+          "label": "Maven repository",
+          "sources": [ { "xml": "%USERPROFILE%\\.m2\\settings.xml", "element": "localRepository" } ]
+        },
+        { "path": "%USERPROFILE%\\.m2\\wrapper\\dists", "kind": "sdk" },
+        { "path": "%USERPROFILE%\\.m2", "kind": "state", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "publisher": "Python Software Foundation",
+      "type": "runtime",
+      "iconApp": "^Python \\d",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Programs\\Python\\Python*", "kind": "sdk", "mode": "merge" },
+        { "path": "%PROGRAMFILES%\\Python*", "kind": "sdk", "mode": "merge" },
+        { "path": "%LOCALAPPDATA%\\Python\\pythoncore-*", "kind": "sdk", "mode": "merge" },
+        { "path": "%APPDATA%\\Python\\Python*", "kind": "globalPackages", "mode": "merge" },
+        { "path": "%USERPROFILE%\\.pyenv\\pyenv-win\\versions", "kind": "sdk" }
+      ]
+    },
+    {
+      "id": "pip",
+      "name": "pip",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\pip\\cache", "kind": "packageCache", "mode": "merge", "label": "pip cache", "sources": [ { "env": "PIP_CACHE_DIR" } ] },
+        { "path": "%USERPROFILE%\\.local\\pipx\\venvs", "kind": "globalPackages", "sources": [ { "env": "PIPX_HOME", "suffix": "venvs" } ] }
+      ]
+    },
+    {
+      "id": "uv",
+      "name": "uv",
+      "publisher": "Astral",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\uv\\cache", "kind": "packageCache", "mode": "merge", "label": "uv cache", "sources": [ { "env": "UV_CACHE_DIR" } ] },
+        { "path": "%APPDATA%\\uv\\python", "kind": "sdk", "sources": [ { "env": "UV_PYTHON_INSTALL_DIR" } ] },
+        { "path": "%APPDATA%\\uv\\data\\python", "kind": "sdk" },
+        { "path": "%APPDATA%\\uv\\tools", "kind": "globalPackages", "sources": [ { "env": "UV_TOOL_DIR" } ] },
+        { "path": "%APPDATA%\\uv\\data\\tools", "kind": "globalPackages" }
+      ]
+    },
+    {
+      "id": "poetry",
+      "name": "Poetry",
+      "type": "packageManager",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\pypoetry\\Cache",
+          "kind": "packageCache",
+          "mode": "merge",
+          "label": "Poetry cache",
+          "sources": [ { "env": "POETRY_CACHE_DIR" } ],
+          "children": [ { "match": "virtualenvs", "kind": "globalPackages" } ]
+        }
+      ]
+    },
+    {
+      "id": "conda",
+      "name": "Conda",
+      "publisher": "Anaconda",
+      "type": "packageManager",
+      "iconApp": "^(Anaconda|Miniconda|Miniforge)",
+      "roots": [
+        { "path": "%USERPROFILE%\\anaconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%USERPROFILE%\\miniconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%USERPROFILE%\\miniforge3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%USERPROFILE%\\mambaforge", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%LOCALAPPDATA%\\anaconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%LOCALAPPDATA%\\miniconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%PROGRAMDATA%\\anaconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%PROGRAMDATA%\\miniconda3", "kind": "sdk", "mode": "merge", "children": [ { "preset": "condaInstall" } ] },
+        { "path": "%USERPROFILE%\\.conda\\pkgs", "kind": "packageCache", "mode": "merge" },
+        { "path": "%USERPROFILE%\\.conda\\envs", "kind": "globalPackages" },
+        { "path": "%LOCALAPPDATA%\\conda\\conda\\Cache", "kind": "cache", "mode": "merge", "label": "conda cache" }
+      ]
+    },
+    {
+      "id": "rustup",
+      "name": "Rust (rustup)",
+      "type": "runtime",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.rustup\\toolchains",
+          "kind": "sdk",
+          "sources": [ { "env": "RUSTUP_HOME", "suffix": "toolchains" } ]
+        },
+        {
+          "path": "%USERPROFILE%\\.rustup",
+          "kind": "state",
+          "mode": "merge",
+          "sources": [ { "env": "RUSTUP_HOME" } ],
+          "children": [
+            { "match": "downloads", "kind": "cache" },
+            { "match": "tmp", "kind": "cache" },
+            { "match": "update-hashes", "kind": "state" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cargo",
+      "name": "Cargo",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%USERPROFILE%\\.cargo\\registry", "kind": "packageCache", "mode": "merge", "label": "Cargo registry", "sources": [ { "env": "CARGO_HOME", "suffix": "registry" } ] },
+        { "path": "%USERPROFILE%\\.cargo\\git", "kind": "packageCache", "mode": "merge", "label": "Cargo git", "sources": [ { "env": "CARGO_HOME", "suffix": "git" } ] },
+        { "path": "%USERPROFILE%\\.cargo\\bin", "kind": "globalPackages", "mode": "merge", "label": "Cargo bin", "sources": [ { "env": "CARGO_HOME", "suffix": "bin" } ] },
+        { "path": "%USERPROFILE%\\.cargo", "kind": "state", "mode": "merge", "sources": [ { "env": "CARGO_HOME" } ] }
+      ]
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "publisher": "Google",
+      "type": "runtime",
+      "iconApp": "^Go Programming Language",
+      "roots": [
+        { "path": "%PROGRAMFILES%\\Go", "kind": "sdk", "mode": "merge", "label": "Go", "sources": [ { "env": "GOROOT" } ] },
+        { "path": "%USERPROFILE%\\sdk\\go*", "kind": "sdk", "mode": "merge" },
+        {
+          "path": "%USERPROFILE%\\go\\pkg\\mod",
+          "kind": "packageCache",
+          "mode": "merge",
+          "label": "Go modules",
+          "sources": [
+            { "env": "GOMODCACHE" },
+            { "ini": "%APPDATA%\\go\\env", "key": "GOMODCACHE" },
+            { "env": "GOPATH", "suffix": "pkg\\mod" }
+          ]
+        },
+        {
+          "path": "%LOCALAPPDATA%\\go-build",
+          "kind": "buildCache",
+          "mode": "merge",
+          "label": "Go build cache",
+          "sources": [
+            { "env": "GOCACHE" },
+            { "ini": "%APPDATA%\\go\\env", "key": "GOCACHE" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\go\\bin", "kind": "globalPackages", "mode": "merge", "label": "Go bin", "sources": [ { "env": "GOPATH", "suffix": "bin" } ] }
+      ]
+    },
+    {
+      "id": "android-sdk",
+      "name": "Android SDK",
+      "publisher": "Google",
+      "type": "runtime",
+      "iconApp": "^Android Studio",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\Android\\Sdk",
+          "kind": "sdk",
+          "sources": [ { "env": "ANDROID_HOME" }, { "env": "ANDROID_SDK_ROOT" } ],
+          "children": [
+            { "match": ".temp", "kind": "cache" },
+            { "match": ".downloadIntermediates", "kind": "cache" },
+            { "match": "temp", "kind": "cache" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.android\\avd", "kind": "sdk", "sources": [ { "env": "ANDROID_AVD_HOME" } ] },
+        {
+          "path": "%USERPROFILE%\\.android",
+          "kind": "state",
+          "mode": "merge",
+          "children": [ { "match": "cache", "kind": "cache" } ]
+        }
+      ]
+    },
+    {
+      "id": "windows-sdk",
+      "name": "Windows SDK",
+      "publisher": "Microsoft",
+      "type": "runtime",
+      "roots": [
+        { "path": "%PROGRAMFILES(X86)%\\Windows Kits\\10", "kind": "sdk", "mode": "merge", "label": "Windows Kits 10" },
+        { "path": "%PROGRAMFILES(X86)%\\Windows Kits\\8.1", "kind": "sdk", "mode": "merge", "label": "Windows Kits 8.1" },
+        { "path": "%PROGRAMFILES(X86)%\\Windows Kits\\NETFXSDK", "kind": "sdk", "mode": "merge", "label": ".NET Framework SDK" }
+      ]
+    },
+    {
+      "id": "vcpkg",
+      "name": "vcpkg",
+      "publisher": "Microsoft",
+      "type": "packageManager",
+      "roots": [
+        {
+          "kind": "sdk",
+          "mode": "merge",
+          "label": "vcpkg",
+          "sources": [ { "env": "VCPKG_ROOT" } ],
+          "children": [
+            { "match": "downloads", "kind": "cache" },
+            { "match": "buildtrees", "kind": "buildCache" },
+            { "match": "packages", "kind": "buildCache" },
+            { "match": "installed", "kind": "globalPackages" }
+          ]
+        },
+        { "path": "%LOCALAPPDATA%\\vcpkg\\archives", "kind": "buildCache", "mode": "merge", "label": "vcpkg binary cache", "sources": [ { "env": "VCPKG_DEFAULT_BINARY_CACHE" } ] },
+        { "path": "%LOCALAPPDATA%\\vcpkg", "kind": "cache", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "pub",
+      "name": "Dart / Flutter (pub)",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Pub\\Cache", "kind": "packageCache", "mode": "merge", "label": "pub cache", "sources": [ { "env": "PUB_CACHE" } ] }
+      ]
+    },
+    {
+      "id": "composer",
+      "name": "Composer",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Composer", "kind": "packageCache", "mode": "merge", "sources": [ { "env": "COMPOSER_CACHE_DIR" } ] },
+        { "path": "%APPDATA%\\Composer", "kind": "globalPackages", "mode": "merge", "sources": [ { "env": "COMPOSER_HOME" } ] }
+      ]
+    },
+    {
+      "id": "rubygems",
+      "name": "RubyGems",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%USERPROFILE%\\.gem", "kind": "globalPackages", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "scoop",
+      "name": "Scoop",
+      "type": "packageManager",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\scoop",
+          "kind": "state",
+          "mode": "merge",
+          "sources": [ { "env": "SCOOP" } ],
+          "children": [
+            { "match": "apps", "kind": "globalPackages" },
+            { "match": "cache", "kind": "packageCache" }
+          ]
+        },
+        {
+          "path": "%PROGRAMDATA%\\scoop",
+          "kind": "state",
+          "mode": "merge",
+          "label": "scoop (global)",
+          "sources": [ { "env": "SCOOP_GLOBAL" } ],
+          "children": [
+            { "match": "apps", "kind": "globalPackages" },
+            { "match": "cache", "kind": "packageCache" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "winget",
+      "name": "WinGet",
+      "publisher": "Microsoft",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Microsoft\\WinGet\\Packages", "kind": "globalPackages" },
+        { "path": "%LOCALAPPDATA%\\Temp\\WinGet", "kind": "cache", "mode": "merge", "label": "WinGet downloads" }
+      ]
+    },
+    {
+      "id": "chocolatey",
+      "name": "Chocolatey",
+      "type": "packageManager",
+      "roots": [
+        { "path": "%PROGRAMDATA%\\chocolatey\\lib", "kind": "globalPackages", "sources": [ { "env": "ChocolateyInstall", "suffix": "lib" } ] },
+        { "path": "%PROGRAMDATA%\\chocolatey", "kind": "state", "mode": "merge", "sources": [ { "env": "ChocolateyInstall" } ] }
+      ]
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright",
+      "publisher": "Microsoft",
+      "type": "tooling",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\ms-playwright",
+          "kind": "cache",
+          "sources": [ { "env": "PLAYWRIGHT_BROWSERS_PATH" } ],
+          "children": [ { "preset": "browserDownloads" } ]
+        }
+      ]
+    },
+    {
+      "id": "puppeteer",
+      "name": "Puppeteer",
+      "publisher": "Google",
+      "type": "tooling",
+      "roots": [
+        { "path": "%USERPROFILE%\\.cache\\puppeteer", "kind": "cache", "sources": [ { "env": "PUPPETEER_CACHE_DIR" } ] }
+      ]
+    },
+    {
+      "id": "cypress",
+      "name": "Cypress",
+      "type": "tooling",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Cypress\\Cache", "kind": "cache", "sources": [ { "env": "CYPRESS_CACHE_FOLDER" } ] }
+      ]
+    },
+    {
+      "id": "electron",
+      "name": "Electron",
+      "type": "tooling",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\electron\\Cache", "kind": "cache", "mode": "merge", "label": "electron", "sources": [ { "env": "ELECTRON_CACHE" } ] },
+        { "path": "%LOCALAPPDATA%\\electron-builder\\Cache", "kind": "cache", "mode": "merge", "label": "electron-builder", "sources": [ { "env": "ELECTRON_BUILDER_CACHE" } ] }
+      ]
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face",
+      "type": "models",
+      "roots": [
+        { "path": "%USERPROFILE%\\.cache\\huggingface", "kind": "models", "mode": "merge", "sources": [ { "env": "HF_HOME" } ] },
+        { "kind": "models", "mode": "merge", "label": "Hugging Face hub", "sources": [ { "env": "HF_HUB_CACHE" } ] }
+      ]
+    },
+    {
+      "id": "torch",
+      "name": "PyTorch Hub",
+      "type": "models",
+      "roots": [
+        { "path": "%USERPROFILE%\\.cache\\torch", "kind": "models", "mode": "merge", "sources": [ { "env": "TORCH_HOME" } ] }
+      ]
+    },
+    {
+      "id": "modelscope",
+      "name": "ModelScope",
+      "type": "models",
+      "roots": [
+        { "path": "%USERPROFILE%\\.cache\\modelscope", "kind": "models", "mode": "merge", "sources": [ { "env": "MODELSCOPE_CACHE" } ] }
+      ]
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "type": "models",
+      "iconApp": "^Ollama",
+      "roots": [
+        { "path": "%USERPROFILE%\\.ollama\\models", "kind": "models", "mode": "merge", "label": "Ollama models", "sources": [ { "env": "OLLAMA_MODELS" } ] },
+        { "path": "%LOCALAPPDATA%\\Programs\\Ollama", "kind": "sdk", "mode": "merge", "label": "Ollama" },
+        { "path": "%USERPROFILE%\\.ollama", "kind": "state", "mode": "merge" }
+      ]
+    },
+    {
+      "id": "lm-studio",
+      "name": "LM Studio",
+      "type": "models",
+      "iconApp": "^LM Studio",
+      "roots": [
+        { "path": "%USERPROFILE%\\.lmstudio\\models", "kind": "models", "mode": "merge", "label": "LM Studio models" },
+        { "path": "%USERPROFILE%\\.cache\\lm-studio\\models", "kind": "models", "mode": "merge", "label": "LM Studio models" }
+      ]
+    }
+  ]
+}

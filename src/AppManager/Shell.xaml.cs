@@ -82,6 +82,10 @@ public sealed partial class Shell : UserControl
                     SelectNavItem("harnesses");
                     page = typeof(HarnessesPage);
                     break;
+                case "devtools":
+                    SelectNavItem("devtools");
+                    page = typeof(DevToolsPage);
+                    break;
                 case "settings":
                     NavView.SelectedItem = NavView.SettingsItem;
                     page = typeof(SettingsPage);
@@ -165,6 +169,10 @@ public sealed partial class Shell : UserControl
                 case "harnesses":
                     _currentTag = "harnesses";
                     NavFrame.Navigate(typeof(HarnessesPage));
+                    break;
+                case "devtools":
+                    _currentTag = "devtools";
+                    NavFrame.Navigate(typeof(DevToolsPage));
                     break;
                 default:
                     throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
