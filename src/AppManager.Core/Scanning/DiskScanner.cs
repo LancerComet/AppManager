@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using AppManager.Core.Inventory;
 using AppManager.Core.Matching;
 using AppManager.Core.Models;
@@ -22,59 +21,40 @@ public sealed class DiskScanner
 
     public Task<ScanResult> ScanAsync(
         ScanOptions options,
-        IProgress<ScanProgress>? progress = null,
+        ScanProgressState? progress = null,
         CancellationToken cancellationToken = default)
     {
         return Task.Run(() => ScanInternalAsync(options, progress, cancellationToken), cancellationToken);
     }
 
-    private async Task<ScanResult> ScanInternalAsync(
+    private Task<ScanResult> ScanInternalAsync(
         ScanOptions options,
-        IProgress<ScanProgress>? progress,
+        ScanProgressState? progress,
         CancellationToken cancellationToken)
     {
         var startedAt = DateTime.UtcNow;
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
-        Report(progress, ScanPhase.EnumeratingApps, null, 0, 0, 0);
+        progress?.SetPhase(ScanPhase.EnumeratingApps);
         var apps = _inventory.GetInstalledApps();
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        Report(progress, ScanPhase.DiscoveringFolders, null, 0, 0, 0);
+        progress?.SetPhase(ScanPhase.DiscoveringFolders);
         var candidates = ScanLocationProvider.Discover(apps, options);
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var total = candidates.Count;
-        var done = 0;
-        var bytesSoFar = 0L;
-        var usages = new ConcurrentBag<FolderUsage>();
-
-        Report(progress, ScanPhase.Measuring, null, 0, total, 0);
-        await Parallel.ForEachAsync(
+        progress?.SetTotal(candidates.Count);
+        progress?.SetPhase(ScanPhase.Measuring);
+        var usageList = FolderSizeCalculator.MeasureMany(
             candidates,
-            new ParallelOptions
-            {
-                MaxDegreeOfParallelism = Environment.ProcessorCount,
-                CancellationToken = cancellationToken,
-            },
-            (candidate, ct) =>
-            {
-                var lastReported = 0L;
-                var usage = FolderSizeCalculator.Measure(candidate.Path, candidate.Category, ct, bytes =>
-                {
-                    var delta = bytes - Interlocked.Exchange(ref lastReported, bytes);
-                    Interlocked.Add(ref bytesSoFar, delta);
-                });
-                usages.Add(usage);
-                var finished = Interlocked.Increment(ref done);
-                Report(progress, ScanPhase.Measuring, candidate.Path, finished, total, Interlocked.Read(ref bytesSoFar));
-                return ValueTask.CompletedTask;
-            });
+            Environment.ProcessorCount,
+            cancellationToken,
+            onFolderCompleted: (candidate, _) => progress?.IncrementDone(candidate.Path),
+            onBytesDelta: d => progress?.AddBytes(d));
 
-        Report(progress, ScanPhase.Matching, null, total, total, Interlocked.Read(ref bytesSoFar));
-        var usageList = usages.ToList();
+        progress?.SetPhase(ScanPhase.Matching);
         var matcher = new AppMatcher(apps, _rules);
         var attributed = matcher.Match(usageList);
 
@@ -90,9 +70,9 @@ public sealed class DiskScanner
         var (driveTotal, driveFree) = SystemDriveInfo();
 
         watch.Stop();
-        Report(progress, ScanPhase.Done, null, total, total, Interlocked.Read(ref bytesSoFar));
+        progress?.SetPhase(ScanPhase.Done);
 
-        return new ScanResult
+        return Task.FromResult(new ScanResult
         {
             Groups = groups,
             Unattributed = unattributed,
@@ -101,7 +81,7 @@ public sealed class DiskScanner
             DriveFreeBytes = driveFree,
             ScanDuration = watch.Elapsed,
             StartedAtUtc = startedAt,
-        };
+        });
     }
 
     private static (long total, long free) SystemDriveInfo()
@@ -119,23 +99,5 @@ public sealed class DiskScanner
         {
         }
         return (0, 0);
-    }
-
-    private static void Report(
-        IProgress<ScanProgress>? progress,
-        ScanPhase phase,
-        string? path,
-        int done,
-        int total,
-        long bytes)
-    {
-        progress?.Report(new ScanProgress
-        {
-            Phase = phase,
-            CurrentPath = path,
-            FoldersDone = done,
-            FoldersTotal = total,
-            BytesSoFar = bytes,
-        });
     }
 }

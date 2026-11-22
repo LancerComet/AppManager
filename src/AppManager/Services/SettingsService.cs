@@ -13,6 +13,16 @@ public enum ThemeSetting
     Dark,
 }
 
+/// <summary>Saved main-window placement (physical pixels, normal/restored bounds).</summary>
+public sealed class WindowPlacement
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public bool IsMaximized { get; set; }
+}
+
 /// <summary>
 /// JSON-backed settings stored next to the app's local data.
 /// </summary>
@@ -23,6 +33,7 @@ public partial class SettingsService : ObservableObject
         public ThemeSetting Theme { get; set; }
         public List<string> ExtraRoots { get; set; } = new();
         public bool HideLowConfidence { get; set; }
+        public WindowPlacement? Window { get; set; }
     }
 
     public string StorageFolder { get; }
@@ -36,6 +47,19 @@ public partial class SettingsService : ObservableObject
     public partial bool HideLowConfidence { get; set; }
 
     public ObservableCollection<string> ExtraRoots { get; } = new();
+
+    private WindowPlacement? _window;
+
+    /// <summary>Saved window bounds; assigning persists immediately.</summary>
+    public WindowPlacement? Window
+    {
+        get => _window;
+        set
+        {
+            _window = value;
+            Save();
+        }
+    }
 
     public SettingsService()
     {
@@ -62,6 +86,7 @@ public partial class SettingsService : ObservableObject
                 return;
             Theme = persisted.Theme;
             HideLowConfidence = persisted.HideLowConfidence;
+            _window = persisted.Window;
             foreach (var root in persisted.ExtraRoots)
                 if (!string.IsNullOrWhiteSpace(root))
                     ExtraRoots.Add(root);
@@ -81,6 +106,7 @@ public partial class SettingsService : ObservableObject
                 Theme = Theme,
                 ExtraRoots = ExtraRoots.ToList(),
                 HideLowConfidence = HideLowConfidence,
+                Window = _window,
             };
             File.WriteAllText(SettingsPath, JsonSerializer.Serialize(persisted));
         }

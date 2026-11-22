@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Matching\KnownTools.json" />
+    <EmbeddedResource Include="Harnesses\HarnessCatalog.json" />
   </ItemGroup>
 
 </Project>

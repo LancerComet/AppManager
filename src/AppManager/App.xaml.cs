@@ -49,6 +49,8 @@ public partial class App : Application
                                 ?? (Environment.GetEnvironmentVariable("APPMANAGER_AUTOSCAN") == "1"
                                     ? "auto-first"
                                     : null);
+                    else if (startPage.Equals("harnesses", StringComparison.OrdinalIgnoreCase))
+                        param = Environment.GetEnvironmentVariable("APPMANAGER_SELECT_KEY");
                     main.NavigateTo(startPage.ToLowerInvariant(), param);
                 });
         }

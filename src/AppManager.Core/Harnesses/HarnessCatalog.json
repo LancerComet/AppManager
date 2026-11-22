@@ -1,0 +1,526 @@
+{
+  "presets": {
+    "electron": [
+      { "match": "Cache", "kind": "cache" },
+      { "match": "Code Cache", "kind": "cache" },
+      { "match": "GPUCache", "kind": "cache" },
+      { "match": "GrShaderCache", "kind": "cache" },
+      { "match": "ShaderCache", "kind": "cache" },
+      { "match": "DawnCache", "kind": "cache" },
+      { "match": "DawnGraphiteCache", "kind": "cache" },
+      { "match": "DawnWebGPUCache", "kind": "cache" },
+      { "match": "Service Worker", "kind": "cache" },
+      { "match": "blob_storage", "kind": "cache" },
+      { "match": "Crashpad", "kind": "logs" },
+      { "match": "logs", "kind": "logs" },
+      { "match": "*.log", "kind": "logs" }
+    ],
+    "vscode": [
+      { "preset": "electron" },
+      { "match": "CachedData", "kind": "cache" },
+      { "match": "CachedExtensionVSIXs", "kind": "cache" },
+      { "match": "CachedProfilesData", "kind": "cache" },
+      { "match": "CachedConfigurations", "kind": "cache" },
+      { "match": "Backups", "kind": "snapshots" }
+    ],
+    "msix": [
+      { "match": "LocalCache", "kind": "cache" },
+      { "match": "TempState", "kind": "cache" },
+      { "match": "AC", "kind": "cache" }
+    ]
+  },
+  "harnesses": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "publisher": "Anthropic",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.claude",
+          "kind": "state",
+          "children": [
+            { "match": "projects", "kind": "conversations" },
+            { "match": "transcripts", "kind": "conversations" },
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "todos", "kind": "conversations" },
+            { "match": "tasks", "kind": "conversations" },
+            { "match": "jobs", "kind": "conversations" },
+            { "match": "history.jsonl", "kind": "conversations" },
+            { "match": "file-history", "kind": "snapshots" },
+            { "match": "backups", "kind": "snapshots" },
+            { "match": "shell-snapshots", "kind": "cache" },
+            { "match": "cache", "kind": "cache" },
+            { "match": "statsig", "kind": "cache" },
+            { "match": "paste-cache", "kind": "cache" },
+            { "match": "image-cache", "kind": "cache" },
+            { "match": "telemetry", "kind": "logs" },
+            { "match": "debug", "kind": "logs" },
+            { "match": "*.log", "kind": "logs" },
+            { "match": "plugins", "kind": "extensions" },
+            { "match": "skills", "kind": "extensions" },
+            { "match": "agents", "kind": "extensions" },
+            { "match": "commands", "kind": "extensions" },
+            { "match": "hooks", "kind": "extensions" },
+            { "match": "downloads", "kind": "oldVersions" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.claude.json*", "kind": "state" },
+        { "path": "%USERPROFILE%\\.local\\share\\claude\\versions", "kind": "versions" },
+        { "path": "%USERPROFILE%\\.local\\state\\claude", "kind": "state" },
+        { "path": "%USERPROFILE%\\.cache\\claude", "kind": "cache" },
+        { "path": "%LOCALAPPDATA%\\claude-cli-nodejs", "kind": "cache" }
+      ]
+    },
+    {
+      "id": "claude-desktop",
+      "name": "Claude 桌面版",
+      "publisher": "Anthropic",
+      "type": "desktop",
+      "iconApp": "^Claude$",
+      "roots": [
+        {
+          "path": "%LOCALAPPDATA%\\Claude-Data\\claude_*",
+          "kind": "state",
+          "children": [
+            { "preset": "electron" },
+            { "match": "claude-code", "kind": "versions" },
+            { "match": "local-agent-mode-sessions", "kind": "conversations" }
+          ]
+        },
+        { "path": "%LOCALAPPDATA%\\Claude", "kind": "state", "children": [ { "preset": "electron" } ] },
+        { "path": "%LOCALAPPDATA%\\Claude-3p", "kind": "state", "children": [ { "preset": "electron" } ] },
+        { "path": "%APPDATA%\\Claude", "kind": "state", "children": [ { "preset": "electron" } ] },
+        { "path": "%LOCALAPPDATA%\\Packages\\Claude_*", "kind": "state", "children": [ { "preset": "msix" } ] }
+      ]
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "publisher": "OpenAI",
+      "type": "cli",
+      "iconApp": "^ChatGPT$",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.codex",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "archived_sessions", "kind": "conversations" },
+            { "match": "multica-sessions", "kind": "conversations" },
+            { "match": "history.jsonl", "kind": "conversations" },
+            { "match": "thread_history*.sqlite*", "kind": "conversations" },
+            { "match": "memories", "kind": "conversations" },
+            { "match": "attachments", "kind": "artifacts" },
+            { "match": "generated_images", "kind": "artifacts" },
+            { "match": "visualizations", "kind": "artifacts" },
+            { "match": "logs_*.sqlite*", "kind": "logs" },
+            { "match": "log", "kind": "logs" },
+            { "match": "*.log", "kind": "logs" },
+            { "match": ".sandbox", "kind": "logs" },
+            { "match": ".tmp", "kind": "cache" },
+            { "match": "cache", "kind": "cache" },
+            { "match": "plugins", "kind": "extensions" },
+            { "match": "skills", "kind": "extensions" },
+            { "match": "vendor_imports", "kind": "extensions" },
+            { "match": "packages", "kind": "program" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.codex\\packages\\standalone\\releases", "kind": "versions" },
+        { "path": "%USERPROFILE%\\.codex\\packages\\app-server-daemon\\releases", "kind": "versions" },
+        { "path": "%USERPROFILE%\\.codex\\plugins\\.plugin-appserver", "kind": "program" },
+        {
+          "path": "%USERPROFILE%\\.codex\\.sandbox-bin",
+          "kind": "program",
+          "children": [
+            { "match": "codex-command-runner-*.exe", "kind": "versionSet" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.cache\\codex-runtimes",
+          "kind": "program",
+          "children": [
+            { "match": "*.previous-*", "kind": "oldVersions" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chatgpt-desktop",
+      "name": "ChatGPT 桌面版",
+      "publisher": "OpenAI",
+      "type": "desktop",
+      "iconApp": "^ChatGPT$",
+      "roots": [
+        { "path": "%LOCALAPPDATA%\\Packages\\OpenAI.Codex_*", "kind": "state", "children": [ { "preset": "msix" } ] },
+        { "path": "%LOCALAPPDATA%\\Packages\\OpenAI.ChatGPT-Desktop_*", "kind": "state", "children": [ { "preset": "msix" } ] },
+        { "path": "%LOCALAPPDATA%\\OpenAI\\Codex", "kind": "state", "children": [
+            { "match": "bin", "kind": "program" },
+            { "match": "runtimes", "kind": "program" }
+          ] }
+      ]
+    },
+    {
+      "id": "antigravity",
+      "name": "Antigravity",
+      "publisher": "Google",
+      "type": "ide",
+      "iconApp": "^Antigravity",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.gemini\\antigravity",
+          "kind": "state",
+          "children": [
+            { "match": "brain", "kind": "conversations" },
+            { "match": "conversations", "kind": "conversations" },
+            { "match": "conversation_summaries.db*", "kind": "conversations" },
+            { "match": "history.jsonl", "kind": "conversations" },
+            { "match": "bin", "kind": "program" },
+            { "match": "log", "kind": "logs" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.gemini\\antigravity-cli",
+          "kind": "state",
+          "children": [
+            { "match": "brain", "kind": "conversations" },
+            { "match": "conversations", "kind": "conversations" },
+            { "match": "conversation_summaries.db*", "kind": "conversations" },
+            { "match": "history.jsonl", "kind": "conversations" },
+            { "match": "bin", "kind": "program" },
+            { "match": "log", "kind": "logs" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.gemini\\antigravity-backup", "kind": "snapshots" },
+        { "path": "%USERPROFILE%\\.gemini\\antigravity-ide", "kind": "state" },
+        { "path": "%APPDATA%\\Antigravity", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%USERPROFILE%\\.antigravity", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] },
+        { "path": "%LOCALAPPDATA%\\antigravity", "kind": "state" },
+        { "path": "%LOCALAPPDATA%\\antigravity-updater", "kind": "oldVersions" },
+        { "path": "%LOCALAPPDATA%\\agy", "kind": "state", "children": [ { "match": "bin", "kind": "program" } ] }
+      ]
+    },
+    {
+      "id": "gemini-cli",
+      "name": "Gemini CLI",
+      "publisher": "Google",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.gemini",
+          "kind": "state",
+          "children": [
+            { "match": "tmp", "kind": "conversations" },
+            { "match": "history", "kind": "conversations" },
+            { "match": "extensions", "kind": "extensions" },
+            { "match": "commands", "kind": "extensions" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "copilot-cli",
+      "name": "GitHub Copilot CLI",
+      "publisher": "GitHub",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.copilot",
+          "kind": "state",
+          "children": [
+            { "match": "session-state", "kind": "conversations" },
+            { "match": "history-session-state", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "installed-plugins", "kind": "extensions" }
+          ]
+        },
+        { "path": "%LOCALAPPDATA%\\copilot", "kind": "state" }
+      ]
+    },
+    {
+      "id": "opencode",
+      "name": "opencode",
+      "publisher": "SST",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.local\\share\\opencode",
+          "kind": "state",
+          "children": [
+            { "match": "opencode.db*", "kind": "conversations" },
+            { "match": "storage", "kind": "conversations" },
+            { "match": "snapshot", "kind": "snapshots" },
+            { "match": "tool-output", "kind": "artifacts" },
+            { "match": "log", "kind": "logs" },
+            { "match": "*.log", "kind": "logs" },
+            { "match": "bin", "kind": "program" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.local\\state\\opencode", "kind": "state" },
+        {
+          "path": "%USERPROFILE%\\.config\\opencode",
+          "kind": "state",
+          "children": [
+            { "match": "node_modules", "kind": "extensions" },
+            { "match": "plugin", "kind": "extensions" },
+            { "match": "plugins", "kind": "extensions" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.cache\\opencode",
+          "kind": "cache",
+          "children": [
+            { "match": "bin", "kind": "program" },
+            { "match": "opencode-service-*.exe", "kind": "program" }
+          ]
+        },
+        { "path": "%LOCALAPPDATA%\\opencode", "kind": "state" }
+      ]
+    },
+    {
+      "id": "oh-my-opencode",
+      "name": "oh-my-opencode (omo)",
+      "publisher": "oh-my-opencode",
+      "type": "cli",
+      "roots": [
+        { "path": "%USERPROFILE%\\.omo", "kind": "state", "children": [
+            { "match": "memory", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "cache", "kind": "cache" }
+          ] },
+        {
+          "path": "%USERPROFILE%\\.omo\\agent",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "projects", "kind": "conversations" },
+            { "match": "cache", "kind": "cache" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "bin", "kind": "program" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.omo\\binary-runtime", "kind": "versions" },
+        { "path": "%USERPROFILE%\\.senpi", "kind": "state" },
+        { "path": "%USERPROFILE%\\.cache\\oh-my-opencode", "kind": "cache" },
+        { "path": "%LOCALAPPDATA%\\oh-my-opencode", "kind": "state", "children": [ { "match": "bin", "kind": "program" } ] },
+        { "path": "%LOCALAPPDATA%\\omo", "kind": "state" },
+        { "path": "%LOCALAPPDATA%\\omo-senpi", "kind": "cache" }
+      ]
+    },
+    {
+      "id": "devin",
+      "name": "Devin",
+      "publisher": "Cognition",
+      "type": "cli",
+      "roots": [
+        { "path": "%APPDATA%\\devin", "kind": "state" },
+        {
+          "path": "%APPDATA%\\devin\\cli",
+          "kind": "state",
+          "children": [
+            { "match": "sessions.db*", "kind": "conversations" },
+            { "match": "summaries", "kind": "conversations" },
+            { "match": "transcripts", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        },
+        {
+          "path": "%LOCALAPPDATA%\\devin\\cli",
+          "kind": "state",
+          "children": [
+            { "match": "bin", "kind": "program" },
+            { "match": "tools", "kind": "program" },
+            { "match": "_versions", "kind": "versions" },
+            { "match": "model_configs_*", "kind": "cache" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        },
+        { "path": "%USERPROFILE%\\.config\\devin", "kind": "state" }
+      ]
+    },
+    {
+      "id": "junie",
+      "name": "Junie",
+      "publisher": "JetBrains",
+      "type": "cli",
+      "iconApp": "^Junie",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.junie",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "history.jsonl", "kind": "conversations" },
+            { "match": "acp-prompt-attachments", "kind": "artifacts" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "versions", "kind": "versions" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.local\\share\\junie",
+          "kind": "program",
+          "children": [
+            { "match": "versions", "kind": "versions" },
+            { "match": "updates", "kind": "oldVersions" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grok-cli",
+      "name": "Grok CLI",
+      "publisher": "xAI",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.grok",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "active_sessions*", "kind": "conversations" },
+            { "match": "memory*", "kind": "conversations" },
+            { "match": "worktrees", "kind": "snapshots" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "memtrace", "kind": "logs" },
+            { "match": "marketplace-cache", "kind": "cache" },
+            { "match": "downloads", "kind": "oldVersions" },
+            { "match": "bundled", "kind": "program" },
+            { "match": "vendor", "kind": "program" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.grok\\bin",
+          "kind": "program",
+          "children": [ { "match": "*.old", "kind": "oldVersions" } ]
+        },
+        { "path": "%LOCALAPPDATA%\\grok", "kind": "state", "children": [ { "match": "git", "kind": "program" } ] }
+      ]
+    },
+    {
+      "id": "grok-bot",
+      "name": "Grok Bot",
+      "publisher": "xAI",
+      "type": "desktop",
+      "iconApp": "^Grok Bot",
+      "roots": [
+        {
+          "path": "%APPDATA%\\Grok Bot",
+          "kind": "state",
+          "children": [
+            { "preset": "electron" },
+            { "match": "v8-code-cache", "kind": "cache" },
+            { "match": "link-preview-cache", "kind": "cache" },
+            { "match": "plugin-logo-cache", "kind": "cache" }
+          ]
+        },
+        {
+          "path": "%USERPROFILE%\\.grokbot",
+          "kind": "state",
+          "children": [
+            { "match": "attachment-staging", "kind": "artifacts" },
+            { "match": "*.log", "kind": "logs" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "publisher": "Anysphere",
+      "type": "ide",
+      "iconApp": "^Cursor",
+      "roots": [
+        { "path": "%APPDATA%\\Cursor", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%USERPROFILE%\\.cursor", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] }
+      ]
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf",
+      "publisher": "Codeium",
+      "type": "ide",
+      "iconApp": "^Windsurf",
+      "roots": [
+        { "path": "%APPDATA%\\Windsurf", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%USERPROFILE%\\.windsurf", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] },
+        { "path": "%USERPROFILE%\\.codeium\\windsurf", "kind": "state" }
+      ]
+    },
+    {
+      "id": "kiro",
+      "name": "Kiro",
+      "publisher": "Amazon",
+      "type": "ide",
+      "iconApp": "^Kiro",
+      "roots": [
+        { "path": "%APPDATA%\\Kiro", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%USERPROFILE%\\.kiro", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] }
+      ]
+    },
+    {
+      "id": "trae",
+      "name": "Trae",
+      "publisher": "ByteDance",
+      "type": "ide",
+      "iconApp": "^Trae",
+      "roots": [
+        { "path": "%APPDATA%\\Trae", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%APPDATA%\\Trae CN", "kind": "state", "children": [ { "preset": "vscode" } ] },
+        { "path": "%USERPROFILE%\\.trae", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] },
+        { "path": "%USERPROFILE%\\.trae-cn", "kind": "state", "children": [ { "match": "extensions", "kind": "extensions" } ] }
+      ]
+    },
+    {
+      "id": "qwen-code",
+      "name": "Qwen Code",
+      "publisher": "Alibaba",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.qwen",
+          "kind": "state",
+          "children": [
+            { "match": "tmp", "kind": "conversations" },
+            { "match": "projects", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "factory-droid",
+      "name": "Factory Droid",
+      "publisher": "Factory",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.factory",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" },
+            { "match": "bin", "kind": "program" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kimi-cli",
+      "name": "Kimi CLI",
+      "publisher": "Moonshot AI",
+      "type": "cli",
+      "roots": [
+        {
+          "path": "%USERPROFILE%\\.kimi",
+          "kind": "state",
+          "children": [
+            { "match": "sessions", "kind": "conversations" },
+            { "match": "logs", "kind": "logs" }
+          ]
+        }
+      ]
+    }
+  ]
+}

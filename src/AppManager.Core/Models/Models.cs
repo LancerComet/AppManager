@@ -119,3 +119,59 @@ public sealed record ScanOptions
 {
     public IReadOnlyList<string> ExtraRoots { get; init; } = Array.Empty<string>();
 }
+
+/// <summary>Data-type classification for harness (LLM tool) state.</summary>
+public enum HarnessKind
+{
+    Conversations,
+    Artifacts,
+    Snapshots,
+    Cache,
+    Logs,
+    Extensions,
+    State,
+    OldVersions,
+    Program,
+    Versions,
+    VersionSet,
+}
+
+public enum HarnessType
+{
+    Cli,
+    Ide,
+    Desktop,
+}
+
+/// <summary>One measured file or folder belonging to a harness (non-program data).</summary>
+public sealed class HarnessEntry
+{
+    public string Path { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public HarnessKind Kind { get; set; }
+    public long SizeBytes { get; set; }
+    public long FileCount { get; set; }
+    public DateTime LastWriteTimeUtc { get; set; }
+    public bool IsFile { get; set; }
+}
+
+/// <summary>Per-harness totals and classified entries.</summary>
+public sealed class HarnessUsage
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string? Publisher { get; set; }
+    public HarnessType Type { get; set; }
+    public string? IconAppPath { get; set; }
+    public long TotalBytes { get; set; }
+    public long ExcludedProgramBytes { get; set; }
+    public Dictionary<HarnessKind, long> BytesByKind { get; set; } = new();
+    public List<HarnessEntry> Entries { get; set; } = new();
+}
+
+public sealed class HarnessScanResult
+{
+    public List<HarnessUsage> Harnesses { get; set; } = new();
+    public DateTime ScannedAtUtc { get; set; }
+    public TimeSpan Duration { get; set; }
+}

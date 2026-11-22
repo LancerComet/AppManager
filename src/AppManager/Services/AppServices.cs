@@ -11,11 +11,14 @@ public static class AppServices
         Icons = new IconService();
         License = new StoreLicenseService();
         Session = new ScanSession();
+        Harness = new HarnessSession();
     }
 
     public static SettingsService Settings { get; }
 
     public static ScanSession Session { get; }
+
+    public static HarnessSession Harness { get; }
 
     public static ILicenseService License { get; }
 

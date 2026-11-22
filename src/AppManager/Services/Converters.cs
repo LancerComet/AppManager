@@ -88,3 +88,30 @@ public sealed class ConfidenceToBrushConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, string language)
         => throw new NotSupportedException();
 }
+
+/// <summary>Maps HarnessKind to a theme brush for the colored dot in 按类型 rows.</summary>
+public sealed class HarnessKindToBrushConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        var key = value is HarnessKind k
+            ? k switch
+            {
+                HarnessKind.Conversations => "AccentFillColorDefaultBrush",
+                HarnessKind.Artifacts => "SystemFillColorSuccessBrush",
+                HarnessKind.Snapshots => "SystemFillColorCautionBrush",
+                HarnessKind.Cache => "SystemFillColorNeutralBrush",
+                HarnessKind.Logs => "SystemFillColorAttentionBrush",
+                HarnessKind.Extensions => "AccentFillColorSecondaryBrush",
+                HarnessKind.OldVersions => "SystemFillColorCriticalBrush",
+                _ => "SystemFillColorSolidNeutralBrush",
+            }
+            : "SystemFillColorSolidNeutralBrush";
+        if (Application.Current.Resources.TryGetValue(key, out var brush) && brush is Brush b)
+            return b;
+        return new SolidColorBrush(Microsoft.UI.Colors.Gray);
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+        => throw new NotSupportedException();
+}

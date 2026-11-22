@@ -59,6 +59,10 @@ public sealed class IconService
             ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase) ||
             ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
         {
+            // A missing image file yields a BitmapImage that decodes to nothing —
+            // return null so callers can show their fallback instead of a blank.
+            if (!File.Exists(path))
+                return null;
             return new BitmapImage(new Uri(path));
         }
 

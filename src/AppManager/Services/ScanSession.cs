@@ -2,6 +2,7 @@ using AppManager.Core.Models;
 using AppManager.Core.Scanning;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Dispatching;
 
 namespace AppManager.Services;
 
@@ -60,22 +61,15 @@ public partial class ScanSession : ObservableObject
         CurrentPath = null;
         PhaseText = "正在枚举已安装应用";
 
-        var progress = new Progress<ScanProgress>(p =>
-        {
-            PhaseText = p.Phase switch
-            {
-                ScanPhase.EnumeratingApps => "正在枚举已安装应用",
-                ScanPhase.DiscoveringFolders => "正在发现文件夹",
-                ScanPhase.Measuring => "正在统计大小",
-                ScanPhase.Matching => "正在匹配",
-                ScanPhase.Done => "完成",
-                _ => string.Empty,
-            };
-            FoldersDone = p.FoldersDone;
-            FoldersTotal = p.FoldersTotal;
-            BytesSoFar = p.BytesSoFar;
-            CurrentPath = p.CurrentPath;
-        });
+        // Pull model: the scanner writes into this state; the UI polls it on a
+        // timer instead of receiving a posted callback per folder.
+        var progress = new ScanProgressState();
+        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        var timer = dispatcherQueue.CreateTimer();
+        timer.Interval = TimeSpan.FromMilliseconds(200);
+        timer.IsRepeating = true;
+        timer.Tick += (_, _) => ApplySnapshot(progress.Snapshot());
+        timer.Start();
 
         var options = new ScanOptions
         {
@@ -99,8 +93,28 @@ public partial class ScanSession : ObservableObject
         }
         finally
         {
+            timer.Stop();
+            // One last poll so the final progress values land before IsScanning flips.
+            ApplySnapshot(progress.Snapshot());
             IsScanning = false;
         }
+    }
+
+    private void ApplySnapshot(ScanProgress p)
+    {
+        PhaseText = p.Phase switch
+        {
+            ScanPhase.EnumeratingApps => "正在枚举已安装应用",
+            ScanPhase.DiscoveringFolders => "正在发现文件夹",
+            ScanPhase.Measuring => "正在统计大小",
+            ScanPhase.Matching => "正在匹配",
+            ScanPhase.Done => "完成",
+            _ => string.Empty,
+        };
+        FoldersDone = p.FoldersDone;
+        FoldersTotal = p.FoldersTotal;
+        BytesSoFar = p.BytesSoFar;
+        CurrentPath = p.CurrentPath;
     }
 
     [RelayCommand]

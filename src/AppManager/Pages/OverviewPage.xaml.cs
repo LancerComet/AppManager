@@ -42,12 +42,29 @@ public sealed partial class OverviewPage : Page
 
         Session.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName is nameof(ScanSession.Result) or nameof(ScanSession.LastScanTime)
-                or nameof(ScanSession.FoldersDone) or nameof(ScanSession.FoldersTotal)
-                or nameof(ScanSession.BytesSoFar) or nameof(ScanSession.CurrentPath))
+            if (e.PropertyName is nameof(ScanSession.Result) or nameof(ScanSession.LastScanTime))
                 Refresh();
+            else if (e.PropertyName is nameof(ScanSession.FoldersDone)
+                     or nameof(ScanSession.FoldersTotal)
+                     or nameof(ScanSession.BytesSoFar)
+                     or nameof(ScanSession.CurrentPath))
+                RefreshProgress();
         };
         Refresh();
+    }
+
+    // Lightweight update for measuring-phase progress only — Refresh() callers
+    // and progress property changes both funnel here.
+    private void RefreshProgress()
+    {
+        if (!Session.IsScanning)
+            return;
+        var total = Session.FoldersTotal;
+        ScanBar.IsIndeterminate = total <= 0;
+        ScanBar.Maximum = Math.Max(1, total);
+        ScanBar.Value = Math.Min(Session.FoldersDone, ScanBar.Maximum);
+        ProgressDetail.Text = $"已完成 {Session.FoldersDone} / {total} 个文件夹 · {SizeFormatter.Format(Session.BytesSoFar)}";
+        ProgressPath.Text = Session.CurrentPath ?? string.Empty;
     }
 
     private void Refresh()
@@ -84,16 +101,7 @@ public sealed partial class OverviewPage : Page
         }
         DriveList.ItemsSource = driveRows;
 
-        // Progress detail
-        if (Session.IsScanning)
-        {
-            var total = Session.FoldersTotal;
-            ScanBar.IsIndeterminate = total <= 0;
-            ScanBar.Maximum = Math.Max(1, total);
-            ScanBar.Value = Math.Min(Session.FoldersDone, ScanBar.Maximum);
-            ProgressDetail.Text = $"已完成 {Session.FoldersDone} / {total} 个文件夹 · {SizeFormatter.Format(Session.BytesSoFar)}";
-            ProgressPath.Text = Session.CurrentPath ?? string.Empty;
-        }
+        RefreshProgress();
 
         // Last scan info
         if (Session.LastScanTime is { } t && result is not null)

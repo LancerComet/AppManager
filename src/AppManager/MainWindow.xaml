@@ -49,6 +49,11 @@
                         <FontIcon Glyph="&#xE71D;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="AI 工具" Tag="harnesses">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE99A;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="未识别文件夹" Tag="unattributed">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />

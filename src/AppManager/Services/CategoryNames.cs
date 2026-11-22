@@ -25,3 +25,21 @@ public static class CategoryNames
     public static IReadOnlyList<FolderCategory> All { get; } =
         Enum.GetValues<FolderCategory>();
 }
+
+/// <summary>Chinese display labels for HarnessKind — single source of truth.</summary>
+public static class HarnessKindNames
+{
+    public static string Of(HarnessKind kind) => kind switch
+    {
+        HarnessKind.Conversations => "会话与记忆",
+        HarnessKind.Artifacts => "附件与生成文件",
+        HarnessKind.Snapshots => "文件快照与备份",
+        HarnessKind.Cache => "缓存",
+        HarnessKind.Logs => "日志",
+        HarnessKind.Extensions => "插件与扩展",
+        HarnessKind.State => "配置与其他状态",
+        HarnessKind.OldVersions => "旧版本与安装包",
+        HarnessKind.Program => "程序本体",
+        _ => kind.ToString(),
+    };
+}

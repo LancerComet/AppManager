@@ -1,8 +1,10 @@
+using System.Runtime.InteropServices;
 using AppManager.Pages;
 using AppManager.Services;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Graphics;
 
 namespace AppManager;
 
@@ -30,7 +32,96 @@ public sealed partial class MainWindow : Window
             if (e.PropertyName == nameof(SettingsService.Theme))
                 ApplyTheme(AppServices.Settings.Theme);
         };
+
+        RestorePlacement();
+        TrackPlacement();
     }
+
+    // ---- Window placement persistence ----
+
+    private RectInt32 _lastNormalRect;
+    private bool _wasMaximized;
+
+    private void RestorePlacement()
+    {
+        var presenter = AppWindow.Presenter as OverlappedPresenter;
+        var saved = AppServices.Settings.Window;
+        if (saved is { Width: > 0, Height: > 0 })
+        {
+            var rect = new RectInt32(saved.X, saved.Y, saved.Width, saved.Height);
+            var display = DisplayArea.GetFromRect(rect, DisplayAreaFallback.None);
+            if (display is not null)
+            {
+                var wa = display.WorkArea;
+                var w = Math.Min(saved.Width, wa.Width);
+                var h = Math.Min(saved.Height, wa.Height);
+                var x = Math.Clamp(saved.X, wa.X, wa.X + wa.Width - w);
+                var y = Math.Clamp(saved.Y, wa.Y, wa.Y + wa.Height - h);
+                _lastNormalRect = new RectInt32(x, y, w, h);
+                AppWindow.MoveAndResize(_lastNormalRect);
+                if (saved.IsMaximized)
+                {
+                    _wasMaximized = true;
+                    presenter?.Maximize();
+                }
+                return;
+            }
+        }
+        ApplyDefaultPlacement();
+    }
+
+    private void ApplyDefaultPlacement()
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        var scale = GetDpiForWindow(hwnd) / 96.0;
+        var display = DisplayArea.GetFromWindowId(AppWindow.Id, DisplayAreaFallback.Primary);
+        var wa = display.WorkArea;
+        var w = Math.Min((int)Math.Round(1280 * scale), (int)Math.Round(wa.Width * 0.85));
+        var h = Math.Min((int)Math.Round(800 * scale), (int)Math.Round(wa.Height * 0.85));
+        _lastNormalRect = new RectInt32(
+            wa.X + (wa.Width - w) / 2,
+            wa.Y + (wa.Height - h) / 2,
+            w, h);
+        AppWindow.MoveAndResize(_lastNormalRect);
+    }
+
+    private void TrackPlacement()
+    {
+        AppWindow.Changed += (_, args) =>
+        {
+            var state = (AppWindow.Presenter as OverlappedPresenter)?.State;
+            if (state == OverlappedPresenterState.Maximized)
+                _wasMaximized = true;
+            else if (state == OverlappedPresenterState.Restored)
+                _wasMaximized = false;
+
+            if ((args.DidSizeChange || args.DidPositionChange) &&
+                state == OverlappedPresenterState.Restored)
+            {
+                _lastNormalRect = new RectInt32(
+                    AppWindow.Position.X, AppWindow.Position.Y,
+                    AppWindow.Size.Width, AppWindow.Size.Height);
+            }
+        };
+
+        AppWindow.Closing += (_, _) =>
+        {
+            var state = (AppWindow.Presenter as OverlappedPresenter)?.State;
+            var maximized = state == OverlappedPresenterState.Maximized ||
+                            (state == OverlappedPresenterState.Minimized && _wasMaximized);
+            AppServices.Settings.Window = new WindowPlacement
+            {
+                X = _lastNormalRect.X,
+                Y = _lastNormalRect.Y,
+                Width = _lastNormalRect.Width,
+                Height = _lastNormalRect.Height,
+                IsMaximized = maximized,
+            };
+        };
+    }
+
+    [DllImport("user32.dll")]
+    private static extern uint GetDpiForWindow(IntPtr hwnd);
 
     public void ApplyTheme(ThemeSetting theme)
     {
@@ -83,6 +174,10 @@ public sealed partial class MainWindow : Window
                 case "unattributed":
                     SelectNavItem("unattributed");
                     page = typeof(UnattributedPage);
+                    break;
+                case "harnesses":
+                    SelectNavItem("harnesses");
+                    page = typeof(HarnessesPage);
                     break;
                 case "settings":
                     NavView.SelectedItem = NavView.SettingsItem;
@@ -189,6 +284,9 @@ public sealed partial class MainWindow : Window
                     break;
                 case "unattributed":
                     NavFrame.Navigate(typeof(UnattributedPage));
+                    break;
+                case "harnesses":
+                    NavFrame.Navigate(typeof(HarnessesPage));
                     break;
                 default:
                     throw new InvalidOperationException($"Unknown navigation item tag: {item.Tag}");
