@@ -55,18 +55,18 @@
   <data name="Apps_BadgeLowConf" xml:space="preserve"><value>低信頼度</value></data>
   <data name="Apps_BadgeTool" xml:space="preserve"><value>既知のツール</value></data>
   <data name="Apps_DataLabel" xml:space="preserve"><value>データ</value></data>
-  <data name="Apps_EstimatedNote" xml:space="preserve"><value>インストール サイズはレジストリの推定値です</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>プログラム本体のサイズはレジストリの推定値です</value></data>
   <data name="Apps_Export" xml:space="preserve"><value>レポートのエクスポート (CSV)</value></data>
   <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-レポート-{0}</value></data>
   <data name="Apps_FoldersHeader" xml:space="preserve"><value>フォルダー</value></data>
   <data name="Apps_HideLowConfidence" xml:space="preserve"><value>低信頼度の一致を非表示</value></data>
-  <data name="Apps_InstallLabel" xml:space="preserve"><value>インストール</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>プログラム本体</value></data>
   <data name="Apps_InstallLocation" xml:space="preserve"><value>インストール場所</value></data>
   <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>インストール場所を開く</value></data>
   <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>名前または発行元を検索</value></data>
   <data name="Apps_SelectHint" xml:space="preserve"><value>左側のアプリを選択して詳細を表示</value></data>
   <data name="Apps_SortData" xml:space="preserve"><value>データ</value></data>
-  <data name="Apps_SortInstall" xml:space="preserve"><value>インストール</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>プログラム本体</value></data>
   <data name="Apps_SortName" xml:space="preserve"><value>名前</value></data>
   <data name="Apps_SortTotal" xml:space="preserve"><value>合計</value></data>
   <data name="Apps_SourceAll" xml:space="preserve"><value>すべて</value></data>
@@ -78,10 +78,10 @@
   <data name="Apps_Version" xml:space="preserve"><value>バージョン {0}</value></data>
   <data name="Category_Custom" xml:space="preserve"><value>カスタム フォルダー</value></data>
   <data name="Category_Documents" xml:space="preserve"><value>ドキュメント</value></data>
-  <data name="Category_InstallDir" xml:space="preserve"><value>インストール フォルダー</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>インストール済みのプログラム</value></data>
   <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
   <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
-  <data name="Category_LocalPrograms" xml:space="preserve"><value>ユーザー単位のアプリ (Local\Programs)</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>インストール済みのプログラム (現在のユーザーのみ)</value></data>
   <data name="Category_PackageData" xml:space="preserve"><value>アプリ パッケージ データ (MSIX)</value></data>
   <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
   <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
@@ -99,7 +99,7 @@
   <data name="Confidence_Low" xml:space="preserve"><value>低</value></data>
   <data name="Confidence_Medium" xml:space="preserve"><value>中</value></data>
   <data name="Confidence_None" xml:space="preserve"><value>なし</value></data>
-  <data name="Csv_Header" xml:space="preserve"><value>アプリ,発行元,ソース,アプリ合計(バイト),インストール(バイト),データ(バイト),インストール サイズは推定,フォルダー パス,カテゴリ,フォルダー サイズ(バイト),一致方法,信頼度,ドライブ</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>アプリ,発行元,ソース,アプリ合計(バイト),プログラム本体(バイト),データ(バイト),プログラム本体サイズは推定,フォルダー パス,カテゴリ,フォルダー サイズ(バイト),一致方法,信頼度,ドライブ</value></data>
   <data name="Csv_No" xml:space="preserve"><value>いいえ</value></data>
   <data name="Csv_SourceMsix" xml:space="preserve"><value>ストア アプリ</value></data>
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>デスクトップ アプリ</value></data>

@@ -37,7 +37,7 @@
                 <TextBox x:Name="SearchBox" PlaceholderText="{l:Loc Key=Apps_SearchPlaceholder}" Width="260"
                          Height="32" TextWrapping="NoWrap" AcceptsReturn="False"
                          TextChanged="SearchBox_TextChanged" />
-                <ComboBox x:Name="SortBox" SelectedIndex="0" Width="130"
+                <ComboBox x:Name="SortBox" SelectedIndex="0" Width="160"
                           SelectionChanged="Filter_Changed">
                     <ComboBoxItem Content="{l:Loc Key=Apps_SortTotal}" />
                     <ComboBoxItem Content="{l:Loc Key=Apps_SortData}" />

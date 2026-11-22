@@ -55,18 +55,18 @@
   <data name="Apps_BadgeLowConf" xml:space="preserve"><value>低信賴度</value></data>
   <data name="Apps_BadgeTool" xml:space="preserve"><value>已知工具</value></data>
   <data name="Apps_DataLabel" xml:space="preserve"><value>資料</value></data>
-  <data name="Apps_EstimatedNote" xml:space="preserve"><value>安裝大小來自登錄估算值</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>程式本體大小來自登錄估算值</value></data>
   <data name="Apps_Export" xml:space="preserve"><value>匯出報告 (CSV)</value></data>
   <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-報告-{0}</value></data>
   <data name="Apps_FoldersHeader" xml:space="preserve"><value>資料夾</value></data>
   <data name="Apps_HideLowConfidence" xml:space="preserve"><value>隱藏低信賴度比對</value></data>
-  <data name="Apps_InstallLabel" xml:space="preserve"><value>安裝</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>程式本體</value></data>
   <data name="Apps_InstallLocation" xml:space="preserve"><value>安裝位置</value></data>
   <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>開啟安裝位置</value></data>
   <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>搜尋名稱或發行者</value></data>
   <data name="Apps_SelectHint" xml:space="preserve"><value>選取左側的應用程式以檢視詳細資料</value></data>
   <data name="Apps_SortData" xml:space="preserve"><value>資料佔用</value></data>
-  <data name="Apps_SortInstall" xml:space="preserve"><value>安裝佔用</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>程式本體佔用</value></data>
   <data name="Apps_SortName" xml:space="preserve"><value>名稱</value></data>
   <data name="Apps_SortTotal" xml:space="preserve"><value>總佔用</value></data>
   <data name="Apps_SourceAll" xml:space="preserve"><value>全部</value></data>
@@ -78,10 +78,10 @@
   <data name="Apps_Version" xml:space="preserve"><value>版本 {0}</value></data>
   <data name="Category_Custom" xml:space="preserve"><value>自訂目錄</value></data>
   <data name="Category_Documents" xml:space="preserve"><value>文件</value></data>
-  <data name="Category_InstallDir" xml:space="preserve"><value>安裝目錄</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>已安裝的程式</value></data>
   <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
   <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
-  <data name="Category_LocalPrograms" xml:space="preserve"><value>使用者層級程式 (Local\Programs)</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>已安裝的程式（僅目前使用者）</value></data>
   <data name="Category_PackageData" xml:space="preserve"><value>應用程式套件資料 (MSIX)</value></data>
   <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
   <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
@@ -99,7 +99,7 @@
   <data name="Confidence_Low" xml:space="preserve"><value>低</value></data>
   <data name="Confidence_Medium" xml:space="preserve"><value>中</value></data>
   <data name="Confidence_None" xml:space="preserve"><value>無</value></data>
-  <data name="Csv_Header" xml:space="preserve"><value>應用程式,發行者,來源,應用程式總計(位元組),安裝(位元組),資料(位元組),安裝大小為估算,資料夾路徑,類別,資料夾大小(位元組),比對方式,信賴度,所在磁碟</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>應用程式,發行者,來源,應用程式總計(位元組),程式本體(位元組),資料(位元組),程式本體大小為估算,資料夾路徑,類別,資料夾大小(位元組),比對方式,信賴度,所在磁碟</value></data>
   <data name="Csv_No" xml:space="preserve"><value>否</value></data>
   <data name="Csv_SourceMsix" xml:space="preserve"><value>市集應用程式</value></data>
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>傳統程式</value></data>

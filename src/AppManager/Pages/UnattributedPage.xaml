@@ -33,7 +33,7 @@
             <TextBox x:Name="SearchBox" PlaceholderText="{l:Loc Key=Unattr_SearchPlaceholder}" Width="260"
                      Height="32" TextWrapping="NoWrap" AcceptsReturn="False"
                      TextChanged="SearchBox_TextChanged" />
-            <ComboBox x:Name="CategoryBox" Width="220" SelectedIndex="0"
+            <ComboBox x:Name="CategoryBox" Width="340" SelectedIndex="0"
                       SelectionChanged="CategoryBox_SelectionChanged" />
         </StackPanel>
 

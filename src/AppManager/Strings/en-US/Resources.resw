@@ -55,18 +55,18 @@
   <data name="Apps_BadgeLowConf" xml:space="preserve"><value>Low confidence</value></data>
   <data name="Apps_BadgeTool" xml:space="preserve"><value>Known tool</value></data>
   <data name="Apps_DataLabel" xml:space="preserve"><value>Data</value></data>
-  <data name="Apps_EstimatedNote" xml:space="preserve"><value>Install size is a registry estimate</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>Program size is a registry estimate</value></data>
   <data name="Apps_Export" xml:space="preserve"><value>Export report (CSV)</value></data>
   <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-Report-{0}</value></data>
   <data name="Apps_FoldersHeader" xml:space="preserve"><value>Folders</value></data>
   <data name="Apps_HideLowConfidence" xml:space="preserve"><value>Hide low-confidence matches</value></data>
-  <data name="Apps_InstallLabel" xml:space="preserve"><value>Install</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>Program files</value></data>
   <data name="Apps_InstallLocation" xml:space="preserve"><value>Install location</value></data>
   <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>Open install location</value></data>
   <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>Search name or publisher</value></data>
   <data name="Apps_SelectHint" xml:space="preserve"><value>Select an app on the left to see details</value></data>
   <data name="Apps_SortData" xml:space="preserve"><value>Data</value></data>
-  <data name="Apps_SortInstall" xml:space="preserve"><value>Install</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>Program files</value></data>
   <data name="Apps_SortName" xml:space="preserve"><value>Name</value></data>
   <data name="Apps_SortTotal" xml:space="preserve"><value>Total</value></data>
   <data name="Apps_SourceAll" xml:space="preserve"><value>All</value></data>
@@ -78,10 +78,10 @@
   <data name="Apps_Version" xml:space="preserve"><value>Version {0}</value></data>
   <data name="Category_Custom" xml:space="preserve"><value>Custom folders</value></data>
   <data name="Category_Documents" xml:space="preserve"><value>Documents</value></data>
-  <data name="Category_InstallDir" xml:space="preserve"><value>Install folders</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>Installed programs</value></data>
   <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
   <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
-  <data name="Category_LocalPrograms" xml:space="preserve"><value>Per-user programs (Local\Programs)</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>Installed programs (current user only)</value></data>
   <data name="Category_PackageData" xml:space="preserve"><value>App package data (MSIX)</value></data>
   <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
   <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
@@ -99,7 +99,7 @@
   <data name="Confidence_Low" xml:space="preserve"><value>Low</value></data>
   <data name="Confidence_Medium" xml:space="preserve"><value>Medium</value></data>
   <data name="Confidence_None" xml:space="preserve"><value>None</value></data>
-  <data name="Csv_Header" xml:space="preserve"><value>App,Publisher,Source,App total (bytes),Install (bytes),Data (bytes),Install size estimated,Folder path,Category,Folder size (bytes),Match reason,Confidence,Drive</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>App,Publisher,Source,App total (bytes),Program files (bytes),Data (bytes),Program size estimated,Folder path,Category,Folder size (bytes),Match reason,Confidence,Drive</value></data>
   <data name="Csv_No" xml:space="preserve"><value>No</value></data>
   <data name="Csv_SourceMsix" xml:space="preserve"><value>Store app</value></data>
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>Desktop app</value></data>

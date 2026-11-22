@@ -55,18 +55,18 @@
   <data name="Apps_BadgeLowConf" xml:space="preserve"><value>低置信度</value></data>
   <data name="Apps_BadgeTool" xml:space="preserve"><value>已知工具</value></data>
   <data name="Apps_DataLabel" xml:space="preserve"><value>数据</value></data>
-  <data name="Apps_EstimatedNote" xml:space="preserve"><value>安装大小来自注册表估算值</value></data>
+  <data name="Apps_EstimatedNote" xml:space="preserve"><value>程序本体大小来自注册表估算值</value></data>
   <data name="Apps_Export" xml:space="preserve"><value>导出报告 (CSV)</value></data>
   <data name="Apps_ExportFileName" xml:space="preserve"><value>AppManager-报告-{0}</value></data>
   <data name="Apps_FoldersHeader" xml:space="preserve"><value>文件夹</value></data>
   <data name="Apps_HideLowConfidence" xml:space="preserve"><value>隐藏低置信度匹配</value></data>
-  <data name="Apps_InstallLabel" xml:space="preserve"><value>安装</value></data>
+  <data name="Apps_InstallLabel" xml:space="preserve"><value>程序本体</value></data>
   <data name="Apps_InstallLocation" xml:space="preserve"><value>安装位置</value></data>
   <data name="Apps_OpenInstallLocation" xml:space="preserve"><value>打开安装位置</value></data>
   <data name="Apps_SearchPlaceholder" xml:space="preserve"><value>搜索名称或发布者</value></data>
   <data name="Apps_SelectHint" xml:space="preserve"><value>选择左侧的应用查看详情</value></data>
   <data name="Apps_SortData" xml:space="preserve"><value>数据占用</value></data>
-  <data name="Apps_SortInstall" xml:space="preserve"><value>安装占用</value></data>
+  <data name="Apps_SortInstall" xml:space="preserve"><value>程序本体占用</value></data>
   <data name="Apps_SortName" xml:space="preserve"><value>名称</value></data>
   <data name="Apps_SortTotal" xml:space="preserve"><value>总占用</value></data>
   <data name="Apps_SourceAll" xml:space="preserve"><value>全部</value></data>
@@ -78,10 +78,10 @@
   <data name="Apps_Version" xml:space="preserve"><value>版本 {0}</value></data>
   <data name="Category_Custom" xml:space="preserve"><value>自定义目录</value></data>
   <data name="Category_Documents" xml:space="preserve"><value>文档</value></data>
-  <data name="Category_InstallDir" xml:space="preserve"><value>安装目录</value></data>
+  <data name="Category_InstallDir" xml:space="preserve"><value>已安装的程序</value></data>
   <data name="Category_LocalAppData" xml:space="preserve"><value>AppData\Local</value></data>
   <data name="Category_LocalLowAppData" xml:space="preserve"><value>AppData\LocalLow</value></data>
-  <data name="Category_LocalPrograms" xml:space="preserve"><value>用户级程序 (Local\Programs)</value></data>
+  <data name="Category_LocalPrograms" xml:space="preserve"><value>已安装的程序（仅当前用户）</value></data>
   <data name="Category_PackageData" xml:space="preserve"><value>应用包数据 (MSIX)</value></data>
   <data name="Category_ProgramData" xml:space="preserve"><value>ProgramData</value></data>
   <data name="Category_RoamingAppData" xml:space="preserve"><value>AppData\Roaming</value></data>
@@ -99,7 +99,7 @@
   <data name="Confidence_Low" xml:space="preserve"><value>低</value></data>
   <data name="Confidence_Medium" xml:space="preserve"><value>中</value></data>
   <data name="Confidence_None" xml:space="preserve"><value>无</value></data>
-  <data name="Csv_Header" xml:space="preserve"><value>应用,发布者,来源,应用总计(字节),安装(字节),数据(字节),安装大小为估算,文件夹路径,类别,文件夹大小(字节),匹配方式,置信度,所在磁盘</value></data>
+  <data name="Csv_Header" xml:space="preserve"><value>应用,发布者,来源,应用总计(字节),程序本体(字节),数据(字节),程序本体大小为估算,文件夹路径,类别,文件夹大小(字节),匹配方式,置信度,所在磁盘</value></data>
   <data name="Csv_No" xml:space="preserve"><value>否</value></data>
   <data name="Csv_SourceMsix" xml:space="preserve"><value>应用商店应用</value></data>
   <data name="Csv_SourceRegistry" xml:space="preserve"><value>传统程序</value></data>

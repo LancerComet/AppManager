@@ -115,12 +115,12 @@
                         <DataTemplate x:DataType="local:CategoryRow">
                             <Grid ColumnSpacing="12" Padding="0,4">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="90" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center"
-                                           TextTrimming="CharacterEllipsis" />
+                                           TextWrapping="Wrap" />
                                 <Grid Grid.Column="1" VerticalAlignment="Center" Height="8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{x:Bind SizeStars, Converter={StaticResource ToGridLength}}" />
