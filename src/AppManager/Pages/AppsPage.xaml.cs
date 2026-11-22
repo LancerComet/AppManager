@@ -24,7 +24,7 @@ public sealed partial class AppsPage : Page
 
         // Pin detail content to the viewport — see OverviewPage for why.
         DetailPane.SizeChanged += (_, e) =>
-            DetailStack.Width = Math.Max(0, e.NewSize.Width);
+            DetailStack.Width = Math.Max(0, e.NewSize.Width - DetailPane.Padding.Right);
 
         Session.PropertyChanged += (_, e) =>
         {
@@ -149,16 +149,18 @@ public sealed partial class AppsPage : Page
             ? (g.App.Version is { } v ? $"版本 {v}" : string.Empty)
             : g.Tool?.Description ?? string.Empty;
         var installLoc = g.App?.InstallLocation;
+        var showInstall = installLoc is not null && Directory.Exists(installLoc);
+        InstallRow.Visibility = showInstall ? Visibility.Visible : Visibility.Collapsed;
         DetailInstall.Text = installLoc ?? string.Empty;
-        DetailInstall.Visibility = installLoc is null ? Visibility.Collapsed : Visibility.Visible;
-        OpenInstallButton.Visibility = installLoc is not null && Directory.Exists(installLoc)
-            ? Visibility.Visible
-            : Visibility.Collapsed;
+        ToolTipService.SetToolTip(DetailInstall, installLoc);
         DetailTotal.Text = SizeFormatter.Format(vm.Total);
         DetailInstallBytes.Text = SizeFormatter.Format(vm.Install);
         DetailDataBytes.Text = SizeFormatter.Format(vm.Data);
-        DetailDriveSplit.Text = vm.DriveSplitText;
-        DetailDriveSplit.Visibility = vm.HasDriveSplit ? Visibility.Visible : Visibility.Collapsed;
+        DrivePillList.Visibility = vm.HasDriveSplit ? Visibility.Visible : Visibility.Collapsed;
+        DrivePillList.ItemsSource = vm.DriveSplitText.Split('·')
+            .Select(s => s.Trim())
+            .Where(s => s.Length > 0)
+            .ToList();
         DetailEstimatedNote.Visibility = vm.IsEstimated ? Visibility.Visible : Visibility.Collapsed;
         DetailEstimatedNote.Text = "安装大小来自注册表估算值";
 

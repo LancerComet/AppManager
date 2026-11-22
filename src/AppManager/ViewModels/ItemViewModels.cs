@@ -152,6 +152,7 @@ public partial class FolderRowViewModel : ObservableObject
     public string LastWriteText => Folder.Folder.LastWriteTimeUtc == DateTime.MinValue
         ? string.Empty
         : Folder.Folder.LastWriteTimeUtc.ToLocalTime().ToString("yyyy-MM-dd");
+    public bool HasLastWrite => LastWriteText.Length > 0;
 
     public int InaccessibleCount => Folder.Folder.InaccessibleCount;
     public bool HasInaccessible => InaccessibleCount > 0;
@@ -185,9 +186,14 @@ public partial class UnattributedItemViewModel : ObservableObject
     public string LastWriteText => Folder.LastWriteTimeUtc == DateTime.MinValue
         ? string.Empty
         : Folder.LastWriteTimeUtc.ToLocalTime().ToString("yyyy-MM-dd");
+    public bool HasLastWrite => LastWriteText.Length > 0;
 
     public bool MaybeStale => Folder.LastWriteTimeUtc != DateTime.MinValue &&
         Folder.LastWriteTimeUtc < DateTime.UtcNow.AddDays(-180);
+
+    public int InaccessibleCount => Folder.InaccessibleCount;
+    public bool HasInaccessible => InaccessibleCount > 0;
+    public string InaccessibleText => $"{InaccessibleCount} 项无法访问，实际可能更大";
 
     public double SizeStars { get; set; }
     public double RestStars { get; set; }

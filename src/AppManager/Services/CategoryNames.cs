@@ -7,7 +7,7 @@ public static class CategoryNames
 {
     public static string Of(FolderCategory category) => category switch
     {
-        FolderCategory.UserHomeDot => "家目录 . 文件夹",
+        FolderCategory.UserHomeDot => "家目录 .xxx 文件夹",
         FolderCategory.UserHome => "家目录其他",
         FolderCategory.Documents => "文档",
         FolderCategory.SavedGames => "保存的游戏",

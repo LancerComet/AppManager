@@ -16,14 +16,11 @@
         HorizontalScrollMode="Disabled"
         HorizontalScrollBarVisibility="Disabled"
         VerticalScrollBarVisibility="Auto">
-        <StackPanel x:Name="ContentPanel" Spacing="24">
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="设置" />
+        <StackPanel x:Name="ContentPanel" Spacing="{StaticResource PageBlockSpacing}">
+            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="设置" />
 
-            <StackPanel Spacing="8">
-                <TextBlock
-                    FontWeight="SemiBold"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="外观" />
+            <StackPanel Spacing="{StaticResource SectionContentSpacing}">
+                <TextBlock Style="{StaticResource SectionHeaderTextBlockStyle}" Text="外观" />
                 <Border
                     MinHeight="64"
                     Padding="16,12"
@@ -68,10 +65,10 @@
                 </Border>
             </StackPanel>
 
-            <StackPanel Spacing="8">
+            <StackPanel Spacing="{StaticResource SectionContentSpacing}">
                 <TextBlock
-                    FontWeight="SemiBold"
-                    Style="{StaticResource BodyTextBlockStyle}"
+                    Margin="{StaticResource SectionHeaderTopMargin}"
+                    Style="{StaticResource SectionHeaderTextBlockStyle}"
                     Text="扫描" />
                 <Border
                     MinHeight="64"
@@ -193,10 +190,10 @@
                 </ItemsControl>
             </StackPanel>
 
-            <StackPanel Spacing="8">
+            <StackPanel Spacing="{StaticResource SectionContentSpacing}">
                 <TextBlock
-                    FontWeight="SemiBold"
-                    Style="{StaticResource BodyTextBlockStyle}"
+                    Margin="{StaticResource SectionHeaderTopMargin}"
+                    Style="{StaticResource SectionHeaderTextBlockStyle}"
                     Text="关于" />
                 <Border
                     MinHeight="64"

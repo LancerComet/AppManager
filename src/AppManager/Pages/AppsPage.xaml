@@ -16,14 +16,14 @@
         <services:ConfidenceToBrushConverter x:Key="ConfBrush" />
     </Page.Resources>
 
-    <Grid Padding="24,16,24,16" RowSpacing="12">
+    <Grid Padding="{StaticResource PagePadding}" RowSpacing="{StaticResource PageBlockSpacing}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="应用" />
+        <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="应用" />
 
         <!-- Toolbar -->
         <Grid Grid.Row="1" ColumnSpacing="16">
@@ -55,7 +55,7 @@
             <Button Grid.Column="1" Content="导出报告 (CSV)" Click="Export_Click" VerticalAlignment="Center" />
         </Grid>
 
-        <Grid Grid.Row="2" ColumnSpacing="16">
+        <Grid Grid.Row="2" ColumnSpacing="{StaticResource MasterDetailSpacing}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*" MinWidth="380" />
                 <ColumnDefinition Width="3*" MinWidth="420" />
@@ -63,20 +63,22 @@
 
             <ListView x:Name="ItemsList" SelectionMode="Single"
                       SelectionChanged="ItemsList_SelectionChanged"
+                      ItemContainerStyle="{StaticResource AppListViewItemStyle}"
                       ItemsSource="{x:Bind Items}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:AppItemViewModel">
-                        <Grid ColumnSpacing="12" Padding="4,6">
+                        <Grid ColumnSpacing="12" Padding="0,10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="32" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Grid Width="40" Height="40">
+                            <Grid Width="32" Height="32" VerticalAlignment="Center">
                                 <Image Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
-                                <Border CornerRadius="8" Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                <Border CornerRadius="6" Background="{ThemeResource AccentFillColorDefaultBrush}"
                                         Visibility="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToVis}, ConverterParameter=invert}">
                                     <Grid>
-                                        <FontIcon Glyph="&#xE943;" FontSize="18" HorizontalAlignment="Center"
+                                        <FontIcon Glyph="&#xE943;" FontSize="14" HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
                                                   Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}" />
                                         <TextBlock Text="{x:Bind IconLetter}" HorizontalAlignment="Center"
@@ -85,34 +87,33 @@
                                     </Grid>
                                 </Border>
                             </Grid>
-                            <StackPanel Grid.Column="1" Spacing="4">
-                                <Grid>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="8">
+                                <StackPanel Spacing="2">
                                     <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold"
                                                TextTrimming="CharacterEllipsis" />
-                                    <TextBlock Text="{x:Bind TotalText}" HorizontalAlignment="Right" />
-                                </Grid>
-                                <Grid>
-                                    <TextBlock Text="{x:Bind PublisherText}" FontSize="11"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               TextTrimming="CharacterEllipsis" />
-                                    <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
-                                        <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                                                Visibility="{x:Bind IsEstimated, Converter={StaticResource BoolToVis}}">
-                                            <TextBlock Text="估算" FontSize="12"
-                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                        </Border>
-                                        <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource AccentFillColorSecondaryBrush}"
-                                                Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}">
-                                            <TextBlock Text="已知工具" FontSize="12" />
-                                        </Border>
-                                        <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
-                                                Visibility="{x:Bind HasLowConfidence, Converter={StaticResource BoolToVis}}">
-                                            <TextBlock Text="低置信度" FontSize="12"
-                                                       Foreground="{ThemeResource SystemFillColorCautionBrush}" />
-                                        </Border>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Height="6">
+                                    <Grid>
+                                        <TextBlock Text="{x:Bind PublisherText}" FontSize="12"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
+                                            <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                                                    Visibility="{x:Bind IsEstimated, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="估算" FontSize="12"
+                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                            </Border>
+                                            <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource AccentFillColorSecondaryBrush}"
+                                                    Visibility="{x:Bind IsTool, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="已知工具" FontSize="12" />
+                                            </Border>
+                                            <Border Padding="6,2" CornerRadius="4" Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
+                                                    Visibility="{x:Bind HasLowConfidence, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="低置信度" FontSize="12"
+                                                           Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                                <Grid Height="4">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{x:Bind BarStars, Converter={StaticResource ToGridLength}}" />
                                         <ColumnDefinition Width="{x:Bind RestStars, Converter={StaticResource ToGridLength}}" />
@@ -126,23 +127,26 @@
                                         <Border Grid.Column="1" CornerRadius="0,2,2,0" Background="{ThemeResource AccentFillColorSecondaryBrush}" />
                                     </Grid>
                                 </Grid>
-                                <TextBlock Text="{x:Bind FolderCountText}" FontSize="10"
+                                <TextBlock Text="{x:Bind FolderCountText}" FontSize="12"
                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
                             </StackPanel>
+                            <TextBlock Grid.Column="2" Text="{x:Bind TotalText}"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
             <!-- Detail pane -->
-            <ScrollViewer Grid.Column="1" x:Name="DetailPane"
+            <ScrollViewer Grid.Column="1" x:Name="DetailPane" Margin="0,2,0,0"
+                          Padding="{StaticResource ScrollbarContentPadding}"
                           HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel x:Name="DetailStack" Spacing="12">
                     <Grid ColumnSpacing="16" x:Name="DetailEmpty">
                         <TextBlock Text="选择左侧的应用查看详情" VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     </Grid>
-                    <StackPanel x:Name="DetailContent" Spacing="12" Visibility="Collapsed">
+                    <StackPanel x:Name="DetailContent" Visibility="Collapsed">
                         <Grid ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="64" />
@@ -156,96 +160,143 @@
                                                VerticalAlignment="Center" FontSize="26" FontWeight="SemiBold" />
                                 </Border>
                             </Grid>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                                 <TextBlock x:Name="DetailName" Style="{ThemeResource SubtitleTextBlockStyle}"
                                            TextWrapping="Wrap" />
                                 <TextBlock x:Name="DetailPublisher"
                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                <TextBlock x:Name="DetailVersion" FontSize="11"
+                                <TextBlock x:Name="DetailVersion" FontSize="12"
                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
                             </StackPanel>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock x:Name="DetailInstall" FontSize="12"
-                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       TextTrimming="CharacterEllipsis" />
-                            <Button x:Name="OpenInstallButton" Content="打开安装位置" Padding="8,2"
-                                    FontSize="11" Click="OpenInstall_Click" />
-                        </StackPanel>
-
-                        <Grid ColumnSpacing="8" RowSpacing="4">
+                        <Grid x:Name="InstallRow" ColumnSpacing="12" Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="总计" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                            <TextBlock Grid.Column="1" Text="安装" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                            <TextBlock Grid.Column="2" Text="数据" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                            <TextBlock Grid.Row="1" x:Name="DetailTotal" FontWeight="SemiBold" FontSize="15" />
-                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="DetailInstallBytes" FontWeight="SemiBold" FontSize="15" />
-                            <TextBlock Grid.Row="1" Grid.Column="2" x:Name="DetailDataBytes" FontWeight="SemiBold" FontSize="15" />
+                            <StackPanel VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="安装位置" FontSize="12"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <TextBlock x:Name="DetailInstall"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <Button Grid.Column="1" x:Name="OpenInstallButton" Content="打开安装位置"
+                                    VerticalAlignment="Center" Click="OpenInstall_Click" />
                         </Grid>
-                        <TextBlock x:Name="DetailDriveSplit" FontSize="12"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Visibility="Collapsed" />
-                        <TextBlock x:Name="DetailEstimatedNote" FontSize="11"
+
+                        <Grid ColumnSpacing="8" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Padding="12,10" CornerRadius="6"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="总计" FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <TextBlock x:Name="DetailTotal" FontWeight="SemiBold" FontSize="18" />
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="1" Padding="12,10" CornerRadius="6"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="安装" FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <TextBlock x:Name="DetailInstallBytes" FontWeight="SemiBold" FontSize="18" />
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="2" Padding="12,10" CornerRadius="6"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="数据" FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    <TextBlock x:Name="DetailDataBytes" FontWeight="SemiBold" FontSize="18" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <ItemsControl x:Name="DrivePillList" Margin="0,8,0,0" Visibility="Collapsed">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VariableSizedWrapGrid Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="6,2" Margin="0,0,6,4" CornerRadius="4"
+                                            Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}">
+                                        <TextBlock Text="{Binding}" FontSize="12"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock x:Name="DetailEstimatedNote" FontSize="12" Margin="0,8,0,0"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Visibility="Collapsed" />
 
-                        <TextBlock Text="文件夹" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ItemsControl x:Name="FolderList">
+                        <TextBlock Text="文件夹" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                                   Margin="0,24,0,0" />
+                        <ItemsControl x:Name="FolderList" Margin="0,12,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="vm:FolderRowViewModel">
-                                    <Border Padding="8" Margin="0,0,0,8" CornerRadius="6"
+                                    <Border Padding="16,12" Margin="0,0,0,6" MinHeight="76" CornerRadius="6"
                                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                                        <StackPanel Spacing="4">
-                                            <Grid>
-                                                <TextBlock Text="{x:Bind CategoryLabel}" FontSize="11"
-                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                                                <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Right">
-                                                    <Border Padding="6,2" CornerRadius="4"
-                                                            Background="{x:Bind Confidence, Converter={StaticResource ConfBrush}}">
-                                                        <TextBlock Text="{x:Bind ConfidenceText}" FontSize="12"
-                                                                   Foreground="{x:Bind Confidence, Converter={StaticResource ConfBrush}, ConverterParameter=fg}" />
-                                                    </Border>
-                                                    <Button Content="打开" Padding="6,0" FontSize="10"
-                                                            Command="{x:Bind OpenInExplorerCommand}" />
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel VerticalAlignment="Center" Spacing="8">
+                                                <StackPanel Spacing="4">
+                                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                                        <TextBlock Text="{x:Bind CategoryLabel}" FontWeight="SemiBold"
+                                                                   VerticalAlignment="Center" />
+                                                        <Border Padding="6,2" CornerRadius="4" VerticalAlignment="Center"
+                                                                Background="{x:Bind Confidence, Converter={StaticResource ConfBrush}}">
+                                                            <TextBlock Text="{x:Bind ConfidenceText}" FontSize="12"
+                                                                       Foreground="{x:Bind Confidence, Converter={StaticResource ConfBrush}, ConverterParameter=fg}" />
+                                                        </Border>
+                                                    </StackPanel>
+                                                    <TextBlock Text="{x:Bind Path}" FontSize="12"
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               ToolTipService.ToolTip="{x:Bind Path}" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="16">
+                                                        <TextBlock FontSize="12"
+                                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                   Visibility="{x:Bind HasLastWrite, Converter={StaticResource BoolToVis}}">
+                                                            <Run Text="修改于 " /><Run Text="{x:Bind LastWriteText}" />
+                                                        </TextBlock>
+                                                        <TextBlock Text="{x:Bind Reason}" FontSize="12"
+                                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                                        <TextBlock Text="{x:Bind InaccessibleText}" FontSize="12"
+                                                                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                                                   Visibility="{x:Bind HasInaccessible, Converter={StaticResource BoolToVis}}" />
+                                                    </StackPanel>
                                                 </StackPanel>
-                                            </Grid>
-                                            <TextBlock Text="{x:Bind Path}" FontSize="11" IsTextSelectionEnabled="True"
-                                                       TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{x:Bind Path}" />
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="90" />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid Height="5" VerticalAlignment="Center">
+                                                <Grid Height="4">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="{x:Bind SizeStars, Converter={StaticResource ToGridLength}}" />
                                                         <ColumnDefinition Width="{x:Bind RestStars, Converter={StaticResource ToGridLength}}" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border CornerRadius="2" Background="{ThemeResource AccentFillColorDefaultBrush}" />
                                                 </Grid>
-                                                <TextBlock Grid.Column="1" Text="{x:Bind SizeText}"
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4"
+                                                        HorizontalAlignment="Right">
+                                                <TextBlock Text="{x:Bind SizeText}" FontWeight="SemiBold"
                                                            HorizontalAlignment="Right" />
-                                            </Grid>
-                                            <Grid>
-                                                <TextBlock Text="{x:Bind Reason}" FontSize="10"
-                                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
-                                                <TextBlock HorizontalAlignment="Right" FontSize="10"
-                                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}">
-                                                    <Run Text="{x:Bind LastWriteText}" />
-                                                    <Run Text="{x:Bind InaccessibleText}" />
-                                                </TextBlock>
-                                            </Grid>
-                                        </StackPanel>
+                                                <Button Content="打开" Command="{x:Bind OpenInExplorerCommand}" />
+                                            </StackPanel>
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

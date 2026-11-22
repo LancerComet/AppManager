@@ -20,9 +20,9 @@
 
     <ScrollViewer x:Name="ContentScroller" Padding="24,16,24,24"
                   HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
-        <StackPanel x:Name="ContentPanel" Spacing="16" MaxWidth="1100">
+        <StackPanel x:Name="ContentPanel" Spacing="{StaticResource PageBlockSpacing}" MaxWidth="1100">
 
-            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="概览" />
+            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="概览" />
 
             <!-- All fixed drives -->
             <ItemsControl x:Name="DriveList">
@@ -63,7 +63,7 @@
                 <TextBlock x:Name="ProgressDetail" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 <TextBlock x:Name="ProgressPath" TextWrapping="NoWrap"
                            TextTrimming="CharacterEllipsis"
-                           Foreground="{ThemeResource TextFillColorTertiaryBrush}" FontSize="11" />
+                           Foreground="{ThemeResource TextFillColorTertiaryBrush}" FontSize="12" />
             </StackPanel>
 
             <InfoBar x:Name="ScanErrorBar" Severity="Error" IsClosable="True"
@@ -105,8 +105,9 @@
             </Grid>
 
             <!-- Category breakdown -->
-            <StackPanel Spacing="8" x:Name="CategoryArea">
-                <TextBlock Text="按位置分布" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <StackPanel Spacing="{StaticResource SectionContentSpacing}" x:Name="CategoryArea">
+                <TextBlock Text="按位置分布" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                           Margin="{StaticResource SectionHeaderTopMargin}" />
                 <ItemsControl x:Name="CategoryList">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:CategoryRow">
@@ -134,18 +135,19 @@
             </StackPanel>
 
             <!-- Top apps -->
-            <StackPanel Spacing="8" x:Name="TopAppsArea">
-                <TextBlock Text="占用最多的应用" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <StackPanel Spacing="{StaticResource SectionContentSpacing}" x:Name="TopAppsArea">
+                <TextBlock Text="占用最多的应用" Style="{StaticResource SectionHeaderTextBlockStyle}"
+                           Margin="{StaticResource SectionHeaderTopMargin}" />
                 <ItemsControl x:Name="TopAppsList">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:AppItemViewModel">
                             <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                                    Click="TopApp_Click" Padding="8,6">
+                                    Click="TopApp_Click" Padding="16,12" Margin="0,0,0,6" MinHeight="64">
                                 <Grid ColumnSpacing="12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="32" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Width="32" Height="32" VerticalAlignment="Center">
                                         <Image Source="{x:Bind Icon, Mode=OneWay}" Stretch="Uniform" />
@@ -161,9 +163,15 @@
                                             </Grid>
                                         </Border>
                                     </Grid>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
-                                        <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" />
-                                        <Grid Height="5">
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="8">
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Text="{x:Bind Name}" FontWeight="SemiBold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{x:Bind PublisherText}" FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                        <Grid Height="4">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="{x:Bind BarStars, Converter={StaticResource ToGridLength}}" />
                                                 <ColumnDefinition Width="{x:Bind RestStars, Converter={StaticResource ToGridLength}}" />
