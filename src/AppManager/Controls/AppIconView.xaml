@@ -6,15 +6,40 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Border x:Name="Tile" BorderThickness="1">
-        <Grid>
-            <Image x:Name="IconImage" Stretch="Uniform"
-                   ImageFailed="IconImage_ImageFailed" />
-            <FontIcon x:Name="FallbackIcon" Glyph="{x:Bind FallbackGlyph, Mode=OneWay}"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBlock x:Name="FallbackLetter" Text="{x:Bind FallbackText, Mode=OneWay}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       FontWeight="SemiBold" />
-        </Grid>
-    </Border>
+    <Grid>
+        <Border
+            x:Name="IconTile"
+            Background="{ThemeResource ControlFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1">
+            <Grid>
+                <Border x:Name="ContrastPlate" Visibility="Collapsed" />
+                <Image
+                    x:Name="IconImage"
+                    ImageFailed="IconImage_ImageFailed"
+                    Stretch="Uniform" />
+            </Grid>
+        </Border>
+
+        <Border
+            x:Name="FallbackTile"
+            Background="{ThemeResource AccentFillColorDefaultBrush}"
+            Visibility="Collapsed">
+            <Grid>
+                <FontIcon
+                    x:Name="FallbackIcon"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                    Glyph="{x:Bind FallbackGlyph, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="FallbackLetter"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                    Text="{x:Bind FallbackText, Mode=OneWay}" />
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

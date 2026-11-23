@@ -94,50 +94,45 @@ public sealed partial class AppIconView : UserControl
 
     private void UpdateVisual()
     {
-        Tile.Width = Tile.Height = TileSize;
-        Tile.CornerRadius = TileCornerRadius;
+        IconTile.Width = IconTile.Height = TileSize;
+        IconTile.CornerRadius = TileCornerRadius;
+        FallbackTile.Width = FallbackTile.Height = TileSize;
+        FallbackTile.CornerRadius = TileCornerRadius;
+        ContrastPlate.CornerRadius = TileCornerRadius;
         IconImage.Width = IconImage.Height = TileSize * 0.72;
         FallbackIcon.FontSize = TileSize * 0.42;
         FallbackLetter.FontSize = TileSize * 0.42;
 
         var icon = Icon;
         var hasIcon = icon is not null && !_imageFailed;
+        IconTile.Visibility = hasIcon ? Visibility.Visible : Visibility.Collapsed;
+        FallbackTile.Visibility = hasIcon ? Visibility.Collapsed : Visibility.Visible;
+
         IconImage.Source = hasIcon ? icon!.Source : null;
-        IconImage.Visibility = hasIcon ? Visibility.Visible : Visibility.Collapsed;
 
         var showGlyph = !hasIcon && !string.IsNullOrEmpty(FallbackGlyph);
         var showLetter = !hasIcon && !showGlyph && !string.IsNullOrEmpty(FallbackText);
         FallbackIcon.Visibility = showGlyph ? Visibility.Visible : Visibility.Collapsed;
         FallbackLetter.Visibility = showLetter ? Visibility.Visible : Visibility.Collapsed;
 
-        if (!hasIcon)
-        {
-            // The accent fallback tile every page used before.
-            Tile.Background = Resource("AccentFillColorDefaultBrush");
-            Tile.BorderBrush = new SolidColorBrush(Colors.Transparent);
-            return;
-        }
-
         var dark = ActualTheme == ElementTheme.Dark;
-        if (icon!.Tone == IconTone.Light && !dark)
+        if (hasIcon && icon!.Tone == IconTone.Light && !dark)
         {
-            Tile.Background = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0x2B, 0x2B, 0x2B));
-            Tile.BorderBrush = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0x3A, 0x3A, 0x3A));
+            ContrastPlate.Background = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0x2B, 0x2B, 0x2B));
+            ContrastPlate.BorderBrush = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0x3A, 0x3A, 0x3A));
+            ContrastPlate.BorderThickness = new Thickness(1);
+            ContrastPlate.Visibility = Visibility.Visible;
         }
-        else if (icon.Tone == IconTone.Dark && dark)
+        else if (hasIcon && icon!.Tone == IconTone.Dark && dark)
         {
-            Tile.Background = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0xF3, 0xF3, 0xF3));
-            Tile.BorderBrush = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0xE0, 0xE0, 0xE0));
+            ContrastPlate.Background = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0xF3, 0xF3, 0xF3));
+            ContrastPlate.BorderBrush = new SolidColorBrush(ColorHelper.FromArgb(0xFF, 0xE0, 0xE0, 0xE0));
+            ContrastPlate.BorderThickness = new Thickness(1);
+            ContrastPlate.Visibility = Visibility.Visible;
         }
         else
         {
-            Tile.Background = Resource("ControlFillColorDefaultBrush");
-            Tile.BorderBrush = Resource("CardStrokeColorDefaultBrush");
+            ContrastPlate.Visibility = Visibility.Collapsed;
         }
     }
-
-    private static Brush Resource(string key)
-        => Application.Current.Resources.TryGetValue(key, out var v) && v is Brush b
-            ? b
-            : new SolidColorBrush(Colors.Transparent);
 }

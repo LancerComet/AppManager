@@ -168,6 +168,12 @@ public sealed partial class MainWindow : Window
                 _ => ElementTheme.Default,
             };
         }
+        AppWindow.TitleBar.PreferredTheme = theme switch
+        {
+            ThemeSetting.Light => TitleBarTheme.Light,
+            ThemeSetting.Dark => TitleBarTheme.Dark,
+            _ => TitleBarTheme.UseDefaultAppMode,
+        };
     }
 
     /// <summary>Programmatic navigation (debug hooks / overview tiles).</summary>
