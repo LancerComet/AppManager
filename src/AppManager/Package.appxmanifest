@@ -10,7 +10,7 @@
   <Identity
     Name="81D09060-30EB-4F3C-B72F-7407A46FCB84"
     Publisher="CN=AppManager"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="81D09060-30EB-4F3C-B72F-7407A46FCB84" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
