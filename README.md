@@ -14,7 +14,7 @@ Windows apps scatter data all over your drives: dot-folders in your home directo
 
 AppManager scans those locations and **attributes every folder to an installed program**, so you get one total per app: program files plus all of its data folders, with the app's real icon. Dedicated views break down what AI coding tools and developer toolchains leave behind.
 
-AppManager only reads and analyzes. It never deletes or moves anything.
+Currently AppManager only reads and analyzes. It doesn't provide uninstallation or junk file cleanup feature.
 
 ## Features
 
