@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Navigation;
 namespace AppManager;
 
 /// <summary>
-/// The window's shell: title bar + NavigationView + Frame. Rebuilt as a whole
+/// The window's shell: NavigationView + Frame. Rebuilt as a whole
 /// on language change so every {l:Loc} value re-resolves in the new language.
 /// </summary>
 public sealed partial class Shell : UserControl
@@ -32,10 +32,20 @@ public sealed partial class Shell : UserControl
         };
     }
 
-    public TitleBar TitleBarElement => AppTitleBar;
     internal NavigationView Nav => NavView;
     internal Frame Frame => NavFrame;
     public string CurrentTag => _currentTag;
+
+    /// <summary>Raised on every Frame navigation so the window can sync the title bar's back button.</summary>
+    public event EventHandler? CanGoBackChanged;
+
+    public void GoBack()
+    {
+        if (NavFrame.CanGoBack)
+            NavFrame.GoBack();
+    }
+
+    public void TogglePane() => NavView.IsPaneOpen = !NavView.IsPaneOpen;
 
     private void OnFrameNavigated(object sender, NavigationEventArgs e)
     {
@@ -43,6 +53,7 @@ public sealed partial class Shell : UserControl
         // before the shell is discarded on a language switch.
         if (e.Content is not null)
             _pages.Add(e.Content);
+        CanGoBackChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Unsubscribes every cached page from singleton events.</summary>
@@ -129,16 +140,6 @@ public sealed partial class Shell : UserControl
         }
         if (_settingsLabelAttempts++ < 50)
             DispatcherQueue.TryEnqueue(ApplySettingsLabel);
-    }
-
-    private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
-    {
-        NavView.IsPaneOpen = !NavView.IsPaneOpen;
-    }
-
-    private void TitleBar_BackRequested(TitleBar sender, object args)
-    {
-        NavFrame.GoBack();
     }
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

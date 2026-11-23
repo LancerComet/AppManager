@@ -20,8 +20,9 @@ public sealed partial class MainWindow : Window
         AppWindow.SetIcon("Assets/AppIcon.ico");
         AppServices.MainWindow = this;
 
+        SetTitleBar(AppTitleBar);
         _shell = CreateShell("overview");
-        Content = _shell;
+        ShellHost.Child = _shell;
 
         ApplyTheme(AppServices.Settings.Theme);
         AppServices.Settings.PropertyChanged += (_, e) =>
@@ -45,9 +46,11 @@ public sealed partial class MainWindow : Window
     private void OnLanguageChanged(object? sender, EventArgs e)
     {
         var tag = _shell.CurrentTag;
+        _shell.CanGoBackChanged -= OnShellCanGoBackChanged;
         _shell.Detach();
         _shell = CreateShell(tag);
-        Content = _shell;
+        ShellHost.Child = _shell;
+        AppTitleBar.IsBackButtonVisible = _shell.Frame.CanGoBack;
         ApplyTheme(AppServices.Settings.Theme);
     }
 
@@ -57,9 +60,16 @@ public sealed partial class MainWindow : Window
         {
             Language = AppServices.Loc.EffectiveTag,
         };
-        SetTitleBar(shell.TitleBarElement);
+        shell.CanGoBackChanged += OnShellCanGoBackChanged;
         return shell;
     }
+
+    private void OnShellCanGoBackChanged(object? sender, EventArgs e)
+        => AppTitleBar.IsBackButtonVisible = _shell.Frame.CanGoBack;
+
+    private void TitleBar_BackRequested(TitleBar sender, object args) => _shell.GoBack();
+
+    private void TitleBar_PaneToggleRequested(TitleBar sender, object args) => _shell.TogglePane();
 
     // ---- Window placement persistence ----
 
