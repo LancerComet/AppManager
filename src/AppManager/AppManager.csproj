@@ -46,7 +46,15 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2957" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.7.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.7.0" Condition="'$(AppManagerPortable)' != 'true'" />
+    <!--
+      Portable mode only needs the WinUI component package (which transitively
+      brings Base, Foundation/MRT Core, InteractiveExperiences and WebView2)
+      plus DWrite — not the metapackage's AI/ML/Search/Widget payloads
+      (onnxruntime.dll, DirectML.dll, Microsoft.Windows.AI.*, ...).
+    -->
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.7.0" Condition="'$(AppManagerPortable)' == 'true'" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.DWrite" Version="2.7.0" Condition="'$(AppManagerPortable)' == 'true'" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.8.0" />
   </ItemGroup>
   <ItemGroup>

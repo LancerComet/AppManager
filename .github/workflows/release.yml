@@ -39,9 +39,13 @@ jobs:
         id: zip
         shell: pwsh
         run: |
-          $zip = "AppManager-${{ steps.ver.outputs.version }}-win-x64.zip"
+          $version = "${{ steps.ver.outputs.version }}"
+          $zip = "AppManager-$version-win-x64.zip"
+          $top = "AppManager-$version"
           # Compress-Archive on piped files flattens the tree — use ZipFile to
-          # keep the folder structure (Assets/, locale .pri dirs, ...).
+          # keep the folder structure (Assets/, locale .pri dirs, ...). Entry
+          # names must use '/' (unzip warns on '\') and live under a single
+          # top-level AppManager-<version>/ folder.
           Add-Type -AssemblyName System.IO.Compression.FileSystem
           $root = (Resolve-Path artifacts/portable).Path
           Remove-Item $zip -ErrorAction SilentlyContinue
@@ -50,9 +54,9 @@ jobs:
             Get-ChildItem $root -Recurse -File |
               Where-Object { $_.Extension -ne '.pdb' } |
               ForEach-Object {
-                $rel = $_.FullName.Substring($root.Length + 1)
+                $rel = $_.FullName.Substring($root.Length + 1).Replace('\', '/')
                 [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
-                    $archive, $_.FullName, $rel) | Out-Null
+                    $archive, $_.FullName, "$top/$rel") | Out-Null
               }
           } finally {
             $archive.Dispose()
