@@ -274,7 +274,7 @@
   <data name="ScanPhase_Matching" xml:space="preserve"><value>一致を確認中</value></data>
   <data name="ScanPhase_Measuring" xml:space="preserve"><value>サイズを計測中</value></data>
   <data name="Settings_About" xml:space="preserve"><value>バージョン情報</value></data>
-  <data name="Settings_AboutDesc" xml:space="preserve"><value>ディスク使用量を分析し、インストール済みアプリに帰属させます。表示と分析のみで、削除機能はありません。</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>ディスク使用量を分析し、インストール済みアプリに帰属させます。</value></data>
   <data name="Settings_AddFolder" xml:space="preserve"><value>フォルダーを追加</value></data>
   <data name="Settings_Appearance" xml:space="preserve"><value>外観</value></data>
   <data name="Settings_ExtraRoots" xml:space="preserve"><value>カスタム スキャン フォルダー</value></data>

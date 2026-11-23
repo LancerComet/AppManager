@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using AppManager.Core.Settings;
 using AppManager.Services;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,7 +9,7 @@ namespace AppManager.Pages;
 public sealed partial class SettingsPage : Page, IDetachable
 {
     private bool _themeInitDone;
-    private bool _suppressEvents;
+    private bool _suppressEvents = true;
     private readonly PropertyChangedEventHandler _settingsHandler;
 
     public SettingsPage()
@@ -22,26 +23,34 @@ public sealed partial class SettingsPage : Page, IDetachable
         Settings.PropertyChanged += _settingsHandler;
         Loaded += (_, _) =>
         {
-            if (_themeInitDone)
-                return;
-            _themeInitDone = true;
-            _suppressEvents = true;
-            ThemeBox.SelectedIndex = Settings.Theme switch
+            if (!_themeInitDone)
             {
-                ThemeSetting.Light => 1,
-                ThemeSetting.Dark => 2,
-                _ => 0,
-            };
-            LanguageBox.SelectedIndex = Settings.Language switch
-            {
-                "zh-Hans" => 1,
-                "zh-Hant" => 2,
-                "ja-JP" => 3,
-                "en-US" => 4,
-                _ => 0,
-            };
-            _suppressEvents = false;
+                _themeInitDone = true;
+                ThemeBox.SelectedIndex = Settings.Theme switch
+                {
+                    ThemeSetting.Light => 1,
+                    ThemeSetting.Dark => 2,
+                    _ => 0,
+                };
+                LanguageBox.SelectedIndex = Settings.Language switch
+                {
+                    "zh-Hans" => 1,
+                    "zh-Hant" => 2,
+                    "ja-JP" => 3,
+                    "en-US" => 4,
+                    _ => 0,
+                };
+            }
+            // Stay suppressed through the post-Loaded tick: combo item
+            // realization can still fire transient SelectionChanged events
+            // (index 0) during load. Unsuppress on the next dispatcher pass.
+            DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low,
+                () => { if (IsLoaded) _suppressEvents = false; });
         };
+        Unloaded += (_, _) => _suppressEvents = true;
+
+        AboutLogo.Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(
+            AppAssets.UriOf("Assets/Square44x44Logo.png"));
 
         try
         {
@@ -51,18 +60,30 @@ public sealed partial class SettingsPage : Page, IDetachable
         }
         catch
         {
-            AboutVersion.Text = AppServices.Loc.Format("About_Version",
-                GetType().Assembly.GetName().Version?.ToString() ?? "?");
+            // Unpackaged — no package identity. Show the informational version
+            // (-p:Version=…), stripping any +commit metadata suffix.
+            var info = System.Reflection.CustomAttributeExtensions
+                .GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>(
+                    GetType().Assembly)
+                ?.InformationalVersion;
+            var version = info?.Split('+')[0]
+                ?? GetType().Assembly.GetName().Version?.ToString()
+                ?? "?";
+            AboutVersion.Text = AppServices.Loc.Format("About_Version", version);
         }
     }
 
-    public void Detach() => Settings.PropertyChanged -= _settingsHandler;
+    public void Detach()
+    {
+        _suppressEvents = true;
+        Settings.PropertyChanged -= _settingsHandler;
+    }
 
     internal Services.SettingsService Settings => AppServices.Settings;
 
     private void ThemeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (_suppressEvents || ThemeBox.SelectedIndex < 0)
+        if (_suppressEvents || ThemeBox.SelectedIndex < 0 || !IsUserDriven(ThemeBox))
             return;
         Settings.Theme = ThemeBox.SelectedIndex switch
         {
@@ -74,7 +95,7 @@ public sealed partial class SettingsPage : Page, IDetachable
 
     private void LanguageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (_suppressEvents || LanguageBox.SelectedIndex < 0)
+        if (_suppressEvents || LanguageBox.SelectedIndex < 0 || !IsUserDriven(LanguageBox))
             return;
         Settings.Language = LanguageBox.SelectedIndex switch
         {
@@ -85,6 +106,13 @@ public sealed partial class SettingsPage : Page, IDetachable
             _ => "system",
         };
     }
+
+    // SelectionChanged also fires on programmatic resets: combo realization,
+    // teardown, and theme re-templating can briefly push SelectedIndex to 0
+    // while the page is live. Only commit changes the user actually made —
+    // a pick in the open dropdown, or arrow keys on a focused closed combo.
+    private static bool IsUserDriven(ComboBox box) =>
+        box.IsDropDownOpen || box.FocusState == FocusState.Keyboard;
 
     private void RemoveRoot_Click(object sender, RoutedEventArgs e)
     {

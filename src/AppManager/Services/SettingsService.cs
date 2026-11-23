@@ -2,41 +2,16 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Text.Json;
+using AppManager.Core.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AppManager.Services;
-
-public enum ThemeSetting
-{
-    System,
-    Light,
-    Dark,
-}
-
-/// <summary>Saved main-window placement (physical pixels, normal/restored bounds).</summary>
-public sealed class WindowPlacement
-{
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public bool IsMaximized { get; set; }
-}
 
 /// <summary>
 /// JSON-backed settings stored next to the app's local data.
 /// </summary>
 public partial class SettingsService : ObservableObject
 {
-    private sealed class Persisted
-    {
-        public ThemeSetting Theme { get; set; }
-        public string Language { get; set; } = "system";
-        public List<string> ExtraRoots { get; set; } = new();
-        public bool HideLowConfidence { get; set; }
-        public WindowPlacement? Window { get; set; }
-    }
-
     public string StorageFolder { get; }
     public string SettingsPath => Path.Combine(StorageFolder, "settings.json");
     public string LastScanPath => Path.Combine(StorageFolder, "last-scan.json");
@@ -86,7 +61,8 @@ public partial class SettingsService : ObservableObject
         {
             if (!File.Exists(SettingsPath))
                 return;
-            var persisted = JsonSerializer.Deserialize<Persisted>(File.ReadAllText(SettingsPath));
+            var persisted = JsonSerializer.Deserialize(
+                File.ReadAllText(SettingsPath), SettingsJsonContext.Default.PersistedSettings);
             if (persisted is null)
                 return;
             Theme = persisted.Theme;
@@ -107,7 +83,7 @@ public partial class SettingsService : ObservableObject
     {
         try
         {
-            var persisted = new Persisted
+            var persisted = new PersistedSettings
             {
                 Theme = Theme,
                 Language = Language,
@@ -115,7 +91,8 @@ public partial class SettingsService : ObservableObject
                 HideLowConfidence = HideLowConfidence,
                 Window = _window,
             };
-            File.WriteAllText(SettingsPath, JsonSerializer.Serialize(persisted));
+            File.WriteAllText(SettingsPath,
+                JsonSerializer.Serialize(persisted, SettingsJsonContext.Default.PersistedSettings));
         }
         catch
         {

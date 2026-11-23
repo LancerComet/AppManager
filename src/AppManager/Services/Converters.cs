@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace AppManager.Services;
 
-public sealed class NullToVisibilityConverter : IValueConverter
+public sealed partial class NullToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -19,7 +19,7 @@ public sealed class NullToVisibilityConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-public sealed class BoolToVisibilityConverter : IValueConverter
+public sealed partial class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -33,7 +33,7 @@ public sealed class BoolToVisibilityConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-public sealed class NotBoolConverter : IValueConverter
+public sealed partial class NotBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
         => value is not true;
@@ -42,7 +42,7 @@ public sealed class NotBoolConverter : IValueConverter
         => value is not true;
 }
 
-public sealed class NullToBoolConverter : IValueConverter
+public sealed partial class NullToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
@@ -56,7 +56,7 @@ public sealed class NullToBoolConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-public sealed class DoubleToGridLengthConverter : IValueConverter
+public sealed partial class DoubleToGridLengthConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
         => new GridLength(value is double d ? Math.Max(0, d) : 0, GridUnitType.Star);
@@ -65,7 +65,7 @@ public sealed class DoubleToGridLengthConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-public sealed class ConfidenceToBrushConverter : IValueConverter
+public sealed partial class ConfidenceToBrushConverter : IValueConverter
 {
     /// <summary>parameter "fg" → foreground brush; anything else → pill background.</summary>
     public object Convert(object value, Type targetType, object parameter, string language)
@@ -90,7 +90,7 @@ public sealed class ConfidenceToBrushConverter : IValueConverter
 }
 
 /// <summary>Maps HarnessKind to a theme brush for the colored dot in per-kind rows.</summary>
-public sealed class HarnessKindToBrushConverter : IValueConverter
+public sealed partial class HarnessKindToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

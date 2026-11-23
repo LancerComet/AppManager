@@ -9,7 +9,7 @@ namespace AppManager.Localization;
 /// rebuild on language change this replaces x:Uid, which never re-resolves.
 /// </summary>
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
-public sealed class LocExtension : MarkupExtension
+public sealed partial class LocExtension : MarkupExtension
 {
     public string Key { get; set; } = string.Empty;
 

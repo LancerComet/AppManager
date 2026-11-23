@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using AppManager.Core.Settings;
 using AppManager.Services;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -17,7 +18,14 @@ public sealed partial class MainWindow : Window
 
         ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-        AppWindow.SetIcon("Assets/AppIcon.ico");
+        // Absolute paths work both packaged (install dir) and unpackaged (exe dir);
+        // ms-appx:/// URIs would fail without package identity.
+        AppWindow.SetIcon(AppAssets.PathOf("Assets/AppIcon.ico"));
+        AppTitleBar.IconSource = new ImageIconSource
+        {
+            ImageSource = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(
+                AppAssets.UriOf("Assets/AppIcon.ico")),
+        };
         AppServices.MainWindow = this;
 
         SetTitleBar(AppTitleBar);

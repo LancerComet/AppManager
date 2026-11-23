@@ -274,7 +274,7 @@
   <data name="ScanPhase_Matching" xml:space="preserve"><value>正在匹配</value></data>
   <data name="ScanPhase_Measuring" xml:space="preserve"><value>正在统计大小</value></data>
   <data name="Settings_About" xml:space="preserve"><value>关于</value></data>
-  <data name="Settings_AboutDesc" xml:space="preserve"><value>分析各磁盘空间占用并归属到已安装程序。仅查看与分析，不提供删除功能。</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>分析各磁盘空间占用并归属到已安装程序。</value></data>
   <data name="Settings_AddFolder" xml:space="preserve"><value>添加文件夹</value></data>
   <data name="Settings_Appearance" xml:space="preserve"><value>外观</value></data>
   <data name="Settings_ExtraRoots" xml:space="preserve"><value>自定义扫描目录</value></data>

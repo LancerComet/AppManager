@@ -15,6 +15,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -61,11 +62,31 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
 
-  <!-- Publish Properties -->
-  <PropertyGroup>
+  <!-- Publish Properties (packaged/MSIX path only — portable implies trimming+AOT) -->
+  <PropertyGroup Condition="'$(AppManagerPortable)' != 'true'">
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
+
+  <!--
+    Unpackaged, self-contained, NativeAOT build:
+      dotnet publish src/AppManager -c Release -r win-x64 -p:Platform=x64
+        -p:AppManagerPortable=true -p:Version=<x.y.z> -o <dir>
+    EnableMsixTooling stays on: it produces resources.pri next to the exe,
+    which MRT Core needs for .resw strings in unpackaged mode.
+  -->
+  <PropertyGroup Condition="'$(AppManagerPortable)' == 'true'">
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+    <PublishAot>true</PublishAot>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <EnableWinAppRunSupport>false</EnableWinAppRunSupport>
+  </PropertyGroup>
+
+  <!-- Unpackaged: ms-appx:// URIs don't resolve — load Assets from disk instead. -->
+  <ItemGroup Condition="'$(AppManagerPortable)' == 'true'">
+    <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

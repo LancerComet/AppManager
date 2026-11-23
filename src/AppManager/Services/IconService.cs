@@ -43,16 +43,12 @@ public sealed class IconService
         try
         {
             var result = await LoadCoreAsync(path);
-#if DEBUG
             Log(path, result);
-#endif
             return result;
         }
         catch (Exception ex)
         {
-#if DEBUG
             Log(path, null, ex);
-#endif
             return null;
         }
         finally
@@ -140,7 +136,7 @@ public sealed class IconService
         return new LoadedIcon(source, tone);
     }
 
-#if DEBUG
+    [System.Diagnostics.Conditional("DEBUG")]
     private static void Log(string path, LoadedIcon? result, Exception? error = null)
     {
         try
@@ -156,23 +152,16 @@ public sealed class IconService
         {
         }
     }
-#endif
 }
 
 /// <summary>
 /// IShellItemImageFactory-based icon fallback: GetImage (SIIGBF_ICONONLY)
 /// → HBITMAP → BGRA pixels → SoftwareBitmapSource. Runs off the UI thread.
 /// </summary>
-internal static class ShellImageLoader
+internal static partial class ShellImageLoader
 {
-    [ComImport]
-    [Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b")]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    private interface IShellItemImageFactory
-    {
-        [PreserveSig]
-        int GetImage(SIZE size, int flags, out IntPtr phbm);
-    }
+    // NativeAOT-safe COM: raw vtable calls on IShellItemImageFactory
+    // (vtable: QueryInterface/AddRef/Release, then GetImage at index 3).
 
     [StructLayout(LayoutKind.Sequential)]
     private struct SIZE
@@ -181,12 +170,12 @@ internal static class ShellImageLoader
         public int cy;
     }
 
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-    private static extern void SHCreateItemFromParsingName(
+    [LibraryImport("shell32.dll", StringMarshalling = StringMarshalling.Utf16)]
+    private static partial int SHCreateItemFromParsingName(
         [MarshalAs(UnmanagedType.LPWStr)] string pszPath,
         IntPtr pbc,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid riid,
-        [MarshalAs(UnmanagedType.Interface)] out object ppv);
+        in Guid riid,
+        out IntPtr ppv);
 
     [DllImport("gdi32.dll")]
     private static extern int GetDIBits(
@@ -223,16 +212,22 @@ internal static class ShellImageLoader
     private const int SIIGBF_BIGGERSIZEOK = 0x1;
 
     /// <summary>Returns premultiplied BGRA pixels (size×size×4) or null.</summary>
-    public static byte[]? GetPixels(string path, int size)
+    public static unsafe byte[]? GetPixels(string path, int size)
     {
         IntPtr hbm = IntPtr.Zero;
+        IntPtr factory = IntPtr.Zero;
         try
         {
-            SHCreateItemFromParsingName(path, IntPtr.Zero, IidIShellItemImageFactory, out var obj);
-            var factory = (IShellItemImageFactory)obj;
-            var hr = factory.GetImage(new SIZE { cx = size, cy = size },
-                SIIGBF_ICONONLY | SIIGBF_BIGGERSIZEOK, out hbm);
-            Marshal.ReleaseComObject(factory);
+            var iid = IidIShellItemImageFactory;
+            var hr = SHCreateItemFromParsingName(path, IntPtr.Zero, iid, out factory);
+            if (hr != 0 || factory == IntPtr.Zero)
+                return null;
+
+            var vtable = *(void***)factory;
+            var getImage =
+                (delegate* unmanaged[Stdcall]<IntPtr, SIZE, int, IntPtr*, int>)vtable[3];
+            hr = getImage(factory, new SIZE { cx = size, cy = size },
+                SIIGBF_ICONONLY | SIIGBF_BIGGERSIZEOK, &hbm);
             if (hr != 0 || hbm == IntPtr.Zero)
                 return null;
 
@@ -263,6 +258,12 @@ internal static class ShellImageLoader
         }
         finally
         {
+            if (factory != IntPtr.Zero)
+            {
+                var release =
+                    (delegate* unmanaged[Stdcall]<IntPtr, uint>)(*(void***)factory)[2];
+                release(factory);
+            }
             if (hbm != IntPtr.Zero)
                 DeleteObject(hbm);
         }

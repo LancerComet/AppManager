@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '11.0.x'
+
+      - name: Test
+        run: dotnet test tests/AppManager.Core.Tests -c Release
+
+      - name: Compute version from tag
+        id: ver
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $version = $tag -replace '^v', ''
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Publish portable (unpackaged, self-contained, NativeAOT)
+        run: |
+          dotnet publish src/AppManager -c Release -r win-x64 -p:Platform=x64 `
+            -p:AppManagerPortable=true -p:Version=${{ steps.ver.outputs.version }} `
+            -o artifacts/portable/
+
+      - name: Zip publish folder (excluding .pdb)
+        id: zip
+        shell: pwsh
+        run: |
+          $zip = "AppManager-${{ steps.ver.outputs.version }}-win-x64.zip"
+          # Compress-Archive on piped files flattens the tree — use ZipFile to
+          # keep the folder structure (Assets/, locale .pri dirs, ...).
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $root = (Resolve-Path artifacts/portable).Path
+          Remove-Item $zip -ErrorAction SilentlyContinue
+          $archive = [System.IO.Compression.ZipFile]::Open($zip, 'Create')
+          try {
+            Get-ChildItem $root -Recurse -File |
+              Where-Object { $_.Extension -ne '.pdb' } |
+              ForEach-Object {
+                $rel = $_.FullName.Substring($root.Length + 1)
+                [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
+                    $archive, $_.FullName, $rel) | Out-Null
+              }
+          } finally {
+            $archive.Dispose()
+          }
+          echo "file=$zip" >> $env:GITHUB_OUTPUT
+
+      - name: Create or update GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = "${{ steps.ver.outputs.tag }}"
+          $zip = "${{ steps.zip.outputs.file }}"
+          gh release view $tag --json tagName 2>$null | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $zip --clobber
+          } else {
+            $extra = @()
+            if ($tag.Contains('-')) { $extra += '--prerelease' }
+            gh release create $tag $zip --title "AppManager $tag" --generate-notes @extra
+          }

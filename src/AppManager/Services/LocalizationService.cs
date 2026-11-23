@@ -1,8 +1,9 @@
 using System.Diagnostics;
 using System.Globalization;
 using AppManager.Core.Localization;
-using Windows.ApplicationModel.Resources.Core;
-using Windows.Globalization;
+using ResourceContext = Microsoft.Windows.ApplicationModel.Resources.ResourceContext;
+using ResourceManager = Microsoft.Windows.ApplicationModel.Resources.ResourceManager;
+using ResourceMap = Microsoft.Windows.ApplicationModel.Resources.ResourceMap;
 
 namespace AppManager.Services;
 
@@ -13,8 +14,11 @@ namespace AppManager.Services;
 /// </summary>
 public sealed class LocalizationService
 {
+    // MRT Core (Microsoft.Windows.ApplicationModel.Resources) works both
+    // packaged and unpackaged — the UWP ResourceManager needs package identity.
+    private readonly ResourceManager _manager = new();
     private readonly ResourceMap _map;
-    private readonly ResourceContext _context = new();
+    private readonly ResourceContext _context;
     private ResourceContext? _fallbackContext;
 
     private string _effectiveTag = LanguageResolver.DefaultTag;
@@ -22,7 +26,8 @@ public sealed class LocalizationService
 
     public LocalizationService()
     {
-        _map = ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
+        _map = _manager.MainResourceMap.GetSubtree("Resources");
+        _context = _manager.CreateResourceContext();
     }
 
     /// <summary>The BCP-47 tag the UI is currently rendered in.</summary>
@@ -76,7 +81,8 @@ public sealed class LocalizationService
         _fallbackContext = null;
         try
         {
-            ApplicationLanguages.PrimaryLanguageOverride = tag;
+            // MRT Core variant — exists in WinAppSDK ≥1.0 and works unpackaged.
+            Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = tag;
         }
         catch (Exception ex)
         {
@@ -110,7 +116,7 @@ public sealed class LocalizationService
     {
         try
         {
-            _fallbackContext ??= new ResourceContext();
+            _fallbackContext ??= _manager.CreateResourceContext();
             _fallbackContext.QualifierValues["Language"] = tag;
             return _map.GetValue(key, _fallbackContext).ValueAsString;
         }

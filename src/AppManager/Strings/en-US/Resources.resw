@@ -274,7 +274,7 @@
   <data name="ScanPhase_Matching" xml:space="preserve"><value>Matching</value></data>
   <data name="ScanPhase_Measuring" xml:space="preserve"><value>Measuring sizes</value></data>
   <data name="Settings_About" xml:space="preserve"><value>About</value></data>
-  <data name="Settings_AboutDesc" xml:space="preserve"><value>Analyzes disk space usage and attributes it to installed apps. View and analyze only — no delete features.</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>Analyzes disk space usage and attributes it to installed apps.</value></data>
   <data name="Settings_AddFolder" xml:space="preserve"><value>Add folder</value></data>
   <data name="Settings_Appearance" xml:space="preserve"><value>Appearance</value></data>
   <data name="Settings_ExtraRoots" xml:space="preserve"><value>Custom scan folders</value></data>

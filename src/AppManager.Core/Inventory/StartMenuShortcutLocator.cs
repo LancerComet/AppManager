@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Text;
 using AppManager.Core.Matching;
 
 namespace AppManager.Core.Inventory;
@@ -8,7 +7,7 @@ namespace AppManager.Core.Inventory;
 /// Maps Start Menu shortcut (.lnk) names to their target exe's directory, resolved
 /// via IShellLinkW COM interop. Looked up by app name via NameNormalizer equality.
 /// </summary>
-public sealed class StartMenuShortcutLocator
+public sealed partial class StartMenuShortcutLocator
 {
     // normalized shortcut-name stem -> target exe directory
     private readonly IReadOnlyDictionary<string, string> _map;
@@ -80,17 +79,45 @@ public sealed class StartMenuShortcutLocator
         };
     }
 
-    private static string? ResolveShortcut(string lnkPath)
+    // NativeAOT-safe COM: CoCreateInstance + raw vtable calls — built-in COM
+    // interop ([ComImport]/Marshal.ReleaseComObject) is unavailable under AOT.
+    // IShellLinkW vtable: QI/AddRef/Release, GetPath is index 3.
+    // IPersistFile vtable: QI/AddRef/Release, GetClassID, IsDirty, Load is index 5.
+    private static unsafe string? ResolveShortcut(string lnkPath)
     {
-        object? linkObj = null;
+        IntPtr linkCom = IntPtr.Zero;
+        IntPtr persistCom = IntPtr.Zero;
         try
         {
-            linkObj = new ShellLink();
-            ((IPersistFile)linkObj).Load(lnkPath, 0);
-            var link = (IShellLinkW)linkObj;
-            var sb = new StringBuilder(4096);
-            link.GetPath(sb, sb.Capacity, IntPtr.Zero, SLGP_RAWPATH | SLGP_UNCPRIORITY);
-            var target = sb.ToString();
+            var iid = IidIShellLinkW;
+            var clsid = ClsidShellLink;
+            var hr = CoCreateInstance(clsid, IntPtr.Zero, ClsctxInprocServer, iid, out linkCom);
+            if (hr != 0 || linkCom == IntPtr.Zero)
+                return null;
+
+            var linkVt = *(void***)linkCom;
+            var queryInterface =
+                (delegate* unmanaged[Stdcall]<IntPtr, Guid*, IntPtr*, int>)linkVt[0];
+            var iidPf = IidIPersistFile;
+            hr = queryInterface(linkCom, &iidPf, &persistCom);
+            if (hr != 0 || persistCom == IntPtr.Zero)
+                return null;
+
+            var load =
+                (delegate* unmanaged[Stdcall]<IntPtr, char*, uint, int>)(*(void***)persistCom)[5];
+            fixed (char* path = lnkPath)
+                hr = load(persistCom, path, 0);
+            if (hr != 0)
+                return null;
+
+            var getPath =
+                (delegate* unmanaged[Stdcall]<IntPtr, char*, int, IntPtr, uint, int>)linkVt[3];
+            var buffer = stackalloc char[4096];
+            hr = getPath(linkCom, buffer, 4096, IntPtr.Zero, SLGP_RAWPATH | SLGP_UNCPRIORITY);
+            if (hr != 0)
+                return null;
+
+            var target = new string(buffer);
             if (string.IsNullOrWhiteSpace(target))
                 return null;
             return RegistryValueParser.ParseIconPath(target); // rooted + full-path normalized
@@ -101,55 +128,30 @@ public sealed class StartMenuShortcutLocator
         }
         finally
         {
-            if (linkObj is not null)
-                Marshal.ReleaseComObject(linkObj);
+            ReleaseCom(persistCom);
+            ReleaseCom(linkCom);
         }
+    }
+
+    private static unsafe void ReleaseCom(IntPtr com)
+    {
+        if (com != IntPtr.Zero)
+            ((delegate* unmanaged[Stdcall]<IntPtr, uint>)(*(void***)com)[2])(com);
     }
 
     private const uint SLGP_UNCPRIORITY = 0x2;
     private const uint SLGP_RAWPATH = 0x4;
+    private const uint ClsctxInprocServer = 0x1;
 
-    [ComImport]
-    [Guid("00021401-0000-0000-C000-000000000046")]
-    private sealed class ShellLink
-    {
-    }
+    private static readonly Guid ClsidShellLink = new("00021401-0000-0000-C000-000000000046");
+    private static readonly Guid IidIShellLinkW = new("000214F9-0000-0000-C000-000000000046");
+    private static readonly Guid IidIPersistFile = new("0000010B-0000-0000-C000-000000000046");
 
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("000214F9-0000-0000-C000-000000000046")]
-    private interface IShellLinkW
-    {
-        void GetPath([MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cch, IntPtr pfd, uint fFlags);
-        void GetIDList(out IntPtr ppidl);
-        void SetIDList(IntPtr pidl);
-        void GetDescription([MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cch);
-        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
-        void GetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cch);
-        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
-        void GetArguments([MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cch);
-        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
-        void GetHotkey(out short pwHotkey);
-        void SetHotkey(short wHotkey);
-        void GetShowCmd(out int piShowCmd);
-        void SetShowCmd(int iShowCmd);
-        void GetIconLocation([MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cch, out int piIcon);
-        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
-        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, uint dwReserved);
-        void Resolve(IntPtr hwnd, uint fFlags);
-        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
-    }
-
-    [ComImport]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("0000010B-0000-0000-C000-000000000046")]
-    private interface IPersistFile
-    {
-        void GetClassID(out Guid pClassID);
-        void IsDirty();
-        void Load([MarshalAs(UnmanagedType.LPWStr)] string pszFileName, uint dwMode);
-        void Save([MarshalAs(UnmanagedType.LPWStr)] string pszFileName, bool fRemember);
-        void SaveCompleted([MarshalAs(UnmanagedType.LPWStr)] string pszFileName);
-        void GetCurFile([MarshalAs(UnmanagedType.LPWStr)] out string ppszFileName);
-    }
+    [LibraryImport("ole32.dll")]
+    private static partial int CoCreateInstance(
+        in Guid rclsid,
+        IntPtr pUnkOuter,
+        uint dwClsContext,
+        in Guid riid,
+        out IntPtr ppv);
 }

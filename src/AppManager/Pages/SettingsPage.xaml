@@ -253,12 +253,12 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image
+                            x:Name="AboutLogo"
                             Grid.Column="0"
                             Width="40"
                             Height="40"
                             Margin="0,0,16,0"
-                            VerticalAlignment="Center"
-                            Source="ms-appx:///Assets/Square44x44Logo.png" />
+                            VerticalAlignment="Center" />
                         <StackPanel
                             Grid.Column="1"
                             VerticalAlignment="Center"

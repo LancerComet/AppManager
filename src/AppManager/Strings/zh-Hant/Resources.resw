@@ -274,7 +274,7 @@
   <data name="ScanPhase_Matching" xml:space="preserve"><value>正在比對</value></data>
   <data name="ScanPhase_Measuring" xml:space="preserve"><value>正在統計大小</value></data>
   <data name="Settings_About" xml:space="preserve"><value>關於</value></data>
-  <data name="Settings_AboutDesc" xml:space="preserve"><value>分析各磁碟空間佔用並歸屬到已安裝程式。僅供檢視與分析，不提供刪除功能。</value></data>
+  <data name="Settings_AboutDesc" xml:space="preserve"><value>分析各磁碟空間佔用並歸屬到已安裝程式。</value></data>
   <data name="Settings_AddFolder" xml:space="preserve"><value>新增資料夾</value></data>
   <data name="Settings_Appearance" xml:space="preserve"><value>外觀</value></data>
   <data name="Settings_ExtraRoots" xml:space="preserve"><value>自訂掃描目錄</value></data>
