@@ -8,6 +8,8 @@
   Find out which apps are really eating your disk space on Windows.
 </p>
 
+![overall](docs/overall.png)
+
 ---
 
 Windows apps scatter data all over your drives: dot-folders in your home directory (`.gradle`, `.cargo`, `.ollama`, ...), `AppData\Local`, `AppData\Roaming`, `LocalLow`, `ProgramData`, `Documents`, and of course their install directories. Classic disk analyzers show you *where* the bytes are, but not *who* put them there.
@@ -39,6 +41,16 @@ Currently AppManager only reads and analyzes. It doesn't provide uninstallation 
 
 - Windows 10 version 1809 (build 17763) or later, x64 / x86 / ARM64
 - To build: [.NET 11 SDK](https://dotnet.microsoft.com/), Windows App SDK 2.7 (restored from NuGet), and optionally Visual Studio 2026 with the *WinUI application development* workload
+
+## Screenshots
+
+![overall](docs/overall.png)
+
+![apps](docs/apps.png)
+
+![ai-tools](docs/ai-tools.png)
+
+![developer-tools](docs/developer-tools.png)
 
 ## Build and run
 
